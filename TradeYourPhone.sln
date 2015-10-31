@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeYourPhone.Web", "TradeYourPhone.Web\TradeYourPhone.Web.csproj", "{2835FDBA-96BA-4D5C-850D-A909BB12F4E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeYourPhone.Core", "TradeYourPhone.Core\TradeYourPhone.Core.csproj", "{94933E64-B60E-4099-BFBF-2ABEE59787BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeYourPhone.Test", "TradeYourPhone.Test\TradeYourPhone.Test.csproj", "{0D299390-EBFD-4D5A-A9BF-3C45CD168172}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TradeYourPhone.Database", "TradeYourPhoneDatabase\TradeYourPhone.Database.sqlproj", "{93B710DF-FFE7-4AD8-8199-80AAF9226003}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		typtest|Any CPU = typtest|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2835FDBA-96BA-4D5C-850D-A909BB12F4E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2835FDBA-96BA-4D5C-850D-A909BB12F4E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2835FDBA-96BA-4D5C-850D-A909BB12F4E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2835FDBA-96BA-4D5C-850D-A909BB12F4E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2835FDBA-96BA-4D5C-850D-A909BB12F4E3}.typtest|Any CPU.ActiveCfg = typtest|Any CPU
+		{2835FDBA-96BA-4D5C-850D-A909BB12F4E3}.typtest|Any CPU.Build.0 = typtest|Any CPU
+		{94933E64-B60E-4099-BFBF-2ABEE59787BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94933E64-B60E-4099-BFBF-2ABEE59787BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94933E64-B60E-4099-BFBF-2ABEE59787BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94933E64-B60E-4099-BFBF-2ABEE59787BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94933E64-B60E-4099-BFBF-2ABEE59787BE}.typtest|Any CPU.ActiveCfg = Release|Any CPU
+		{94933E64-B60E-4099-BFBF-2ABEE59787BE}.typtest|Any CPU.Build.0 = Release|Any CPU
+		{0D299390-EBFD-4D5A-A9BF-3C45CD168172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D299390-EBFD-4D5A-A9BF-3C45CD168172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D299390-EBFD-4D5A-A9BF-3C45CD168172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D299390-EBFD-4D5A-A9BF-3C45CD168172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D299390-EBFD-4D5A-A9BF-3C45CD168172}.typtest|Any CPU.ActiveCfg = Release|Any CPU
+		{0D299390-EBFD-4D5A-A9BF-3C45CD168172}.typtest|Any CPU.Build.0 = Release|Any CPU
+		{93B710DF-FFE7-4AD8-8199-80AAF9226003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93B710DF-FFE7-4AD8-8199-80AAF9226003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93B710DF-FFE7-4AD8-8199-80AAF9226003}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{93B710DF-FFE7-4AD8-8199-80AAF9226003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93B710DF-FFE7-4AD8-8199-80AAF9226003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93B710DF-FFE7-4AD8-8199-80AAF9226003}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{93B710DF-FFE7-4AD8-8199-80AAF9226003}.typtest|Any CPU.ActiveCfg = Debug|Any CPU
+		{93B710DF-FFE7-4AD8-8199-80AAF9226003}.typtest|Any CPU.Build.0 = Debug|Any CPU
+		{93B710DF-FFE7-4AD8-8199-80AAF9226003}.typtest|Any CPU.Deploy.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://navexa.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = TradeYourPhone.Core\\TradeYourPhone.Core.csproj
+		SccProjectName1 = TradeYourPhone.Core
+		SccLocalPath1 = TradeYourPhone.Core
+		SccProjectUniqueName2 = TradeYourPhone.Web\\TradeYourPhone.Web.csproj
+		SccProjectName2 = TradeYourPhone.Web
+		SccLocalPath2 = TradeYourPhone.Web
+		SccProjectUniqueName3 = TradeYourPhone.Test\\TradeYourPhone.Test.csproj
+		SccProjectName3 = TradeYourPhone.Test
+		SccLocalPath3 = TradeYourPhone.Test
+		SccProjectUniqueName4 = TradeYourPhoneDatabase\\TradeYourPhone.Database.sqlproj
+		SccProjectName4 = TradeYourPhoneDatabase
+		SccLocalPath4 = TradeYourPhoneDatabase
+	EndGlobalSection
+EndGlobal
