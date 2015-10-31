@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TradeYourPhone.Core.Enums;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Services.Interface;
 using TradeYourPhone.Core.ViewModels;
@@ -143,6 +144,7 @@ namespace TradeYourPhone.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPhoneModels()
         {
             var phoneModels = phoneService.GetAllPhoneModelsForView();
@@ -154,6 +156,7 @@ namespace TradeYourPhone.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPhoneModelsByMakeName(string makeName)
         {
             var phoneModels = phoneService.GetPhoneModelsForViewByMakeName(makeName);
@@ -166,6 +169,7 @@ namespace TradeYourPhone.Web.Controllers
         /// <param name="phoneMakeId"></param>
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPhoneModelsByMakeId(int phoneMakeId)
         {
             var phoneModels = phoneService.GetPhoneModelsByMakeId(phoneMakeId);

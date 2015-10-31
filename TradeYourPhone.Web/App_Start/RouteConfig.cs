@@ -13,7 +13,7 @@ namespace TradeYourPhone.Web
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                constraints: new { controller= "Home|Account|Email|PaymentTypes|PhoneConditionPrices|PhoneConditions|PhoneMakes|PhoneModels|Phones|Quotes|QuoteStatus|HtmlSnapshot|PriceScraper|Dashboard" }
+                constraints: new { controller= "Home|Account|Email|PaymentTypes|PhoneConditionPrices|PhoneConditions|PhoneMakes|PhoneModels|Phones|Quotes|QuoteStatus|HtmlSnapshot|PriceScraper|Dashboard|Cache" }
             );
 
             routes.MapRoute(

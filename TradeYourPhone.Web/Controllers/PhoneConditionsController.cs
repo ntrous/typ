@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TradeYourPhone.Core.Enums;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Services.Interface;
 
@@ -140,6 +141,7 @@ namespace TradeYourPhone.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPhoneConditions()
         {
             var phoneConditions = phoneService.GetAllPhoneConditions();

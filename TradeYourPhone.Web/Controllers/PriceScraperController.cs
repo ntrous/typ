@@ -9,6 +9,7 @@ using TradeYourPhone.Core.ViewModels;
 
 namespace TradeYourPhone.Web.Controllers
 {
+    [Authorize]
     public class PriceScraperController : Controller
     {
         private IScraperService scraperService;

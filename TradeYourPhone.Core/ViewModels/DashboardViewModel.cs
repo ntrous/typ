@@ -26,5 +26,7 @@ namespace TradeYourPhone.Core.ViewModels
 
         public int TotalDevicesSold { get; set; }
         public decimal TotalAmountSold { get; set; }
+
+        public bool ClearCache { get; set; }
     }
 }

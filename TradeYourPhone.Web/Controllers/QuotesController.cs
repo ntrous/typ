@@ -186,6 +186,7 @@ namespace TradeYourPhone.Web.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetStates()
         {
             var phoneModels = quoteService.GetAllStates();
@@ -199,6 +200,7 @@ namespace TradeYourPhone.Web.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetStateNames()
         {
             var states = quoteService.GetAllStateNames();
@@ -211,6 +213,7 @@ namespace TradeYourPhone.Web.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPaymentTypes()
         {
             var paymentTypes = quoteService.GetAllPaymentTypes();
@@ -224,6 +227,7 @@ namespace TradeYourPhone.Web.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPaymentTypeNames()
         {
             var paymentTypeNames = quoteService.GetAllPaymentTypeNames();
@@ -236,6 +240,7 @@ namespace TradeYourPhone.Web.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPostageMethods()
         {
             var postageMethods = quoteService.GetAllPostageMethods();

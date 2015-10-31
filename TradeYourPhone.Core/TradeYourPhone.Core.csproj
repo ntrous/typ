@@ -149,6 +149,7 @@
     <Compile Include="Enums\EmailTemplate.cs" />
     <Compile Include="Enums\PostageMethod.cs" />
     <Compile Include="Enums\PhoneStatus.cs" />
+    <Compile Include="Enums\Time.cs" />
     <Compile Include="Enums\QuoteStatus.cs" />
     <Compile Include="Enums\User.cs" />
     <Compile Include="Models\Address.cs">
@@ -254,6 +255,7 @@
     <Compile Include="Utilities\NaturalSortComparer.cs" />
     <Compile Include="Utilities\Util.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
+    <Compile Include="ViewModels\CacheManagerViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\FinaliseQuoteViewModel.cs" />
     <Compile Include="ViewModels\GetQuoteViewModel.cs" />
