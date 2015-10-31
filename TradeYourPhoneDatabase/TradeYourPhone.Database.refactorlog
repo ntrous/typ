@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="d735b652-16ae-4573-8125-2d34fa3a5c50" ChangeDateTime="10/25/2015 02:48:58">
+    <Property Name="ElementName" Value="[dbo].[QuoteStatusHistory].[QuoteStatusId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QuoteStatusHistory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="QuoteId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e14a2847-134e-4935-845a-6ec5a8b2a407" ChangeDateTime="10/25/2015 02:49:37">
+    <Property Name="ElementName" Value="[dbo].[QuoteStatusHistory].[CreatedDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QuoteStatusHistory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StatusDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="759e7219-dd7d-4234-a4d2-b3440914ed4a" ChangeDateTime="10/25/2015 02:53:18">
+    <Property Name="ElementName" Value="[dbo].[FK_QuoteStatusHistory_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[QuoteStatusHistory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_QuoteStatusHistory_ToQuoteStatus]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5da47adb-3ee0-4062-94cf-a4b4a401d474" ChangeDateTime="10/25/2015 03:03:48">
+    <Property Name="ElementName" Value="[dbo].[FK_PhoneStatusHistory_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[PhoneStatusHistory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_PhoneStatusHistory_ToPhoneStatus]" />
+  </Operation>
+</Operations>

@@ -1,0 +1,129 @@
+﻿
+<div>
+    <h1 class="col-md-12">
+        <span class="col-md-offset-1">Contact Us</span>
+        <hr />
+    </h1>
+    <div class="contactForm col-md-5 col-md-offset-1">
+        <form name="contact" novalidate>
+
+            <div class="form-group" 
+                 ng-class="{'has-error':contact.name.$touched && contact.name.$invalid}">
+                <label for="contactName">Name</label>
+                <input type="text" 
+                       id="contactName"
+                       ng-model="name" 
+                       name="name" 
+                       class="form-control" 
+                       placeholder="Your Name" 
+                       required />
+
+                <p class="help-block" ng-show="contact.name.$touched && contact.name.$error.required">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  Your Name is required
+                </p>
+            </div>
+
+            <div class="form-group" 
+                 ng-class="{'has-error':contact.from.$touched && contact.from.$invalid}">
+
+                <label for="contactEmail">Email</label>
+                <input type="email" 
+                       id="contactEmail"
+                       ng-model="from" 
+                       name="from" 
+                       class="form-control" 
+                       placeholder="Your Email" 
+                       required />
+
+                <p class="help-block" ng-show="contact.from.$touched && contact.from.$error.required">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  Your email address is required
+                </p>
+                <p class="help-block" ng-show="contact.from.$touched && contact.from.$error.email">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  Please enter a valid email
+                </p>
+            </div>
+
+            <div class="form-group" 
+                 ng-class="{'has-error':contact.subject.$touched && contact.subject.$invalid}">
+
+                <label for="contactSubject">Subject</label>
+                <select class="form-control" 
+                        id="contactSubject"
+                        ng-model="subject" 
+                        name="subject" 
+                        ng-options="subject.subject as subject.subject for subject in subjects" 
+                        required></select>
+
+                <p class="help-block" ng-show="contact.subject.$touched && contact.subject.$error.required">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  A subject address is required
+                </p>
+            </div>
+
+            <div class="form-group" 
+                 ng-class="{'has-error':contact.message.$touched && contact.message.$invalid}">
+
+                <label for="contactMessage">Message</label>
+                <textarea class="form-control" 
+                          id="contactMessage"
+                          ng-model="message" 
+                          name="message" 
+                          placeholder="Type in your message here" 
+                          required />
+
+                <p class="help-block" ng-show="contact.message.$touched && contact.message.$error.required">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  A message is required
+                </p>
+            </div>
+
+            <div class="col-md-5 col-md-offset-3">
+                <button class="btn btn-default next-btn" 
+                        type="button"
+                        ng-disabled="contact.$invalid" 
+                        ng-click="SendEmail(name, from, subject, message)"
+                        ng-enter="SendEmail(name, from, subject, message)">
+                        <span ng-hide="sendMailSpinner"><i class="glyphicon glyphicon-chevron-right"></i> Send Email  </span><span ng-show="sendMailSpinner" class="fa fa-cog fa-spin"></span>
+                </button>
+            </div>
+            <div class="col-md-6 mail-sent" ng-show="mailSent">
+                <p><i class="fa fa-check"></i>   Mail Sent!</p>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-5 col-md-offset-1 contact-details">
+        <div class="row">
+            <div class="col-md-2">
+                <i class="fa fa-facebook"></i>
+            </div>
+            <div class="col-md-10">
+                <a target="_blank" href="http://www.facebook.com/tradeyourphoneau">Trade Your Phone</a>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-2">
+                <i class="fa fa-envelope"></i>
+            </div>
+            <div class="col-md-10">
+                <a href="mailto:support@tradeyourphone.com.au" target="_blank">support@tradeyourphone.com.au</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <i class="fa fa-phone"></i>
+            </div>
+            <div class="col-md-10">
+                <a href="tel:0484591716">0484 591 716</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <i class="fa fa-home"></i>
+            </div>
+            <div class="col-md-10">604/1 Lygon Street<br />Melbourne<br />VIC 3056</div>
+        </div>
+    </div>
+</div>

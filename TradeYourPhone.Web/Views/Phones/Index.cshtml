@@ -1,0 +1,102 @@
+﻿@model TradeYourPhone.Core.ViewModels.PhoneIndexViewModel
+@using PagedList.Mvc;
+@using PagedList;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/PhoneIndex.js"></script>
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-2">
+            <b>@Html.DisplayName("Phone Id")</b>
+            @Html.TextBoxFor(m => m.PhoneId, "", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <b>@Html.DisplayName("Phone Make")</b>
+            @Html.DropDownListFor(m => m.PhoneMakeId, Model.PhoneMakes, "All", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <b>@Html.DisplayName("Phone Model")</b>
+            @Html.DropDownListFor(m => m.PhoneModelId, Model.PhoneModels, "All", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <b>@Html.DisplayName("Phone Status")</b>
+            @Html.DropDownListFor(m => m.PhoneStatusId, Model.PhoneStatuses, "All", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <br />
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+    <br />
+}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("ID", "Index", new { sortOrder = Model.PhoneIdParm })
+            </th>
+            <th>
+                @Html.ActionLink("Phone Make", "Index", new { sortOrder = Model.PhoneMakeParm })
+            </th>
+            <th>
+                @Html.ActionLink("Phone Model", "Index", new { sortOrder = Model.PhoneModelParm })
+            </th>
+            <th>
+                @Html.ActionLink("Phone Condition", "Index", new { sortOrder = Model.PhoneConditionParm })
+            </th>
+            <th>
+                @Html.ActionLink("Phone Status", "Index", new { sortOrder = Model.PhoneStatusParm })
+            </th>
+            <th>
+                @Html.ActionLink("Purchase Amount", "Index", new { sortOrder = Model.PurchaseAmountParm })
+            </th>
+            <th>
+                @Html.ActionLink("Sale Amount", "Index", new { sortOrder = Model.SaleAmountParm })
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Phones)
+    {
+        <tr onclick="document.location = '/Phones/Edit/@item.Id';">
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneMake.MakeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneModel.ModelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneCondition.Condition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneStatu.PhoneStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SaleAmount)
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.Phones.PageCount < Model.Phones.PageNumber ? 0 : Model.Phones.PageNumber) of @Model.Phones.PageCount
+
+@Html.PagedListPager(Model.Phones, page => Url.Action("Index",
+            new { page, PhoneMakeId = Model.PhoneMakeId, PhoneModelId = Model.PhoneModelId, PhoneStatusId = Model.PhoneStatusId }))

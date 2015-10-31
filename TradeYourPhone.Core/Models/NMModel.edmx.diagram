@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d9aa31e7fb36422a83bbbf53c6bb8ee6" Name="Diagram1">
+        <EntityTypeShape EntityType="NMModel.Address" Width="1.5" PointX="3.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NMModel.Customer" Width="1.5" PointX="6" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NMModel.PaymentDetail" Width="1.5" PointX="3.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NMModel.PaymentType" Width="1.5" PointX="1.5" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NMModel.PhoneCondition" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NMModel.PhoneConditionPrice" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NMModel.PhoneMake" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NMModel.PhoneModel" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NMModel.Quote" Width="1.5" PointX="8.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NMModel.QuoteStatus" Width="1.5" PointX="6" PointY="14.5" IsExpanded="true" />
+        <AssociationConnector Association="NMModel.FK_Customer_0" ManuallyRouted="false" />
+        <AssociationConnector Association="NMModel.FK_Customer_1" ManuallyRouted="false" />
+        <AssociationConnector Association="NMModel.FK_Quote_0" ManuallyRouted="false" />
+        <AssociationConnector Association="NMModel.FK_PaymentDetails_0" ManuallyRouted="false" />
+        <AssociationConnector Association="NMModel.FK_PhoneConditionPrice_1" ManuallyRouted="false" />
+        <AssociationConnector Association="NMModel.FK_PhoneConditionPrice_0" ManuallyRouted="false" />
+        <AssociationConnector Association="NMModel.FK_PhoneModel_0" ManuallyRouted="false" />
+        <AssociationConnector Association="NMModel.FK_Quote_3" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="NMModel.Country" Width="1.5" PointX="1.5" PointY="14.125" />
+        <EntityTypeShape EntityType="NMModel.State" Width="1.5" PointX="1.5" PointY="7.5" />
+        <AssociationConnector Association="NMModel.FK_Address_0" />
+        <AssociationConnector Association="NMModel.FK_Address_1" />
+        <EntityTypeShape EntityType="NMModel.Phone" Width="1.5" PointX="10.5" PointY="2.75" />
+        <EntityTypeShape EntityType="NMModel.PhoneStatu" Width="1.5" PointX="8.25" PointY="0.75" />
+        <AssociationConnector Association="NMModel.FK_Phone_PhoneCondition" />
+        <AssociationConnector Association="NMModel.FK_Phone_PhoneMake" />
+        <AssociationConnector Association="NMModel.FK_Phone_PhoneModel" />
+        <AssociationConnector Association="NMModel.FK_Phone_PhoneStatus" />
+        <AssociationConnector Association="NMModel.FK_Phone_Quote" />
+        <EntityTypeShape EntityType="NMModel.PostageMethod" Width="1.5" PointX="8.375" PointY="7.875" />
+        <AssociationConnector Association="NMModel.FK_Quote_4" />
+        <EntityTypeShape EntityType="NMModel.AspNetUser" Width="1.5" PointX="10.5" PointY="11.875" />
+        <EntityTypeShape EntityType="NMModel.PhoneStatusHistory" Width="1.5" PointX="12.75" PointY="2.375" />
+        <EntityTypeShape EntityType="NMModel.QuoteStatusHistory" Width="1.5" PointX="11.5" PointY="8.375" />
+        <AssociationConnector Association="NMModel.FK_PhoneStatusHistory_ToUser" />
+        <AssociationConnector Association="NMModel.FK_QuoteStatusHistory_ToUser" />
+        <AssociationConnector Association="NMModel.FK_PhoneStatusHistory_ToPhone" />
+        <AssociationConnector Association="NMModel.FK_PhoneStatusHistory_ToPhoneStatus" />
+        <AssociationConnector Association="NMModel.FK_QuoteStatusHistory_ToQuote" />
+        <AssociationConnector Association="NMModel.FK_QuoteStatusHistory_ToQuoteStatus" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,20 @@
+﻿<div class="col-md-12">
+    <div class="blog-post-title col-md-offset-1 col-md-10 row">
+        <div class="blog-post-date">
+            <p class="day">{{blogPost.date | date : 'dd'}}</p>
+            <p class="month">{{blogPost.date | date : 'MMM'}}</p>
+            <p class="year">{{blogPost.date | date : 'yyyy'}}</p>
+        </div>
+        <div>
+            <h1><span>{{blogPost.title}}</span></h1>
+            <p>Author: {{blogPost.author.name}}</p>
+        </div>
+        <hr />
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="blog-post col-md-offset-1 col-md-10">
+        <div><img class="blog-post-feature-image" src="{{blogPost.featured_image.source}}" /></div>
+        <div class="blog-post-content" ng-bind-html="blogPost.content | html"></div>
+    </div>
+</div>

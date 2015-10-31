@@ -1,0 +1,67 @@
+﻿<div class="visible-xs">
+    <h3 class="centre">Review Your Quote</h3>
+    <hr />
+</div>
+
+<div class="phoneSection">
+    <div class="row tab-padding">
+        <div class="row">
+            <div class="col-md-12 col-mobile">
+                <p>Review your quote in the table below, and when you are happy to proceed click the 'Continue' button below</p>
+            </div>
+            <div class="col-md-12 col-mobile phoneDiv">
+                <h3><span class="glyphicon glyphicon-list"></span> Phones To Sell</h3>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="hidden-xs"></th>
+                            <th></th>
+                            <th class="visible-xs">Phone</th>
+                            <th class="hidden-xs">Phone Type</th>
+                            <th class="hidden-xs">Phone Condition</th>
+                            <th class="hidden-xs">Offer</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="q in quote.Phones">
+                            <td class="hidden-xs">#{{$index+1}}</td>
+                            <td><img class="phone-summary-image" data-ng-src="data:image/png;base64,{{q.PrimaryImageString}}" /></td>
+                            <td class="visible-xs">{{q.PhoneMakeName}}  {{q.PhoneModelName}}<br />{{q.PhoneCondition}}<br /> {{q.OfferPrice | currency}}</td>
+                            <td class="hidden-xs">{{q.PhoneMakeName}}  {{q.PhoneModelName}}</td>
+                            <td class="hidden-xs">{{q.PhoneCondition}}</td>
+                            <td class="hidden-xs">{{q.OfferPrice | currency}}</td>
+                            <td><button class="btn btn-default" ng-click="deletePhoneFromQuote(q.Id, $index)"><span ng-hide="deleteSpinner && $index == deleteIndex" class="glyphicon glyphicon-trash"></span><span ng-show="deleteSpinner && $index == deleteIndex" class="fa fa-cog fa-spin"></span></button></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th class="hidden-xs"></th>
+                            <th class="hidden-xs"></th>
+                            <th class="hidden-xs"></th>
+                            <th class="hidden-xs"></th>
+                            <th class="hidden-xs">Total: {{quote.TotalAmount | currency}}</th>
+                            <th class="hidden-xs"></th>
+                            <th class="visible-xs" colspan="3">Total: {{quote.TotalAmount | currency}}</th>
+
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-md-offset-9">
+                <button class="btn btn-default next-btn"
+                        ng-show="quote.Phones.length>0"
+                        type="submit"
+                        analytics-on="click"
+                        analytics-category="QuoteProcess"
+                        analytics-event="ContinueToDetailsBtnClick"
+                        ng-click="goToTab('Quote', 1)">
+                    Continue  <span class="glyphicon glyphicon-chevron-right btn-glyphicon"></span>
+                </button>
+            </div>
+           
+        </div>
+    </div>
+</div>

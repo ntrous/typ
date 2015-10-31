@@ -1,0 +1,63 @@
+﻿<div class="phone-landing">
+
+    <div class="col-md-12 banner-iphone">
+        <div class="col-md-3">
+            <img src="../../Content/Images/iphone5.png" alt="iPhone 6s" height="120" width="120" />
+        </div>
+        <div class="col-md-7 text">
+            <h1>Sell Your iPhone Here!</h1>
+            <h2>Get the best price for your old iPhone and free shipping!</h2>
+        </div>
+    </div>
+
+    <div class="col-md-11 col-md-offset-1">
+        <h3>
+            Click the iPhone you wish to sell below
+        </h3>
+        <p>The prices listed are what we will pay you for your iPhone. No extra costs, no hidden fees and <a href="/FreeShipping">free postage</a>. The price you see, is the price you get!</p>
+        <hr />
+        <div ng-repeat="phone in phoneModels" ng-if="$index % 4 == 0" class="row">
+            <div class="col-md-3 phone-tile">
+                <a ng-click="goToQuote(phoneModels[$index])">
+                    <img data-ng-src="data:image/png;base64,{{phoneModels[$index].image}}" />
+                    <div class="phone-price">{{phoneModels[$index].conditionPrices[1].OfferAmount | currency}}</div>
+                    <br />
+                    <p class="phone-name">{{phoneModels[$index].name}}</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 phone-tile" ng-if="$index+1 < phoneModels.length">
+                <a ng-click="goToQuote(phoneModels[$index+1])">
+                    <img data-ng-src="data:image/png;base64,{{phoneModels[$index + 1].image}}" />
+                    <div class="phone-price">
+                        {{phoneModels[$index + 1].conditionPrices[1].OfferAmount | currency}}
+                    </div>
+                    <br />
+                    <p class="phone-name">{{phoneModels[$index + 1].name}}</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 phone-tile" ng-if="$index+2 < phoneModels.length">
+                <a ng-click="goToQuote(phoneModels[$index+2])">
+                    <img data-ng-src="data:image/png;base64,{{phoneModels[$index + 2].image}}" />
+                    <div class="phone-price">
+                        {{phoneModels[$index + 2].conditionPrices[1].OfferAmount | currency}}
+                    </div>
+                    <br />
+                    <p class="phone-name">{{phoneModels[$index + 2].name}}</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 phone-tile" ng-if="$index+3 < phoneModels.length">
+                <a ng-click="goToQuote(phoneModels[$index+3])">
+                    <img data-ng-src="data:image/png;base64,{{phoneModels[$index + 3].image}}" />
+                    <div class="phone-price">
+                        {{phoneModels[$index + 3].conditionPrices[1].OfferAmount | currency}}
+                    </div>
+                    <br />
+                    <p class="phone-name">{{phoneModels[$index + 3].name}}</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

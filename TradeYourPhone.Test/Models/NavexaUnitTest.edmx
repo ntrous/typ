@@ -1,0 +1,1410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NavexaMobile_UnitTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AddressLine1" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="AddressLine2" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="StateId" Type="int" Nullable="false" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AddressId" Type="int" Nullable="false" />
+          <Property Name="PaymentDetailsId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentTypeId" Type="int" Nullable="false" />
+          <Property Name="BSB" Type="nvarchar" MaxLength="6" />
+          <Property Name="AccountNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="PaypalEmail" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Phone">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuoteId" Type="int" />
+          <Property Name="PhoneMakeId" Type="int" Nullable="false" />
+          <Property Name="PhoneModelId" Type="int" Nullable="false" />
+          <Property Name="PhoneConditionId" Type="int" Nullable="false" />
+          <Property Name="PurchaseAmount" Type="money" />
+          <Property Name="SaleAmount" Type="money" />
+          <Property Name="PhoneStatusId" Type="int" Nullable="false" />
+          <Property Name="IMEI" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="PhoneCondition">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Condition" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhoneConditionPrice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhoneModelId" Type="int" Nullable="false" />
+          <Property Name="PhoneConditionId" Type="int" Nullable="false" />
+          <Property Name="OfferAmount" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhoneMake">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MakeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhoneModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModelName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="PhoneMakeId" Type="int" Nullable="false" />
+          <Property Name="PrimaryImage" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="PhoneStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhoneStatus" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhoneStatusHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhoneId" Type="int" Nullable="false" />
+          <Property Name="PhoneStatusId" Type="int" Nullable="false" />
+          <Property Name="StatusDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PostageMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostageMethodName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Quote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="QuoteStatusId" Type="int" Nullable="false" />
+          <Property Name="PostageMethodId" Type="int" />
+          <Property Name="AgreedToTerms" Type="bit" Nullable="false" />
+          <Property Name="QuoteFinalisedDate" Type="datetime" />
+          <Property Name="QuoteExpiryDate" Type="datetime" />
+          <Property Name="QuoteReferenceId" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Notes" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="QuoteStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuoteStatusName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuoteStatusHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuoteId" Type="int" Nullable="false" />
+          <Property Name="QuoteStatusId" Type="int" Nullable="false" />
+          <Property Name="StatusDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateNameShort" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="StateNameLong" Type="nvarchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Address_0">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Address_1">
+          <End Role="State" Type="Self.State" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_0">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_1">
+          <End Role="PaymentDetails" Type="Self.PaymentDetails" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="PaymentDetailsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentDetails_0">
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="1" />
+          <End Role="PaymentDetails" Type="Self.PaymentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PaymentDetails">
+              <PropertyRef Name="PaymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_PhoneCondition">
+          <End Role="PhoneCondition" Type="Self.PhoneCondition" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneCondition">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="PhoneConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_PhoneMake">
+          <End Role="PhoneMake" Type="Self.PhoneMake" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneMake">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="PhoneMakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_PhoneModel">
+          <End Role="PhoneModel" Type="Self.PhoneModel" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneModel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="PhoneModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_PhoneStatus">
+          <End Role="PhoneStatus" Type="Self.PhoneStatus" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="PhoneStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_Quote">
+          <End Role="Quote" Type="Self.Quote" Multiplicity="0..1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneConditionPrice_0">
+          <End Role="PhoneModel" Type="Self.PhoneModel" Multiplicity="1" />
+          <End Role="PhoneConditionPrice" Type="Self.PhoneConditionPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneModel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhoneConditionPrice">
+              <PropertyRef Name="PhoneModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneConditionPrice_1">
+          <End Role="PhoneCondition" Type="Self.PhoneCondition" Multiplicity="1" />
+          <End Role="PhoneConditionPrice" Type="Self.PhoneConditionPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneCondition">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhoneConditionPrice">
+              <PropertyRef Name="PhoneConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneModel_1">
+          <End Role="PhoneMake" Type="Self.PhoneMake" Multiplicity="1" />
+          <End Role="PhoneModel" Type="Self.PhoneModel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneMake">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhoneModel">
+              <PropertyRef Name="PhoneMakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneStatusHistory_ToPhone">
+          <End Role="Phone" Type="Self.Phone" Multiplicity="1" />
+          <End Role="PhoneStatusHistory" Type="Self.PhoneStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phone">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhoneStatusHistory">
+              <PropertyRef Name="PhoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneStatusHistory_ToPhoneStatus">
+          <End Role="PhoneStatus" Type="Self.PhoneStatus" Multiplicity="1" />
+          <End Role="PhoneStatusHistory" Type="Self.PhoneStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhoneStatusHistory">
+              <PropertyRef Name="PhoneStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneStatusHistory_ToUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="PhoneStatusHistory" Type="Self.PhoneStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhoneStatusHistory">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Quote_0">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Quote" Type="Self.Quote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Quote">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Quote_3">
+          <End Role="QuoteStatus" Type="Self.QuoteStatus" Multiplicity="1" />
+          <End Role="Quote" Type="Self.Quote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuoteStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Quote">
+              <PropertyRef Name="QuoteStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Quote_4">
+          <End Role="PostageMethod" Type="Self.PostageMethod" Multiplicity="0..1" />
+          <End Role="Quote" Type="Self.Quote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PostageMethod">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Quote">
+              <PropertyRef Name="PostageMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteStatusHistory_ToQuote">
+          <End Role="Quote" Type="Self.Quote" Multiplicity="1" />
+          <End Role="QuoteStatusHistory" Type="Self.QuoteStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QuoteStatusHistory">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteStatusHistory_ToQuoteStatus">
+          <End Role="QuoteStatus" Type="Self.QuoteStatus" Multiplicity="1" />
+          <End Role="QuoteStatusHistory" Type="Self.QuoteStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuoteStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QuoteStatusHistory">
+              <PropertyRef Name="QuoteStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteStatusHistory_ToUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="QuoteStatusHistory" Type="Self.QuoteStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteStatusHistory">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NavexaMobile_UnitTestModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentDetails" EntityType="Self.PaymentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Phone" EntityType="Self.Phone" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneCondition" EntityType="Self.PhoneCondition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneConditionPrice" EntityType="Self.PhoneConditionPrice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneMake" EntityType="Self.PhoneMake" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneModel" EntityType="Self.PhoneModel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneStatus" EntityType="Self.PhoneStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneStatusHistory" EntityType="Self.PhoneStatusHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostageMethod" EntityType="Self.PostageMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Quote" EntityType="Self.Quote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuoteStatus" EntityType="Self.QuoteStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuoteStatusHistory" EntityType="Self.QuoteStatusHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Address_0" Association="Self.FK_Address_0">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Address_1" Association="Self.FK_Address_1">
+            <End Role="State" EntitySet="State" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_0" Association="Self.FK_Customer_0">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_1" Association="Self.FK_Customer_1">
+            <End Role="PaymentDetails" EntitySet="PaymentDetails" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentDetails_0" Association="Self.FK_PaymentDetails_0">
+            <End Role="PaymentType" EntitySet="PaymentType" />
+            <End Role="PaymentDetails" EntitySet="PaymentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_PhoneCondition" Association="Self.FK_Phone_PhoneCondition">
+            <End Role="PhoneCondition" EntitySet="PhoneCondition" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_PhoneMake" Association="Self.FK_Phone_PhoneMake">
+            <End Role="PhoneMake" EntitySet="PhoneMake" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_PhoneModel" Association="Self.FK_Phone_PhoneModel">
+            <End Role="PhoneModel" EntitySet="PhoneModel" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_PhoneStatus" Association="Self.FK_Phone_PhoneStatus">
+            <End Role="PhoneStatus" EntitySet="PhoneStatus" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_Quote" Association="Self.FK_Phone_Quote">
+            <End Role="Quote" EntitySet="Quote" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneConditionPrice_0" Association="Self.FK_PhoneConditionPrice_0">
+            <End Role="PhoneModel" EntitySet="PhoneModel" />
+            <End Role="PhoneConditionPrice" EntitySet="PhoneConditionPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneConditionPrice_1" Association="Self.FK_PhoneConditionPrice_1">
+            <End Role="PhoneCondition" EntitySet="PhoneCondition" />
+            <End Role="PhoneConditionPrice" EntitySet="PhoneConditionPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneModel_1" Association="Self.FK_PhoneModel_1">
+            <End Role="PhoneMake" EntitySet="PhoneMake" />
+            <End Role="PhoneModel" EntitySet="PhoneModel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneStatusHistory_ToPhone" Association="Self.FK_PhoneStatusHistory_ToPhone">
+            <End Role="Phone" EntitySet="Phone" />
+            <End Role="PhoneStatusHistory" EntitySet="PhoneStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneStatusHistory_ToPhoneStatus" Association="Self.FK_PhoneStatusHistory_ToPhoneStatus">
+            <End Role="PhoneStatus" EntitySet="PhoneStatus" />
+            <End Role="PhoneStatusHistory" EntitySet="PhoneStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneStatusHistory_ToUser" Association="Self.FK_PhoneStatusHistory_ToUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="PhoneStatusHistory" EntitySet="PhoneStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quote_0" Association="Self.FK_Quote_0">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Quote" EntitySet="Quote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quote_3" Association="Self.FK_Quote_3">
+            <End Role="QuoteStatus" EntitySet="QuoteStatus" />
+            <End Role="Quote" EntitySet="Quote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quote_4" Association="Self.FK_Quote_4">
+            <End Role="PostageMethod" EntitySet="PostageMethod" />
+            <End Role="Quote" EntitySet="Quote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteStatusHistory_ToQuote" Association="Self.FK_QuoteStatusHistory_ToQuote">
+            <End Role="Quote" EntitySet="Quote" />
+            <End Role="QuoteStatusHistory" EntitySet="QuoteStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteStatusHistory_ToQuoteStatus" Association="Self.FK_QuoteStatusHistory_ToQuoteStatus">
+            <End Role="QuoteStatus" EntitySet="QuoteStatus" />
+            <End Role="QuoteStatusHistory" EntitySet="QuoteStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteStatusHistory_ToUser" Association="Self.FK_QuoteStatusHistory_ToUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="QuoteStatusHistory" EntitySet="QuoteStatusHistory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NavexaMobile_UnitTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressLine1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AddressLine2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StateId" Type="Int32" Nullable="false" />
+          <Property Name="PostCode" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Address_0" FromRole="Address" ToRole="Country" />
+          <NavigationProperty Name="State" Relationship="Self.FK_Address_1" FromRole="Address" ToRole="State" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PhoneStatusHistories" Relationship="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToUser" FromRole="AspNetUser" ToRole="PhoneStatusHistory" />
+          <NavigationProperty Name="QuoteStatusHistories" Relationship="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToUser" FromRole="AspNetUser" ToRole="QuoteStatusHistory" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AddressId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentDetailsId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_Customer_0" FromRole="Customer" ToRole="Address" />
+          <NavigationProperty Name="PaymentDetail" Relationship="Self.FK_Customer_1" FromRole="Customer" ToRole="PaymentDetails" />
+          <NavigationProperty Name="Quotes" Relationship="Self.FK_Quote_0" FromRole="Customer" ToRole="Quote" />
+        </EntityType>
+        <EntityType Name="PaymentDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="BSB" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaypalEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PaymentType" Relationship="Self.FK_PaymentDetails_0" FromRole="PaymentDetails" ToRole="PaymentType" />
+        </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Phone">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuoteId" Type="Int32" />
+          <Property Name="PhoneMakeId" Type="Int32" Nullable="false" />
+          <Property Name="PhoneModelId" Type="Int32" Nullable="false" />
+          <Property Name="PhoneConditionId" Type="Int32" Nullable="false" />
+          <Property Name="PurchaseAmount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PhoneStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PhoneCondition" Relationship="Self.FK_Phone_PhoneCondition" FromRole="Phone" ToRole="PhoneCondition" />
+          <NavigationProperty Name="PhoneMake" Relationship="Self.FK_Phone_PhoneMake" FromRole="Phone" ToRole="PhoneMake" />
+          <NavigationProperty Name="PhoneModel" Relationship="Self.FK_Phone_PhoneModel" FromRole="Phone" ToRole="PhoneModel" />
+          <NavigationProperty Name="PhoneStatu" Relationship="Self.FK_Phone_PhoneStatus" FromRole="Phone" ToRole="PhoneStatus" />
+          <NavigationProperty Name="Quote" Relationship="Self.FK_Phone_Quote" FromRole="Phone" ToRole="Quote" />
+          <Property Name="IMEI" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SaleAmount" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="PhoneStatusHistories" Relationship="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToPhone" FromRole="Phone" ToRole="PhoneStatusHistory" />
+        </EntityType>
+        <EntityType Name="PhoneCondition">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Condition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Phones" Relationship="Self.FK_Phone_PhoneCondition" FromRole="PhoneCondition" ToRole="Phone" />
+        </EntityType>
+        <EntityType Name="PhoneConditionPrice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhoneModelId" Type="Int32" Nullable="false" />
+          <Property Name="PhoneConditionId" Type="Int32" Nullable="false" />
+          <Property Name="OfferAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="PhoneCondition" Relationship="Self.FK_PhoneConditionPrice_1" FromRole="PhoneConditionPrice" ToRole="PhoneCondition" />
+        </EntityType>
+        <EntityType Name="PhoneMake">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MakeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Phones" Relationship="Self.FK_Phone_PhoneMake" FromRole="PhoneMake" ToRole="Phone" />
+          <NavigationProperty Name="PhoneModels" Relationship="Self.FK_PhoneModel_1" FromRole="PhoneMake" ToRole="PhoneModel" />
+        </EntityType>
+        <EntityType Name="PhoneModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneMakeId" Type="Int32" Nullable="false" />
+          <Property Name="PrimaryImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Phones" Relationship="Self.FK_Phone_PhoneModel" FromRole="PhoneModel" ToRole="Phone" />
+          <NavigationProperty Name="PhoneConditionPrices" Relationship="Self.FK_PhoneConditionPrice_0" FromRole="PhoneModel" ToRole="PhoneConditionPrice" />
+          <NavigationProperty Name="PhoneMake" Relationship="Self.FK_PhoneModel_1" FromRole="PhoneModel" ToRole="PhoneMake" />
+        </EntityType>
+        <EntityType Name="PhoneStatu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhoneStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Phones" Relationship="Self.FK_Phone_PhoneStatus" FromRole="PhoneStatus" ToRole="Phone" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PhoneStatusHistories" Relationship="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToPhoneStatus" FromRole="PhoneStatu" ToRole="PhoneStatusHistory" />
+        </EntityType>
+        <EntityType Name="Quote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="QuoteStatusId" Type="Int32" Nullable="false" />
+          <Property Name="QuoteFinalisedDate" Type="DateTime" Precision="3" />
+          <Property Name="QuoteExpiryDate" Type="DateTime" Precision="3" />
+          <Property Name="QuoteReferenceId" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Quote_0" FromRole="Quote" ToRole="Customer" />
+          <NavigationProperty Name="Phones" Relationship="Self.FK_Phone_Quote" FromRole="Quote" ToRole="Phone" />
+          <NavigationProperty Name="QuoteStatus" Relationship="Self.FK_Quote_3" FromRole="Quote" ToRole="QuoteStatus" />
+          <Property Name="PostageMethodId" Type="Int32" />
+          <NavigationProperty Name="PostageMethod" Relationship="NavexaMobile_UnitTestModel.FK_Quote_4" FromRole="Quote" ToRole="PostageMethod" />
+          <Property Name="AgreedToTerms" Type="Boolean" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="QuoteStatusHistories" Relationship="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToQuote" FromRole="Quote" ToRole="QuoteStatusHistory" />
+        </EntityType>
+        <EntityType Name="QuoteStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuoteStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Quotes" Relationship="Self.FK_Quote_3" FromRole="QuoteStatus" ToRole="Quote" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="QuoteStatusHistories" Relationship="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToQuoteStatus" FromRole="QuoteStatus" ToRole="QuoteStatusHistory" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateNameShort" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StateNameLong" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Address_0">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Address_1">
+          <End Role="State" Type="Self.State" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_0">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_1">
+          <End Role="PaymentDetails" Type="Self.PaymentDetail" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="PaymentDetailsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Quote_0">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Quote" Type="Self.Quote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Quote">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentDetails_0">
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="1" />
+          <End Role="PaymentDetails" Type="Self.PaymentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PaymentDetails">
+              <PropertyRef Name="PaymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_PhoneCondition">
+          <End Role="PhoneCondition" Type="Self.PhoneCondition" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneCondition">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="PhoneConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_PhoneMake">
+          <End Role="PhoneMake" Type="Self.PhoneMake" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneMake">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="PhoneMakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_PhoneModel">
+          <End Role="PhoneModel" Type="Self.PhoneModel" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneModel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="PhoneModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_PhoneStatus">
+          <End Role="PhoneStatus" Type="Self.PhoneStatu" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="PhoneStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_Quote">
+          <End Role="Quote" Type="Self.Quote" Multiplicity="0..1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneConditionPrice_1">
+          <End Role="PhoneCondition" Type="Self.PhoneCondition" Multiplicity="1" />
+          <End Role="PhoneConditionPrice" Type="Self.PhoneConditionPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneCondition">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhoneConditionPrice">
+              <PropertyRef Name="PhoneConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneConditionPrice_0">
+          <End Role="PhoneModel" Type="Self.PhoneModel" Multiplicity="1" />
+          <End Role="PhoneConditionPrice" Type="Self.PhoneConditionPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneModel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhoneConditionPrice">
+              <PropertyRef Name="PhoneModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneModel_1">
+          <End Role="PhoneMake" Type="Self.PhoneMake" Multiplicity="1" />
+          <End Role="PhoneModel" Type="Self.PhoneModel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneMake">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhoneModel">
+              <PropertyRef Name="PhoneMakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Quote_3">
+          <End Role="QuoteStatus" Type="NavexaMobile_UnitTestModel.QuoteStatus" Multiplicity="1" />
+          <End Role="Quote" Type="Self.Quote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuoteStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Quote">
+              <PropertyRef Name="QuoteStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NavexaMobile_UnitTestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="PaymentDetails" EntityType="Self.PaymentDetail" />
+          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
+          <EntitySet Name="Phones" EntityType="Self.Phone" />
+          <EntitySet Name="PhoneConditions" EntityType="Self.PhoneCondition" />
+          <EntitySet Name="PhoneConditionPrices" EntityType="Self.PhoneConditionPrice" />
+          <EntitySet Name="PhoneMakes" EntityType="Self.PhoneMake" />
+          <EntitySet Name="PhoneModels" EntityType="Self.PhoneModel" />
+          <EntitySet Name="PhoneStatus" EntityType="Self.PhoneStatu" />
+          <EntitySet Name="Quotes" EntityType="Self.Quote" />
+          <EntitySet Name="QuoteStatus1" EntityType="NavexaMobile_UnitTestModel.QuoteStatus" />
+          <EntitySet Name="States" EntityType="Self.State" />
+          <AssociationSet Name="FK_Address_0" Association="Self.FK_Address_0">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Address_1" Association="Self.FK_Address_1">
+            <End Role="State" EntitySet="States" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_0" Association="Self.FK_Customer_0">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_1" Association="Self.FK_Customer_1">
+            <End Role="PaymentDetails" EntitySet="PaymentDetails" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quote_0" Association="Self.FK_Quote_0">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Quote" EntitySet="Quotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentDetails_0" Association="Self.FK_PaymentDetails_0">
+            <End Role="PaymentType" EntitySet="PaymentTypes" />
+            <End Role="PaymentDetails" EntitySet="PaymentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_PhoneCondition" Association="Self.FK_Phone_PhoneCondition">
+            <End Role="PhoneCondition" EntitySet="PhoneConditions" />
+            <End Role="Phone" EntitySet="Phones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_PhoneMake" Association="Self.FK_Phone_PhoneMake">
+            <End Role="PhoneMake" EntitySet="PhoneMakes" />
+            <End Role="Phone" EntitySet="Phones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_PhoneModel" Association="Self.FK_Phone_PhoneModel">
+            <End Role="PhoneModel" EntitySet="PhoneModels" />
+            <End Role="Phone" EntitySet="Phones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_PhoneStatus" Association="Self.FK_Phone_PhoneStatus">
+            <End Role="PhoneStatus" EntitySet="PhoneStatus" />
+            <End Role="Phone" EntitySet="Phones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_Quote" Association="Self.FK_Phone_Quote">
+            <End Role="Quote" EntitySet="Quotes" />
+            <End Role="Phone" EntitySet="Phones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneConditionPrice_1" Association="Self.FK_PhoneConditionPrice_1">
+            <End Role="PhoneCondition" EntitySet="PhoneConditions" />
+            <End Role="PhoneConditionPrice" EntitySet="PhoneConditionPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneConditionPrice_0" Association="Self.FK_PhoneConditionPrice_0">
+            <End Role="PhoneModel" EntitySet="PhoneModels" />
+            <End Role="PhoneConditionPrice" EntitySet="PhoneConditionPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneModel_1" Association="Self.FK_PhoneModel_1">
+            <End Role="PhoneMake" EntitySet="PhoneMakes" />
+            <End Role="PhoneModel" EntitySet="PhoneModels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quote_3" Association="Self.FK_Quote_3">
+            <End Role="QuoteStatus" EntitySet="QuoteStatus1" />
+            <End Role="Quote" EntitySet="Quotes" />
+          </AssociationSet>
+          <EntitySet Name="PostageMethods" EntityType="NavexaMobile_UnitTestModel.PostageMethod" />
+          <AssociationSet Name="FK_Quote_4" Association="NavexaMobile_UnitTestModel.FK_Quote_4">
+            <End Role="PostageMethod" EntitySet="PostageMethods" />
+            <End Role="Quote" EntitySet="Quotes" />
+          </AssociationSet>
+          <EntitySet Name="PhoneStatusHistories" EntityType="NavexaMobile_UnitTestModel.PhoneStatusHistory" />
+          <EntitySet Name="QuoteStatusHistories" EntityType="NavexaMobile_UnitTestModel.QuoteStatusHistory" />
+          <AssociationSet Name="FK_PhoneStatusHistory_ToUser" Association="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="PhoneStatusHistory" EntitySet="PhoneStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteStatusHistory_ToUser" Association="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="QuoteStatusHistory" EntitySet="QuoteStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneStatusHistory_ToPhone" Association="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToPhone">
+            <End Role="Phone" EntitySet="Phones" />
+            <End Role="PhoneStatusHistory" EntitySet="PhoneStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneStatusHistory_ToPhoneStatus" Association="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToPhoneStatus">
+            <End Role="PhoneStatu" EntitySet="PhoneStatus" />
+            <End Role="PhoneStatusHistory" EntitySet="PhoneStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteStatusHistory_ToQuote" Association="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToQuote">
+            <End Role="Quote" EntitySet="Quotes" />
+            <End Role="QuoteStatusHistory" EntitySet="QuoteStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteStatusHistory_ToQuoteStatus" Association="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToQuoteStatus">
+            <End Role="QuoteStatus" EntitySet="QuoteStatus1" />
+            <End Role="QuoteStatusHistory" EntitySet="QuoteStatusHistories" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="PostageMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PostageMethodName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Quote_4">
+          <End Type="NavexaMobile_UnitTestModel.PostageMethod" Role="PostageMethod" Multiplicity="0..1" />
+          <End Type="NavexaMobile_UnitTestModel.Quote" Role="Quote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PostageMethod">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Quote">
+              <PropertyRef Name="PostageMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PhoneStatusHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhoneId" Type="Int32" Nullable="false" />
+          <Property Name="PhoneStatusId" Type="Int32" Nullable="false" />
+          <Property Name="StatusDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToUser" FromRole="PhoneStatusHistory" ToRole="AspNetUser" />
+          <NavigationProperty Name="Phone" Relationship="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToPhone" FromRole="PhoneStatusHistory" ToRole="Phone" />
+          <NavigationProperty Name="PhoneStatus" Relationship="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToPhoneStatus" FromRole="PhoneStatusHistory" ToRole="PhoneStatu" />
+        </EntityType>
+        <EntityType Name="QuoteStatusHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuoteId" Type="Int32" Nullable="false" />
+          <Property Name="QuoteStatusId" Type="Int32" Nullable="false" />
+          <Property Name="StatusDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToUser" FromRole="QuoteStatusHistory" ToRole="AspNetUser" />
+          <NavigationProperty Name="Quote" Relationship="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToQuote" FromRole="QuoteStatusHistory" ToRole="Quote" />
+          <NavigationProperty Name="QuoteStatus" Relationship="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToQuoteStatus" FromRole="QuoteStatusHistory" ToRole="QuoteStatus" />
+        </EntityType>
+        <Association Name="FK_PhoneStatusHistory_ToUser">
+          <End Type="NavexaMobile_UnitTestModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="NavexaMobile_UnitTestModel.PhoneStatusHistory" Role="PhoneStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhoneStatusHistory">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteStatusHistory_ToUser">
+          <End Type="NavexaMobile_UnitTestModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="NavexaMobile_UnitTestModel.QuoteStatusHistory" Role="QuoteStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteStatusHistory">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneStatusHistory_ToPhone">
+          <End Type="NavexaMobile_UnitTestModel.Phone" Role="Phone" Multiplicity="1" />
+          <End Type="NavexaMobile_UnitTestModel.PhoneStatusHistory" Role="PhoneStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phone">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhoneStatusHistory">
+              <PropertyRef Name="PhoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneStatusHistory_ToPhoneStatus">
+          <End Type="NavexaMobile_UnitTestModel.PhoneStatu" Role="PhoneStatu" Multiplicity="1" />
+          <End Type="NavexaMobile_UnitTestModel.PhoneStatusHistory" Role="PhoneStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneStatu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhoneStatusHistory">
+              <PropertyRef Name="PhoneStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteStatusHistory_ToQuote">
+          <End Type="NavexaMobile_UnitTestModel.Quote" Role="Quote" Multiplicity="1" />
+          <End Type="NavexaMobile_UnitTestModel.QuoteStatusHistory" Role="QuoteStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QuoteStatusHistory">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteStatusHistory_ToQuoteStatus">
+          <End Type="NavexaMobile_UnitTestModel.QuoteStatus" Role="QuoteStatus" Multiplicity="1" />
+          <End Type="NavexaMobile_UnitTestModel.QuoteStatusHistory" Role="QuoteStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuoteStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QuoteStatusHistory">
+              <PropertyRef Name="QuoteStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NavexaMobile_UnitTestModelStoreContainer" CdmEntityContainer="NavexaMobile_UnitTestEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="PaymentDetailsId" ColumnName="PaymentDetailsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentDetails">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.PaymentDetail">
+              <MappingFragment StoreEntitySet="PaymentDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
+                <ScalarProperty Name="BSB" ColumnName="BSB" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="PaypalEmail" ColumnName="PaypalEmail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTypes">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.PaymentType">
+              <MappingFragment StoreEntitySet="PaymentType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PaymentTypeName" ColumnName="PaymentTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phones">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.Phone">
+              <MappingFragment StoreEntitySet="Phone">
+                <ScalarProperty Name="SaleAmount" ColumnName="SaleAmount" />
+                <ScalarProperty Name="IMEI" ColumnName="IMEI" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
+                <ScalarProperty Name="PhoneMakeId" ColumnName="PhoneMakeId" />
+                <ScalarProperty Name="PhoneModelId" ColumnName="PhoneModelId" />
+                <ScalarProperty Name="PhoneConditionId" ColumnName="PhoneConditionId" />
+                <ScalarProperty Name="PurchaseAmount" ColumnName="PurchaseAmount" />
+                <ScalarProperty Name="PhoneStatusId" ColumnName="PhoneStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneConditions">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.PhoneCondition">
+              <MappingFragment StoreEntitySet="PhoneCondition">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Condition" ColumnName="Condition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneConditionPrices">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.PhoneConditionPrice">
+              <MappingFragment StoreEntitySet="PhoneConditionPrice">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PhoneModelId" ColumnName="PhoneModelId" />
+                <ScalarProperty Name="PhoneConditionId" ColumnName="PhoneConditionId" />
+                <ScalarProperty Name="OfferAmount" ColumnName="OfferAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneMakes">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.PhoneMake">
+              <MappingFragment StoreEntitySet="PhoneMake">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MakeName" ColumnName="MakeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneModels">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.PhoneModel">
+              <MappingFragment StoreEntitySet="PhoneModel">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="PhoneMakeId" ColumnName="PhoneMakeId" />
+                <ScalarProperty Name="PrimaryImage" ColumnName="PrimaryImage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneStatus">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.PhoneStatu">
+              <MappingFragment StoreEntitySet="PhoneStatus">
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PhoneStatus" ColumnName="PhoneStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Quotes">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.Quote">
+              <MappingFragment StoreEntitySet="Quote">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="AgreedToTerms" ColumnName="AgreedToTerms" />
+                <ScalarProperty Name="PostageMethodId" ColumnName="PostageMethodId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="QuoteStatusId" ColumnName="QuoteStatusId" />
+                <ScalarProperty Name="QuoteFinalisedDate" ColumnName="QuoteFinalisedDate" />
+                <ScalarProperty Name="QuoteExpiryDate" ColumnName="QuoteExpiryDate" />
+                <ScalarProperty Name="QuoteReferenceId" ColumnName="QuoteReferenceId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuoteStatus1">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.QuoteStatus">
+              <MappingFragment StoreEntitySet="QuoteStatus">
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="QuoteStatusName" ColumnName="QuoteStatusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.State">
+              <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StateNameShort" ColumnName="StateNameShort" />
+                <ScalarProperty Name="StateNameLong" ColumnName="StateNameLong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostageMethods">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.PostageMethod">
+              <MappingFragment StoreEntitySet="PostageMethod">
+                <ScalarProperty Name="PostageMethodName" ColumnName="PostageMethodName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneStatusHistories">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.PhoneStatusHistory">
+              <MappingFragment StoreEntitySet="PhoneStatusHistory">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusDate" ColumnName="StatusDate" />
+                <ScalarProperty Name="PhoneStatusId" ColumnName="PhoneStatusId" />
+                <ScalarProperty Name="PhoneId" ColumnName="PhoneId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuoteStatusHistories">
+            <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.QuoteStatusHistory">
+              <MappingFragment StoreEntitySet="QuoteStatusHistory">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusDate" ColumnName="StatusDate" />
+                <ScalarProperty Name="QuoteStatusId" ColumnName="QuoteStatusId" />
+                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

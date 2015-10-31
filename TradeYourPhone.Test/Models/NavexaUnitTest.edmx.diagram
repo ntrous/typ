@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cb495b30ad314112901158bab9dee1d1" Name="Diagram1" ZoomLevel="87">
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.C__MigrationHistory" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.Address" Width="1.5" PointX="1.5" PointY="29.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.AspNetUser" Width="1.5" PointX="8" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.Country" Width="1.5" PointX="1.5" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.Customer" Width="1.5" PointX="1.5" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.PaymentDetail" Width="1.5" PointX="1.5" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.PaymentType" Width="1.5" PointX="1.5" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.Phone" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.PhoneCondition" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.PhoneConditionPrice" Width="1.5" PointX="6" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.PhoneMake" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.PhoneModel" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.PhoneStatu" Width="1.5" PointX="0.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.Quote" Width="1.5" PointX="0.75" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.QuoteStatus" Width="1.5" PointX="1.5" PointY="44.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.State" Width="1.5" PointX="1.5" PointY="36.25" IsExpanded="true" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Address_0" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Address_1" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Customer_0" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Customer_1" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Quote_0" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_PaymentDetails_0" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Phone_PhoneCondition" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Phone_PhoneMake" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Phone_PhoneModel" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Phone_PhoneStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Phone_Quote" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_PhoneConditionPrice_1" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_PhoneConditionPrice_0" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_PhoneModel_1" ManuallyRouted="false" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Quote_3" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.PostageMethod" Width="1.5" PointX="8.375" PointY="0.875" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_Quote_4" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.PhoneStatusHistory" Width="1.5" PointX="13.25" PointY="7.25" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.QuoteStatusHistory" Width="1.5" PointX="10.25" PointY="25.875" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToUser" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToUser" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToPhone" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToPhoneStatus" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToQuote" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToQuoteStatus" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,193 @@
+﻿<div class="row tab-padding">
+    <div class="col-md-12 col-mobile" ng-hide="WaitingForDelivery()||RequiresSatchel()">
+        <h3 class="centre">Quote Summary</h3>
+        <hr />
+        <div class="col-md-12 col-mobile">
+            <p>Review Your Quote then click the Submit button at the bottom of the page to finish</p>
+        </div>
+
+        <div class="col-md-4 col-mobile summarySection">
+            <h3><span class="glyphicon glyphicon-user"></span>   Personal Details</h3>
+            <p>{{customer.fullname}}</p>
+            <p>{{customer.email}}</p>
+            <p>{{customer.mobile}}</p>
+        </div>
+
+        <div class="col-md-4 col-mobile summarySection border-left">
+            <h3><span class="glyphicon glyphicon-home"></span>   Your Address</h3>
+            <p>{{customer.postageStreet}}</p>
+            <p>{{customer.postageSuburb}}</p>
+            <p>{{customer.postageState}} {{customer.postagePostcode}}</p>
+        </div>
+
+        <div class="col-md-4 col-mobile summarySection border-left">
+            <h3><span class="glyphicon glyphicon-usd"></span>  Payment Details</h3>
+            <p> A total amount of <b>{{quote.TotalAmount | currency}}</b> will be paid.</p>
+            <p>Chosen payment type is: {{customer.paymentType}}</p>
+            <p ng-if="DisplayBankTransfer()">
+                BSB: {{customer.bsb}}<br />
+                Account Number: {{customer.accountNum}}
+            </p>
+            <p ng-if="DisplayPaypal()">Paypal Email: {{customer.paypalEmail}}</p>
+        </div>
+
+        <div class="col-md-12 col-mobile summarySection">
+            <h3><span class="glyphicon glyphicon-envelope"></span>  Postage Information</h3>
+            <p>(This will also be emailed to you)</p>
+            <div ng-if="DisplaySatchel()">
+                <div>
+                    <p>
+                        You have chosen to send your phone to us via the free satchel method. After you submit your quote, your free reply-paid AusPost satchel will arrive in the mail shortly. <br />
+                        Simply package your phone in such a way that it wont get damaged and place it inside the satchel we will provide.<br />
+                        Then drop it off to your local post office and it will be sent straight to us absolutely free!<br />
+                        Note: You have two weeks from today to get your phone to us. After that it may be subject to a price change.
+                    </p>
+                </div>
+            </div>
+            <div ng-if="DisplayPostage()">
+                <div>
+                    <p>
+                        You have chosen to send your phone(s) to us yourself. Once you submit your quote, simply package your phone up in a satchel or a box and write the below free reply-paid address and your quote number on the front.<br />
+                        Then simply drop it off in the mail or at your local post shop and they will send it to us absolutely free!<br />
+                        Note: You have two weeks from today to get your phone to us. After that it may be subject to a price change.
+                        <br /><br />
+                        Reply Paid 90086<br />
+                        Trade Your Phone<br />
+                        PO Box 13265<br />
+                        LAW COURTS VIC 8010
+                        <br />
+                        <br />
+                        Quote: <bold>{{quoteKey}}</bold>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-mobile">
+            <div class="col-md-12 phoneDiv col-mobile">
+                <h3><span class="glyphicon glyphicon-list"></span> Phone Summary</h3>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="hidden-xs"></th>
+                            <th></th>
+                            <th class="visible-xs">Phone</th>
+                            <th class="hidden-xs">Phone Type</th>
+                            <th class="hidden-xs">Phone Condition</th>
+                            <th class="hidden-xs">Offer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="q in quote.Phones">
+                            <td class="hidden-xs">#{{$index+1}}</td>
+                            <td><img class="phone-summary-image" data-ng-src="data:image/png;base64,{{q.PrimaryImageString}}" /></td>
+                            <td class="visible-xs">{{q.PhoneMakeName}}  {{q.PhoneModelName}}<br />{{q.PhoneCondition}} condition<br />{{q.OfferPrice | currency}}</td>
+                            <td class="hidden-xs">{{q.PhoneMakeName}}  {{q.PhoneModelName}}</td>
+                            <td class="hidden-xs">{{q.PhoneCondition}}</td>
+                            <td class="hidden-xs">{{q.OfferPrice | currency}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th class="hidden-xs"></th>
+                            <th class="visible-xs"></th>
+                            <th class="hidden-xs"></th>
+                            <th class="hidden-xs"></th>
+                            <th class="hidden-xs"></th>
+                            <th>Total: {{quote.TotalAmount | currency}}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div ng-show="DoesQuoteContainApple()">
+                    <div>
+                        <p>
+                            All Apple devices must have 'Find my iPhone' removed before sending. Please see the <a href="https://support.apple.com/kb/PH2702?locale=en_US" target="_blank">Apple website</a> for instructions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-mobile">
+            <div class="col-md-12 col-mobile">
+                <label for="TCcheckbox">
+                    I agree to the <br class="visible-xxs" /><a target="_blank" href="/TermsAndConditions">Terms and Conditions</a>
+                    <input type="checkbox"
+                           id="TCcheckbox"
+                           ng-model="quote.AgreedToTerms">
+                </label>
+            </div>
+
+        </div>
+
+        <div class="col-md-12 col-mobile">
+            <h3>
+                <span class="glyphicon glyphicon-check"></span>
+                Once you have reviewed your quote, personal and payment details, click the Submit button to finalise your quote
+            </h3>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-md-offset-6 col-md-push-3">
+                <button class="btn btn-default next-btn"
+                        ng-disabled="quote.AgreedToTerms==false"
+                        ng-click="FinaliseQuote(customer, quote)"
+                        type="submit"
+                        analytics-on="click"
+                        analytics-category="QuoteProcess"
+                        analytics-event="SubmitBtnClick">
+                    Submit  <i class="fa fa-paper-plane-o"></i>
+                </button>
+            </div>
+            <div class="col-md-3 col-md-pull-9">
+                <button class="btn btn-default back-btn"
+                        type="button" ng-click="goToTab('Quote', 1)"
+                        analytics-on="click"
+                        analytics-category="QuoteProcess"
+                        analytics-event="GoBackToDetailsBtnClick">
+                    <span class="glyphicon glyphicon-chevron-left btn-glyphicon"></span>   Go Back
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-12 col-mobile" ng-show="WaitingForDelivery()||RequiresSatchel()">
+
+        <h3 class="centre">Thank you for submitting your quote, your reference number is {{result}}</h3>
+        <br />
+        <h3><span class="glyphicon glyphicon-chevron-right"></span>  What happens next?</h3>
+        <p>
+            You will be receiving an email shortly with instructions on how to send your phone to us.
+            <br />
+            If you have any other questions, check out our <a href="/Support" target="_blank">support</a> page or <a href="/Contact" target="_blank">contact us</a> and we can help you through the process.
+        </p>
+        <br />
+        <h3><span class="glyphicon glyphicon-envelope"></span>  Postage Information</h3>
+        <div ng-show="WaitingForDelivery()">
+            <div ng-include="'../AngularApp/Quote/Postage.html'"></div>
+        </div>
+        <div ng-show="RequiresSatchel()">
+            <div ng-include="'../AngularApp/Quote/Satchel.html'"></div>
+        </div>
+        <p>
+            Once we receive your phone(s) we will assess them to ensure they meet the condition specified and within 24 hours of receipt, you will be paid!
+            <br />
+            In the event the phone doesn't meet the criteria for the condition you selected, we will contact you via email or phone to offer you a revised deal.
+            <br />
+            (Providing chargers or the original box is optional)
+        </p>
+
+        <br />
+
+        <div class="col-md-3 col-md-offset-9 summary-btn">
+            <button class="btn btn-default next-btn"
+                    ng-click="ResetQuote()"
+                    type="submit"
+                    analytics-on="click"
+                    analytics-category="QuoteProcess"
+                    analytics-event="StartAnotherQuoteBtnClick">
+                Start Another Quote
+            </button>
+        </div>
+    </div>
+</div>

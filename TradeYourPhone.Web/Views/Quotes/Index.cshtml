@@ -1,0 +1,112 @@
+﻿@model TradeYourPhone.Core.ViewModels.QuoteIndexViewModel
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Quotes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Quotes</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-2">
+            <b>@Html.DisplayName("Reference Id")</b>
+            @Html.TextBox("referenceId", "", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <b>@Html.DisplayName("Email")</b>
+            @Html.TextBox("email", "", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <b>@Html.DisplayName("Last Name")</b>
+            @Html.TextBox("lastName", "", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <b>@Html.DisplayName("First Name")</b>
+            @Html.TextBox("firstName", "", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <b>@Html.DisplayName("Status")</b>
+            @Html.DropDownListFor(m => m.statusId, Model.QuoteStatuses, "All", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <br />
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+    <br />
+}
+
+<table class="table quoteTable table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Status", "Index", new { sortOrder = Model.StatusSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Name", "Index", new { sortOrder = Model.NameSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Email", "Index", new { sortOrder = Model.EmailSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Created Date", "Index", new { sortOrder = Model.CreatedDateSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Quote Finalised Date", "Index", new { sortOrder = Model.QuoteFinalisedDateSortParm })
+            </th>
+            <th>
+                @Html.DisplayName("Quote Expiry")
+            </th>
+        </tr>
+    </thead>
+    @if (Model.Quotes.Count() > 0)
+    {
+        <tbody>
+            @foreach (var item in Model.Quotes)
+            {
+            <tr onclick="document.location = '/Quotes/Details/@item.ID';">
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuoteStatus.QuoteStatusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.FirstName) @Html.DisplayFor(modelItem => item.Customer.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuoteFinalisedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuoteExpiryDate)
+                </td>
+            </tr>
+            }
+        </tbody>
+    }
+    else
+    {
+        <tr>
+            <td>No results found</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.Quotes.PageCount < Model.Quotes.PageNumber ? 0 : Model.Quotes.PageNumber) of @Model.Quotes.PageCount
+
+@Html.PagedListPager(Model.Quotes, page => Url.Action("Index",
+    new { page, referenceId = Model.referenceId, email = Model.email, lastName = Model.lastName, firstName = Model.firstName, statusId = Model.statusId }))
