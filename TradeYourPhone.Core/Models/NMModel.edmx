@@ -341,7 +341,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PhoneStatusHistory_ToPhone">
-          <End Role="Phone" Type="Self.Phone" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PhoneStatusHistory" Type="Self.PhoneStatusHistory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Phone">
