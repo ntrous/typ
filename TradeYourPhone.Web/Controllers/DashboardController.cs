@@ -11,17 +11,17 @@ namespace TradeYourPhone.Web.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
-        private IQuoteService quoteService;
+        private IReportingService reportingService;
 
-        public DashboardController(IQuoteService quoteService)
+        public DashboardController(IReportingService reportingService)
         {
-            this.quoteService = quoteService;
+            this.reportingService = reportingService;
         }
 
         // GET: Dashboard
         public ActionResult Index()
         {
-            var viewModel = quoteService.GetDashboardData(null, null);
+            var viewModel = reportingService.GetDashboardData(null, null);
             return View(viewModel);
         }
 
@@ -29,7 +29,7 @@ namespace TradeYourPhone.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(DashboardViewModel viewModel)
         {
-            viewModel = quoteService.GetDashboardData(viewModel.DateFrom, viewModel.DateTo);
+            viewModel = reportingService.GetDashboardData(viewModel.DateFrom, viewModel.DateTo);
             return View(viewModel);
         }
     }

@@ -351,7 +351,7 @@ namespace TradeYourPhone.Test
             IEnumerable<Phone> phones = phoneService.GetAllPhones();
 
             var phone = phones.Select(x => x).ElementAt(3);
-            Assert.IsTrue(phones.Count() == 7);
+            Assert.IsTrue(phones.Count() == 10);
             Assert.AreEqual(3, phone.PhoneMakeId);
             Assert.AreEqual(3, phone.PhoneModelId);
             Assert.AreEqual(2, phone.PhoneConditionId);
@@ -415,7 +415,7 @@ namespace TradeYourPhone.Test
         public void SearchPhonesByModelIdTest()
         {
             var phones = phoneService.SearchPhones("0", 0, 3, 0);
-            Assert.AreEqual(3, phones.Count);
+            Assert.AreEqual(4, phones.Count);
             Assert.AreEqual("Apple", phones.ElementAt(0).PhoneMake.MakeName);
         }
 
@@ -453,7 +453,7 @@ namespace TradeYourPhone.Test
         public void SearchPhonesNullParamTest()
         {
             var phones = phoneService.SearchPhones("0", 0, 0, 0);
-            Assert.AreEqual(7, phones.Count);
+            Assert.AreEqual(10, phones.Count);
         }
 
         [TestMethod]
@@ -467,7 +467,7 @@ namespace TradeYourPhone.Test
         public void SearchPhonesNullPhoneIdParamTest()
         {
             var phones = phoneService.SearchPhones(null, 0, 0, 0);
-            Assert.AreEqual(7, phones.Count);
+            Assert.AreEqual(10, phones.Count);
         }
 
         [TestMethod]
@@ -479,9 +479,9 @@ namespace TradeYourPhone.Test
             };
             var phones = phoneService.GetAllPhones().ToList();
             phones = phoneService.GetSortedPhones(phones, viewModel);
-            Assert.AreEqual("Sony", phones.ElementAt(0).PhoneMake.MakeName);
-            Assert.AreEqual("Apple", phones.ElementAt(1).PhoneMake.MakeName);
-            Assert.AreEqual("Apple", phones.ElementAt(2).PhoneMake.MakeName);
+            Assert.AreEqual("Samsung", phones.ElementAt(0).PhoneMake.MakeName);
+            Assert.AreEqual("Sony", phones.ElementAt(1).PhoneMake.MakeName);
+            Assert.AreEqual("Sony", phones.ElementAt(2).PhoneMake.MakeName);
             Assert.AreEqual("phoneMake_desc", viewModel.PhoneMakeParm);
             Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
             Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
@@ -522,7 +522,7 @@ namespace TradeYourPhone.Test
             var phones = phoneService.GetAllPhones().ToList();
             phones = phoneService.GetSortedPhones(phones, viewModel);
             Assert.AreEqual("Galaxy S4", phones.ElementAt(0).PhoneModel.ModelName);
-            Assert.AreEqual("iPhone 5", phones.ElementAt(5).PhoneModel.ModelName);
+            Assert.AreEqual("Galaxy S6", phones.ElementAt(5).PhoneModel.ModelName);
             Assert.AreEqual("iPhone 5", phones.ElementAt(6).PhoneModel.ModelName);
             Assert.AreEqual("", viewModel.PhoneMakeParm);
             Assert.AreEqual("phoneModel_desc", viewModel.PhoneModelParm);
@@ -544,7 +544,7 @@ namespace TradeYourPhone.Test
             phones = phoneService.GetSortedPhones(phones, viewModel);
             Assert.AreEqual("iPhone 5", phones.ElementAt(0).PhoneModel.ModelName);
             Assert.AreEqual("iPhone 5", phones.ElementAt(1).PhoneModel.ModelName);
-            Assert.AreEqual("Galaxy S6", phones.ElementAt(2).PhoneModel.ModelName);
+            Assert.AreEqual("iPhone 5", phones.ElementAt(2).PhoneModel.ModelName);
             Assert.AreEqual("", viewModel.PhoneMakeParm);
             Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
             Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
@@ -564,8 +564,8 @@ namespace TradeYourPhone.Test
             var phones = phoneService.GetAllPhones().ToList();
             phones = phoneService.GetSortedPhones(phones, viewModel);
             Assert.AreEqual("New", phones.ElementAt(0).PhoneCondition.Condition);
-            Assert.AreEqual("Good", phones.ElementAt(5).PhoneCondition.Condition);
-            Assert.AreEqual("Faulty", phones.ElementAt(6).PhoneCondition.Condition);
+            Assert.AreEqual("New", phones.ElementAt(5).PhoneCondition.Condition);
+            Assert.AreEqual("New", phones.ElementAt(6).PhoneCondition.Condition);
             Assert.AreEqual("", viewModel.PhoneMakeParm);
             Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
             Assert.AreEqual("phoneCondition_desc", viewModel.PhoneConditionParm);
@@ -630,12 +630,12 @@ namespace TradeYourPhone.Test
             };
             var phones = phoneService.GetAllPhones().ToList();
             phones = phoneService.GetSortedPhones(phones, viewModel);
-            Assert.AreEqual(2, phones.ElementAt(0).PhoneStatusId);
-            Assert.AreEqual(2, phones.ElementAt(1).PhoneStatusId);
-            Assert.AreEqual(2, phones.ElementAt(2).PhoneStatusId);
-            Assert.AreEqual(1, phones.ElementAt(3).PhoneStatusId);
-            Assert.AreEqual(1, phones.ElementAt(4).PhoneStatusId);
-            Assert.AreEqual(1, phones.ElementAt(5).PhoneStatusId);
+            Assert.AreEqual(9, phones.ElementAt(0).PhoneStatusId);
+            Assert.AreEqual(8, phones.ElementAt(1).PhoneStatusId);
+            Assert.AreEqual(8, phones.ElementAt(2).PhoneStatusId);
+            Assert.AreEqual(2, phones.ElementAt(3).PhoneStatusId);
+            Assert.AreEqual(2, phones.ElementAt(4).PhoneStatusId);
+            Assert.AreEqual(2, phones.ElementAt(5).PhoneStatusId);
             Assert.AreEqual(1, phones.ElementAt(6).PhoneStatusId);
             Assert.AreEqual("", viewModel.PhoneMakeParm);
             Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
@@ -680,13 +680,13 @@ namespace TradeYourPhone.Test
             };
             var phones = phoneService.GetAllPhones().ToList();
             phones = phoneService.GetSortedPhones(phones, viewModel);
-            Assert.AreEqual(100, phones.ElementAt(6).PurchaseAmount);
-            Assert.AreEqual(120, phones.ElementAt(5).PurchaseAmount);
-            Assert.AreEqual(120, phones.ElementAt(4).PurchaseAmount);
-            Assert.AreEqual(150, phones.ElementAt(3).PurchaseAmount);
+            Assert.AreEqual(150, phones.ElementAt(6).PurchaseAmount);
+            Assert.AreEqual(180, phones.ElementAt(5).PurchaseAmount);
+            Assert.AreEqual(180, phones.ElementAt(4).PurchaseAmount);
+            Assert.AreEqual(180, phones.ElementAt(3).PurchaseAmount);
             Assert.AreEqual(180, phones.ElementAt(2).PurchaseAmount);
             Assert.AreEqual(180, phones.ElementAt(1).PurchaseAmount);
-            Assert.AreEqual(180, phones.ElementAt(0).PurchaseAmount);
+            Assert.AreEqual(270, phones.ElementAt(0).PurchaseAmount);
             Assert.AreEqual("", viewModel.PhoneMakeParm);
             Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
             Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
@@ -730,13 +730,13 @@ namespace TradeYourPhone.Test
             };
             var phones = phoneService.GetAllPhones().ToList();
             phones = phoneService.GetSortedPhones(phones, viewModel);
-            Assert.AreEqual(180, phones.ElementAt(0).SaleAmount);
+            Assert.AreEqual(270, phones.ElementAt(0).SaleAmount);
             Assert.AreEqual(180, phones.ElementAt(1).SaleAmount);
-            Assert.AreEqual(150, phones.ElementAt(2).SaleAmount);
-            Assert.AreEqual(120, phones.ElementAt(3).SaleAmount);
-            Assert.AreEqual(120, phones.ElementAt(4).SaleAmount);
-            Assert.AreEqual(100, phones.ElementAt(5).SaleAmount);
-            Assert.AreEqual(null, phones.ElementAt(6).SaleAmount);
+            Assert.AreEqual(180, phones.ElementAt(2).SaleAmount);
+            Assert.AreEqual(180, phones.ElementAt(3).SaleAmount);
+            Assert.AreEqual(180, phones.ElementAt(4).SaleAmount);
+            Assert.AreEqual(150, phones.ElementAt(5).SaleAmount);
+            Assert.AreEqual(120, phones.ElementAt(6).SaleAmount);
             Assert.AreEqual("", viewModel.PhoneMakeParm);
             Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
             Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
@@ -780,13 +780,13 @@ namespace TradeYourPhone.Test
             };
             var phones = phoneService.GetAllPhones().ToList();
             phones = phoneService.GetSortedPhones(phones, viewModel);
-            Assert.AreEqual(180, phones.ElementAt(0).SaleAmount);
+            Assert.AreEqual(270, phones.ElementAt(0).SaleAmount);
             Assert.AreEqual(180, phones.ElementAt(1).SaleAmount);
-            Assert.AreEqual(null, phones.ElementAt(2).SaleAmount);
-            Assert.AreEqual(120, phones.ElementAt(3).SaleAmount);
-            Assert.AreEqual(120, phones.ElementAt(4).SaleAmount);
-            Assert.AreEqual(150, phones.ElementAt(5).SaleAmount);
-            Assert.AreEqual(100, phones.ElementAt(6).SaleAmount);
+            Assert.AreEqual(180, phones.ElementAt(2).SaleAmount);
+            Assert.AreEqual(180, phones.ElementAt(3).SaleAmount);
+            Assert.AreEqual(180, phones.ElementAt(4).SaleAmount);
+            Assert.AreEqual(null, phones.ElementAt(5).SaleAmount);
+            Assert.AreEqual(120, phones.ElementAt(6).SaleAmount);
             Assert.AreEqual("", viewModel.PhoneMakeParm);
             Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
             Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);

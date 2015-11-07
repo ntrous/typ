@@ -188,6 +188,7 @@
     <Compile Include="Repositories\IGenericRepository.cs" />
     <Compile Include="SetupData\CreateMockData.cs" />
     <Compile Include="TradeYourPhone.Core\Services\EmailServiceTest.cs" />
+    <Compile Include="TradeYourPhone.Core\Services\ReportingServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TradeYourPhone.Core\TradeYourPhone.Core.csproj">

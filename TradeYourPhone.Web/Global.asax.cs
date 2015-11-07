@@ -35,6 +35,7 @@ namespace TradeYourPhone.Web
             container.RegisterType<IPhoneService, PhoneService>();
             container.RegisterType<IQuoteService, QuoteService>();
             container.RegisterType<IEmailService, EmailService>();
+            container.RegisterType<IReportingService, ReportingService>();
             container.RegisterType<IScraperService, ScraperService>();
 
             container.RegisterType<IScraper, MobileMonsterScraper>();

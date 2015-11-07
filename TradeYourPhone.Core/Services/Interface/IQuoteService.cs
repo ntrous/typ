@@ -126,14 +126,6 @@ namespace TradeYourPhone.Core.Services.Interface
         List<Quote> GetSortedQuotes(List<Quote> quotesToSort, QuoteIndexViewModel viewModel);
 
         /// <summary>
-        /// Gets all the data for the Dashboard view
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        DashboardViewModel GetDashboardData(DateTime? from, DateTime? to);
-
-        /// <summary>
         /// Get all states
         /// </summary>
         /// <returns></returns>

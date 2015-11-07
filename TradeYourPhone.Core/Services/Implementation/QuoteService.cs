@@ -971,69 +971,6 @@ namespace TradeYourPhone.Core.Services.Implementation
 
         #endregion
 
-        #region Dashboard
-
-        /// <summary>
-        /// Gets all the data for the Dashboard view
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns>DashboardViewModel</returns>
-        public DashboardViewModel GetDashboardData(DateTime? from, DateTime? to)
-        {
-            DateTime dateFrom = from ?? Util.GetAEST(DateTime.Today);
-            DateTime dateTo = to ?? Util.GetAEST(DateTime.Today);
-            dateTo = dateTo.Date.AddDays(1).AddSeconds(-1);
-
-            DashboardViewModel vm = new DashboardViewModel();
-            vm.DateFrom = dateFrom; vm.DateTo = dateTo;
-            vm.NoOfCreatedQuotes = GetTotalQuotesCreated(dateFrom, dateTo);
-            vm.NoOfFinalisedQuotes = GetTotalFinalisedQuotes(dateFrom, dateTo);
-            vm.TotalAmountToBePaid = GetTotalAmountToBePaid(dateFrom, dateTo);
-
-            return vm;
-        }
-
-        /// <summary>
-        /// Get total number of quotes created within the given date range
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        public int GetTotalQuotesCreated(DateTime from, DateTime to)
-        {
-            int total = unitOfWork.QuoteRepository.Get(q => q.CreatedDate >= from && q.CreatedDate <= to).Count();
-            return total;
-        }
-
-        /// <summary>
-        /// Gets the total number of finalised quotes within a given date range
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns>Total number of finalised quotes</returns>
-        private int GetTotalFinalisedQuotes(DateTime from, DateTime to)
-        {
-            int total = unitOfWork.QuoteRepository.Get(q => (q.QuoteStatusId == (int)QuoteStatusEnum.RequiresSatchel || q.QuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery)
-                                                        && (q.QuoteFinalisedDate >= from && q.QuoteFinalisedDate <= to)).Count();
-            return total;
-        }
-
-        /// <summary>
-        /// Gets the total amount of money that needs to be paid out for the given date range
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        private decimal GetTotalAmountToBePaid(DateTime from, DateTime to)
-        {
-            decimal total = unitOfWork.QuoteRepository.Get(q => (q.QuoteStatusId == (int)QuoteStatusEnum.RequiresSatchel || q.QuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery))
-                .Sum(q => q.Phones.Sum(p => p.PurchaseAmount)).Value;
-            return total;
-        }
-
-        #endregion
-
         #region Address
 
         /// <summary>

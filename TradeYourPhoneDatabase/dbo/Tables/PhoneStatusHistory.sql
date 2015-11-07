@@ -13,3 +13,7 @@
 GO
 
 CREATE INDEX [IX_PhoneStatusHistory_PhoneId] ON [dbo].[PhoneStatusHistory] ([PhoneId])
+
+GO
+
+CREATE INDEX [IX_PhoneStatusHistory_PhoneStatusId] ON [dbo].[PhoneStatusHistory] ([PhoneStatusId])

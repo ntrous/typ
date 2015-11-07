@@ -243,10 +243,12 @@
     <Compile Include="Services\Implementation\EmailService.cs" />
     <Compile Include="Services\Implementation\PhoneService.cs" />
     <Compile Include="Services\Implementation\QuoteService.cs" />
+    <Compile Include="Services\Implementation\ReportingService.cs" />
     <Compile Include="Services\Implementation\ScraperService.cs" />
     <Compile Include="Services\Interface\IEmailService.cs" />
     <Compile Include="Services\Interface\IPhoneService.cs" />
     <Compile Include="Services\Interface\IQuoteService.cs" />
+    <Compile Include="Services\Interface\IReportingService.cs" />
     <Compile Include="Services\Interface\IScraperService.cs" />
     <Compile Include="Utilities\ImageManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

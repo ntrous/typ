@@ -627,6 +627,7 @@
           <Property Name="PhoneConditionId" Type="Int32" Nullable="false" />
           <Property Name="OfferAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="PhoneCondition" Relationship="Self.FK_PhoneConditionPrice_1" FromRole="PhoneConditionPrice" ToRole="PhoneCondition" />
+          <NavigationProperty Name="PhoneModel" Relationship="NMModel.FK_PhoneConditionPrice_0" FromRole="PhoneConditionPrice" ToRole="PhoneModel" />
         </EntityType>
         <EntityType Name="PhoneMake">
           <Key>

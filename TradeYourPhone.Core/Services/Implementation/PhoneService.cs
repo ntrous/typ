@@ -92,7 +92,7 @@ namespace TradeYourPhone.Core.Services.Implementation
 
         public IList<PhoneViewModel> GetAllPhoneModelsForView()
         {
-            var models = unitOfWork.PhoneModelRepository.Get().OrderByDescending(p => p.ModelName, new NaturalSortComparer<string>());
+            var models = unitOfWork.PhoneModelRepository.Get(includeProperties: "PhoneMake,PhoneConditionPrices").OrderByDescending(p => p.ModelName, new NaturalSortComparer<string>());
             List<PhoneViewModel> phoneModels = new List<PhoneViewModel>();
 
             foreach(var model in models)
@@ -124,7 +124,7 @@ namespace TradeYourPhone.Core.Services.Implementation
         public IList<PhoneViewModel> GetPhoneModelsForViewByMakeName(string makeName)
         {
             Expression<Func<PhoneModel, bool>> filterExp = (x => x.PhoneMake.MakeName == makeName);
-            var models = unitOfWork.PhoneModelRepository.Get(filterExp).OrderByDescending(p => p.ModelName, new NaturalSortComparer<string>());
+            var models = unitOfWork.PhoneModelRepository.Get(filterExp, includeProperties: "PhoneMake,PhoneConditionPrices").OrderByDescending(p => p.ModelName, new NaturalSortComparer<string>());
             List<PhoneViewModel> phoneModels = new List<PhoneViewModel>();
 
             foreach (var model in models)

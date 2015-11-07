@@ -21,12 +21,10 @@ namespace TradeYourPhone.Core.ViewModels
         public int NoOfFinalisedQuotes { get; set; }
         public int NoOfCompletedQuotes { get; set; }
 
-        public decimal TotalAmountToBePaid { get; set; }
+        public decimal TotalAmountToPay { get; set; }
         public decimal TotalAmountPaid { get; set; }
 
         public int TotalDevicesSold { get; set; }
-        public decimal TotalAmountSold { get; set; }
-
-        public bool ClearCache { get; set; }
+        public decimal TotalIncomeAmount { get; set; }
     }
 }

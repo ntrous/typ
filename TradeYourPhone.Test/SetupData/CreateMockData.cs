@@ -38,6 +38,11 @@ namespace TradeYourPhone.Test.SetupData
             return new EmailServiceMock();
         }
 
+        public IReportingService GetReportingService()
+        {
+            return new ReportingService(unitOfWork);
+        }
+
         public IUnitOfWork unitOfWork
         {
             get

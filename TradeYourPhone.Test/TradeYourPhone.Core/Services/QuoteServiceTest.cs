@@ -177,7 +177,7 @@ namespace TradeYourPhone.Test
             IEnumerable<Quote> quotes = quoteService.GetAllQuotes();
 
             var quote = quotes.Select(x => x.ID).ElementAt(1);
-            Assert.IsTrue(quotes.Count() == 3);
+            Assert.IsTrue(quotes.Count() == 5);
             Assert.AreEqual(3, quote);
         }
 
@@ -534,14 +534,14 @@ namespace TradeYourPhone.Test
         public void SearchQuotesTest()
         {
             List<Quote> quotes = quoteService.SearchQuotes(null, null, null, null, 0);
-            Assert.AreEqual(3, quotes.Count);
+            Assert.AreEqual(5, quotes.Count);
         }
 
         [TestMethod]
         public void SearchQuotesEmptyParamTest()
         {
             List<Quote> quotes = quoteService.SearchQuotes("", "", "", "", 0);
-            Assert.AreEqual(3, quotes.Count);
+            Assert.AreEqual(5, quotes.Count);
         }
 
         [TestMethod]
@@ -586,8 +586,8 @@ namespace TradeYourPhone.Test
             var quotes = quoteService.GetAllQuotes().ToList();
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
-            Assert.AreEqual("New", quotes.ElementAt(2).QuoteStatus.QuoteStatusName);
-            Assert.AreEqual("New", quotes.ElementAt(1).QuoteStatus.QuoteStatusName);
+            Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(2).QuoteStatus.QuoteStatusName);
+            Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(1).QuoteStatus.QuoteStatusName);
             Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(0).QuoteStatus.QuoteStatusName);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
@@ -607,8 +607,8 @@ namespace TradeYourPhone.Test
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
             Assert.AreEqual("Beam", quotes.ElementAt(0).Customer.LastName);
-            Assert.AreEqual("Daniels", quotes.ElementAt(1).Customer.LastName);
-            Assert.AreEqual("Johnson", quotes.ElementAt(2).Customer.LastName);
+            Assert.AreEqual("Buyer", quotes.ElementAt(1).Customer.LastName);
+            Assert.AreEqual("Daniels", quotes.ElementAt(2).Customer.LastName);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_desc", viewModel.NameSortParm);
             Assert.AreEqual("email_asc", viewModel.EmailSortParm);
@@ -626,9 +626,9 @@ namespace TradeYourPhone.Test
             var quotes = quoteService.GetAllQuotes().ToList();
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
-            Assert.AreEqual("Beam", quotes.ElementAt(2).Customer.LastName);
-            Assert.AreEqual("Daniels", quotes.ElementAt(1).Customer.LastName);
-            Assert.AreEqual("Johnson", quotes.ElementAt(0).Customer.LastName);
+            Assert.AreEqual("Daniels", quotes.ElementAt(2).Customer.LastName);
+            Assert.AreEqual("Johnson", quotes.ElementAt(1).Customer.LastName);
+            Assert.AreEqual("Seller", quotes.ElementAt(0).Customer.LastName);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
             Assert.AreEqual("email_asc", viewModel.EmailSortParm);
@@ -646,8 +646,8 @@ namespace TradeYourPhone.Test
             var quotes = quoteService.GetAllQuotes().ToList();
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
-            Assert.AreEqual("New", quotes.ElementAt(2).QuoteStatus.QuoteStatusName);
-            Assert.AreEqual("New", quotes.ElementAt(1).QuoteStatus.QuoteStatusName);
+            Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(2).QuoteStatus.QuoteStatusName);
+            Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(1).QuoteStatus.QuoteStatusName);
             Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(0).QuoteStatus.QuoteStatusName);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
@@ -687,8 +687,8 @@ namespace TradeYourPhone.Test
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
             Assert.AreEqual("bob@johnson.com", quotes.ElementAt(0).Customer.Email);
-            Assert.AreEqual("Jack@bourbon.com", quotes.ElementAt(1).Customer.Email);
-            Assert.AreEqual("Jim@johnson.com", quotes.ElementAt(2).Customer.Email);
+            Assert.AreEqual("i@b.com", quotes.ElementAt(1).Customer.Email);
+            Assert.AreEqual("Jack@bourbon.com", quotes.ElementAt(2).Customer.Email);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
             Assert.AreEqual("email_desc", viewModel.EmailSortParm);
@@ -706,9 +706,9 @@ namespace TradeYourPhone.Test
             var quotes = quoteService.GetAllQuotes().ToList();
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
-            Assert.AreEqual("bob@johnson.com", quotes.ElementAt(2).Customer.Email);
-            Assert.AreEqual("Jack@bourbon.com", quotes.ElementAt(1).Customer.Email);
-            Assert.AreEqual("Jim@johnson.com", quotes.ElementAt(0).Customer.Email);
+            Assert.AreEqual("Jack@bourbon.com", quotes.ElementAt(2).Customer.Email);
+            Assert.AreEqual("Jim@johnson.com", quotes.ElementAt(1).Customer.Email);
+            Assert.AreEqual("sam@sung.com", quotes.ElementAt(0).Customer.Email);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
             Assert.AreEqual("email_asc", viewModel.EmailSortParm);
@@ -746,9 +746,9 @@ namespace TradeYourPhone.Test
             var quotes = quoteService.GetAllQuotes().ToList();
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
-            Assert.AreEqual(Convert.ToDateTime("13/10/2015"), quotes.ElementAt(2).CreatedDate);
-            Assert.AreEqual(Convert.ToDateTime("14/10/2015"), quotes.ElementAt(1).CreatedDate);
-            Assert.AreEqual(Convert.ToDateTime("17/10/2015"), quotes.ElementAt(0).CreatedDate);
+            Assert.AreEqual(Convert.ToDateTime("17/10/2015"), quotes.ElementAt(2).CreatedDate);
+            Assert.AreEqual(Convert.ToDateTime("01/11/2015"), quotes.ElementAt(1).CreatedDate);
+            Assert.AreEqual(Convert.ToDateTime("01/11/2015"), quotes.ElementAt(0).CreatedDate);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
             Assert.AreEqual("email_asc", viewModel.EmailSortParm);
@@ -786,9 +786,9 @@ namespace TradeYourPhone.Test
             var quotes = quoteService.GetAllQuotes().ToList();
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
-            Assert.AreEqual(Convert.ToDateTime("17/10/2015"), quotes.ElementAt(0).QuoteFinalisedDate);
-            Assert.AreEqual(null, quotes.ElementAt(1).QuoteFinalisedDate);
-            Assert.AreEqual(null, quotes.ElementAt(2).QuoteFinalisedDate);
+            Assert.AreEqual(Convert.ToDateTime("01/11/2015"), quotes.ElementAt(0).QuoteFinalisedDate);
+            Assert.AreEqual(Convert.ToDateTime("01/11/2015"), quotes.ElementAt(1).QuoteFinalisedDate);
+            Assert.AreEqual(Convert.ToDateTime("17/10/2015"), quotes.ElementAt(2).QuoteFinalisedDate);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
             Assert.AreEqual("email_asc", viewModel.EmailSortParm);
@@ -841,36 +841,6 @@ namespace TradeYourPhone.Test
         {
             var postageMethods = quoteService.GetAllPostageMethods();
             Assert.AreEqual(2, postageMethods.Count());
-        }
-
-        [TestMethod]
-        public void GetDashboardDataTest()
-        {
-            var dashboardVM = quoteService.GetDashboardData(DateTime.Parse("13-10-2015"), DateTime.Parse("17-10-2015"));
-
-            Assert.AreEqual(3, dashboardVM.NoOfCreatedQuotes);
-            Assert.AreEqual(1, dashboardVM.NoOfFinalisedQuotes);
-            Assert.AreEqual(420, dashboardVM.TotalAmountToBePaid);
-        }
-
-        [TestMethod]
-        public void GetDashboardDataTest2()
-        {
-            var dashboardVM = quoteService.GetDashboardData(DateTime.Parse("14-10-2015"), DateTime.Parse("17-10-2015"));
-
-            Assert.AreEqual(2, dashboardVM.NoOfCreatedQuotes);
-            Assert.AreEqual(1, dashboardVM.NoOfFinalisedQuotes);
-            Assert.AreEqual(420, dashboardVM.TotalAmountToBePaid);
-        }
-
-        [TestMethod]
-        public void GetDashboardDataTest3()
-        {
-            var dashboardVM = quoteService.GetDashboardData(DateTime.Parse("17-10-2015"), DateTime.Parse("17-10-2015"));
-
-            Assert.AreEqual(1, dashboardVM.NoOfCreatedQuotes);
-            Assert.AreEqual(1, dashboardVM.NoOfFinalisedQuotes);
-            Assert.AreEqual(420, dashboardVM.TotalAmountToBePaid);
         }
 
         #endregion

@@ -20,5 +20,6 @@ namespace TradeYourPhone.Core.Models
         public decimal OfferAmount { get; set; }
     
         public virtual PhoneCondition PhoneCondition { get; set; }
+        public virtual PhoneModel PhoneModel { get; set; }
     }
 }
