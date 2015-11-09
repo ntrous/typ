@@ -129,6 +129,16 @@ namespace TradeYourPhone.Test
         }
 
         [TestMethod]
+        public void GetMostPopularPhoneModelsTest()
+        {
+            IList<PhoneViewModel> phoneModels = phoneService.GetMostPopularPhoneModels(5);
+
+            var Model = phoneModels.Select(x => x.name).ElementAt(0);
+            Assert.IsTrue(phoneModels.Count() == 2);
+            Assert.AreEqual("Apple iPhone 5", Model);
+        }
+
+        [TestMethod]
         public void GetPhoneModelsForViewByMakeNameNullParamTest()
         {
             IList<PhoneViewModel> phoneModels = phoneService.GetPhoneModelsForViewByMakeName(null);

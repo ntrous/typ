@@ -1,20 +1,75 @@
-﻿<div class="col-md-12">
-    <div class="blog-post-title col-md-offset-1 col-md-10 row">
-        <div class="blog-post-date">
-            <p class="day">{{blogPost.date | date : 'dd'}}</p>
-            <p class="month">{{blogPost.date | date : 'MMM'}}</p>
-            <p class="year">{{blogPost.date | date : 'yyyy'}}</p>
-        </div>
-        <div>
-            <h1><span>{{blogPost.title}}</span></h1>
-            <p>Author: {{blogPost.author.name}}</p>
-        </div>
-        <hr />
+﻿<div class="blog-post-title col-md-offset-1 col-md-10 col-lg-8 col-lg-offset-2 row">
+    <div class="blog-post-date">
+        <p class="day">{{blogPost.date | date : 'dd'}}</p>
+        <p class="month">{{blogPost.date | date : 'MMM'}}</p>
+        <p class="year">{{blogPost.date | date : 'yyyy'}}</p>
     </div>
+    <div>
+        <h1><span>{{blogPost.title}}</span></h1>
+        <p class="author">Author: {{blogPost.author.name}}</p>
+    </div>
+    <hr />
 </div>
-<div class="col-md-12">
-    <div class="blog-post col-md-offset-1 col-md-10">
-        <div><img class="blog-post-feature-image" src="{{blogPost.featured_image.source}}" /></div>
-        <div class="blog-post-content" ng-bind-html="blogPost.content | html"></div>
+<div class="row">
+    <div class="col-lg-4 col-md-7 col-md-push-4 col-lg-push-4">
+        <div class="col-md-12 blog-post-feature-image" ng-if="blogPost.featured_image.source">
+            <img src="{{blogPost.featured_image.source}}" />
+        </div>
+        <div class="blog-post col-md-12">
+            <div class="blog-post-content" ng-bind-html="blogPost.content | html"></div>
+            <div class="share-buttons">
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-offset-1 col-lg-offset-2 col-md-3 col-lg-2 col-md-pull-7 col-lg-pull-4">
+        <div class="col-md-12 other-titles">
+            <h3><i class="fa fa-book"></i>   Other Titles</h3>
+            <div ng-repeat="post in latestPosts" ng-if="blogPost.title!=post.title">
+                <a href="/Blog/{{post.slug}}"><i class="fa fa-hand-o-right"></i>  {{post.title}}</a>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <hr />
+        </div>
+
+        <div class="col-md-12 visible-md phone-ads">
+            <h3><i class="fa fa-mobile"></i>   Sell your phone!</h3>
+            <div ng-repeat="phone in phoneModels">
+                <div class="col-md-12 phone-tile">
+                    <div>
+                        <img data-ng-src="data:image/png;base64,{{phone.image}}" /><br />
+                        <p class="phone-name">{{phone.name}}</p>
+                        <div class="phone-price">{{phone.conditionPrices[1].OfferAmount | currency}}</div>
+                        <div class="sell-now">
+                            <button type="button" class="sell-btn btn btn-default" ng-click="goToQuote(phoneModels[$index])">Sell Now!</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 hidden-sm hidden-xs hidden-md">
+        <div class="col-md-12 phone-ads">
+            <h3><i class="fa fa-mobile"></i>   Sell your phone!</h3>
+            <div ng-repeat="phone in phoneModels">
+                <div class="col-md-12 phone-tile">
+                    <div>
+                        <img data-ng-src="data:image/png;base64,{{phone.image}}" /><br />
+                        <p class="phone-name">{{phone.name}}</p>
+                        <div class="phone-price">{{phone.conditionPrices[1].OfferAmount | currency}}</div>
+                        <div class="sell-now">
+                            <button type="button" class="sell-btn btn btn-default" ng-click="goToQuote(phoneModels[$index])">Sell Now!</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

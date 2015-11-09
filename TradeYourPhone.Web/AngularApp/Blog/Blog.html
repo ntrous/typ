@@ -5,7 +5,7 @@
     </h1>
 </div>
 <div class="col-md-12">
-    <div class="blog-post-preview col-md-5 col-md-offset-1 row" ng-repeat="post in blogPosts">
+    <div class="blog-post-preview col-md-8 col-md-offset-2 row" ng-repeat="post in blogPosts">
         <div class="blog-post-date">
             <p class="day">{{post.date | date : 'dd'}}</p>
             <p class="month">{{post.date | date : 'MMM'}}</p>
@@ -13,9 +13,11 @@
         </div>
         <div class="blog-post-preview-title">
             <h2><a href="/Blog/{{post.slug}}">{{post.title}}</a></h2>
-            <p>Author: {{post.author.name}}</p>
         </div>
-        <div><img ng-src="{{post.featured_image.source}}" /></div>
+        <div class="blog-author col-md-12"><p>Author: {{post.author.name}}</p></div>
+        <div class="blog-post-preview-image">
+            <div ng-if="post.featured_image.source"><img ng-src="{{post.featured_image.source}}" /></div>
+        </div>
         <div class="blog-post-excerpt" ng-bind-html="post.excerpt | html"></div>
         <hr />
     </div>

@@ -152,7 +152,7 @@ namespace TradeYourPhone.Web.Controllers
         }
 
         /// <summary>
-        /// Get all Phone Models
+        /// Get all Phone Models by Make Name
         /// </summary>
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get)]
@@ -160,6 +160,18 @@ namespace TradeYourPhone.Web.Controllers
         public ActionResult GetPhoneModelsByMakeName(string makeName)
         {
             var phoneModels = phoneService.GetPhoneModelsForViewByMakeName(makeName);
+            return Json(phoneModels, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Get all Phone Models by Make Name
+        /// </summary>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
+        public ActionResult GetMostPopularPhoneModels(int limit)
+        {
+            var phoneModels = phoneService.GetMostPopularPhoneModels(limit);
             return Json(phoneModels, JsonRequestBehavior.AllowGet);
         }
 

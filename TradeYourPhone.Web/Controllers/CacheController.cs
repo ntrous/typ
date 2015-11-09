@@ -30,6 +30,9 @@ namespace TradeYourPhone.Web.Controllers
 
                 var urlToRemove3 = Url.Action("GetPhoneModelsByMakeId", "PhoneModels");
                 HttpResponse.RemoveOutputCacheItem(urlToRemove3);
+
+                var urlToRemove4 = Url.Action("GetMostPopularPhoneModels", "PhoneModels");
+                HttpResponse.RemoveOutputCacheItem(urlToRemove4);
             }
 
             if (viewModel.ClearPhoneConditions)

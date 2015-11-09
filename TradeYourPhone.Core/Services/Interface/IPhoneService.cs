@@ -22,6 +22,7 @@ namespace TradeYourPhone.Core.Services.Interface
         IList<PhoneViewModel> GetPhoneModelsForViewByMakeName(string makeName);
         PhoneModel GetPhoneModelById(int phoneModelId);
         IEnumerable<PhoneModel> GetPhoneModelsByMakeId(int phoneMakeId);
+        IList<PhoneViewModel> GetMostPopularPhoneModels(int limit);
         bool CreatePhoneModel(PhoneModelViewModel phoneModelViewModel);
         bool ModifyPhoneModel(PhoneModelViewModel phoneModelViewModel);
         //bool DeletePhoneModelById(int phoneModelId);

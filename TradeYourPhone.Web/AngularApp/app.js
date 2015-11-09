@@ -117,7 +117,7 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
               title: 'Blog - Trade Your Phone',
               description: 'Trade Your Phones Blog',
               resolve: {
-                  blogPosts: function (BlogService, $route){
+                  blogPosts: function (BlogService, $route) {
                       return BlogService.GetAllBlogPosts();
                   }
               }
@@ -131,6 +131,12 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
               resolve: {
                   blogPost: function (BlogService, $route) {
                       return BlogService.GetBlogPostBySlug($route.current.params.slug);
+                  },
+                  latestPosts: function (BlogService, $route) {
+                      return BlogService.GetNLatestBlogPosts(5);
+                  },
+                  phoneModels: function (PhoneModelService, $route) {
+                      return PhoneModelService.GetMostPopularPhoneModels(5);
                   }
               }
           }).

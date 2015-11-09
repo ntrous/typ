@@ -92,39 +92,57 @@ namespace TradeYourPhone.Core.Services.Implementation
 
         public IList<PhoneViewModel> GetAllPhoneModelsForView()
         {
-            var models = unitOfWork.PhoneModelRepository.Get(includeProperties: "PhoneMake,PhoneConditionPrices").OrderByDescending(p => p.ModelName, new NaturalSortComparer<string>());
-            List<PhoneViewModel> phoneModels = new List<PhoneViewModel>();
-
-            foreach(var model in models)
-            {
-                PhoneViewModel newModel = new PhoneViewModel
-                {
-                    id = model.ID.ToString(),
-                    name = model.PhoneMake.MakeName + " " + model.ModelName,
-                    image = model.PrimaryImageString,
-                    conditionPrices = new List<Condition>()
-                };
-
-                foreach(var conditionPrice in model.PhoneConditionPrices)
-                {
-                    Condition condition = new Condition
-                    {
-                        PhoneConditionId = conditionPrice.PhoneConditionId,
-                        OfferAmount = conditionPrice.OfferAmount
-                    };
-                    newModel.conditionPrices.Add(condition);
-                };
-
-                phoneModels.Add(newModel);
-            }
+            var models = unitOfWork.PhoneModelRepository.Get().OrderByDescending(p => p.ModelName, new NaturalSortComparer<string>());
+            var phoneModels = PreparePhoneModelsForView(models);
 
             return phoneModels;
         }
 
         public IList<PhoneViewModel> GetPhoneModelsForViewByMakeName(string makeName)
-        {
+            {
             Expression<Func<PhoneModel, bool>> filterExp = (x => x.PhoneMake.MakeName == makeName);
-            var models = unitOfWork.PhoneModelRepository.Get(filterExp, includeProperties: "PhoneMake,PhoneConditionPrices").OrderByDescending(p => p.ModelName, new NaturalSortComparer<string>());
+            var models = unitOfWork.PhoneModelRepository.Get(filterExp).OrderByDescending(p => p.ModelName, new NaturalSortComparer<string>());
+            var phoneModels = PreparePhoneModelsForView(models);
+
+            return phoneModels;
+        }
+
+        public PhoneModel GetPhoneModelById(int phoneModelId)
+                {
+            PhoneModel phoneModel = unitOfWork.PhoneModelRepository.GetByID(phoneModelId);
+            return phoneModel;
+        }
+
+        public IEnumerable<PhoneModel> GetPhoneModelsByMakeId(int phoneMakeId)
+                {
+            Expression<Func<PhoneModel, bool>> filterExp = (x => x.PhoneMakeId == phoneMakeId);
+            IEnumerable<PhoneModel> phoneModels = unitOfWork.PhoneModelRepository.Get(filter: filterExp);
+            return phoneModels;
+        }
+
+        public IList<PhoneViewModel> GetMostPopularPhoneModels(int limit)
+                    {
+            var models = unitOfWork.PhoneModelRepository.Get().OrderByDescending(p => p.ModelName, new NaturalSortComparer<string>());
+            var phoneStatuses = new[] { (int)PhoneStatusEnum.Paid, (int)PhoneStatusEnum.Listed, (int)PhoneStatusEnum.ReadyForSale, (int)PhoneStatusEnum.Sold, };
+            IEnumerable<PhoneModel> topModels = models.Where(m => m.Phones.Any(p => phoneStatuses.Contains(p.PhoneStatusId))).OrderByDescending(m => m.Phones.Where(p => phoneStatuses.Contains(p.PhoneStatusId)).Count());
+
+            if(limit != 0)
+            {
+                topModels = topModels.Take(limit);
+            }
+
+            var phoneModels = PreparePhoneModelsForView(topModels);
+
+            return phoneModels;
+        }
+
+        /// <summary>
+        /// Prepares PhoneModel objects into PhoneViewModel
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        private List<PhoneViewModel> PreparePhoneModelsForView(IEnumerable<PhoneModel> models)
+        {
             List<PhoneViewModel> phoneModels = new List<PhoneViewModel>();
 
             foreach (var model in models)
@@ -150,19 +168,6 @@ namespace TradeYourPhone.Core.Services.Implementation
                 phoneModels.Add(newModel);
             }
 
-            return phoneModels;
-        }
-
-        public PhoneModel GetPhoneModelById(int phoneModelId)
-        {
-            PhoneModel phoneModel = unitOfWork.PhoneModelRepository.GetByID(phoneModelId);
-            return phoneModel;
-        }
-
-        public IEnumerable<PhoneModel> GetPhoneModelsByMakeId(int phoneMakeId)
-        {
-            Expression<Func<PhoneModel, bool>> filterExp = (x => x.PhoneMakeId == phoneMakeId);
-            IEnumerable<PhoneModel> phoneModels = unitOfWork.PhoneModelRepository.Get(filter: filterExp);
             return phoneModels;
         }
 

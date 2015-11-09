@@ -9,14 +9,8 @@ exports.config = {
     multiCapabilities: [
         {
             'browserName': 'chrome'
-        },
-        {
-            'browserName': 'firefox'
         }
     ],
-
-    // ----- More information for your tests ----
-    baseUrl: 'http://localhost:' + (process.env.HTTP_PORT || '8000'),
 
     // ----- The test framework -----
     framework: 'jasmine',
