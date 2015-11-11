@@ -9,6 +9,7 @@ using TradeYourPhone.Test.SetupData;
 using TradeYourPhone.Core.Enums;
 using TradeYourPhone.Core.Models.DomainModels;
 using System.Transactions;
+using System.Globalization;
 
 namespace TradeYourPhone.Test
 {
@@ -485,7 +486,7 @@ namespace TradeYourPhone.Test
             quote.Customer.Address.AddressLine2 = "Brunswick";
             quote.Customer.Email = "ntrous@gmail.com";
             quote.Customer.PaymentDetail.BSB = "444444";
-            quote.QuoteExpiryDate = DateTime.Parse("02/07/2015");
+            quote.QuoteExpiryDate = DateTime.Parse("02/07/2015", new CultureInfo("en-AU"));
             quote.Notes = "This is a test note!";
 
             Phone phone = quote.Phones.First();
@@ -500,7 +501,7 @@ namespace TradeYourPhone.Test
             Assert.AreEqual("Brunswick", modifiedQuote.Customer.Address.AddressLine2);
             Assert.AreEqual("ntrous@gmail.com", modifiedQuote.Customer.Email);
             Assert.AreEqual("444444", modifiedQuote.Customer.PaymentDetail.BSB);
-            Assert.AreEqual(DateTime.Parse("02/07/2015"), modifiedQuote.QuoteExpiryDate);
+            Assert.AreEqual(DateTime.Parse("02/07/2015", new CultureInfo("en-AU")), modifiedQuote.QuoteExpiryDate);
             Assert.AreEqual("This is a test note!", modifiedQuote.Notes);
             Assert.AreEqual(10000, modifiedQuote.Phones.First().PurchaseAmount);
             Assert.AreEqual(2, modifiedQuote.Phones.First().PhoneConditionId);
@@ -726,9 +727,9 @@ namespace TradeYourPhone.Test
             var quotes = quoteService.GetAllQuotes().ToList();
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
-            Assert.AreEqual(Convert.ToDateTime("13/10/2015"), quotes.ElementAt(0).CreatedDate);
-            Assert.AreEqual(Convert.ToDateTime("14/10/2015"), quotes.ElementAt(1).CreatedDate);
-            Assert.AreEqual(Convert.ToDateTime("17/10/2015"), quotes.ElementAt(2).CreatedDate);
+            Assert.AreEqual(Convert.ToDateTime("13/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(0).CreatedDate);
+            Assert.AreEqual(Convert.ToDateTime("14/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(1).CreatedDate);
+            Assert.AreEqual(Convert.ToDateTime("17/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(2).CreatedDate);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
             Assert.AreEqual("email_asc", viewModel.EmailSortParm);
@@ -746,9 +747,9 @@ namespace TradeYourPhone.Test
             var quotes = quoteService.GetAllQuotes().ToList();
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
-            Assert.AreEqual(Convert.ToDateTime("17/10/2015"), quotes.ElementAt(2).CreatedDate);
-            Assert.AreEqual(Convert.ToDateTime("01/11/2015"), quotes.ElementAt(1).CreatedDate);
-            Assert.AreEqual(Convert.ToDateTime("01/11/2015"), quotes.ElementAt(0).CreatedDate);
+            Assert.AreEqual(Convert.ToDateTime("17/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(2).CreatedDate);
+            Assert.AreEqual(Convert.ToDateTime("01/11/2015", new CultureInfo("en-AU")), quotes.ElementAt(1).CreatedDate);
+            Assert.AreEqual(Convert.ToDateTime("01/11/2015", new CultureInfo("en-AU")), quotes.ElementAt(0).CreatedDate);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
             Assert.AreEqual("email_asc", viewModel.EmailSortParm);
@@ -768,7 +769,7 @@ namespace TradeYourPhone.Test
 
             Assert.AreEqual(null, quotes.ElementAt(0).QuoteFinalisedDate);
             Assert.AreEqual(null, quotes.ElementAt(1).QuoteFinalisedDate);
-            Assert.AreEqual(Convert.ToDateTime("17/10/2015"), quotes.ElementAt(2).QuoteFinalisedDate);
+            Assert.AreEqual(Convert.ToDateTime("17/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(2).QuoteFinalisedDate);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
             Assert.AreEqual("email_asc", viewModel.EmailSortParm);
@@ -786,9 +787,9 @@ namespace TradeYourPhone.Test
             var quotes = quoteService.GetAllQuotes().ToList();
             quotes = quoteService.GetSortedQuotes(quotes, viewModel);
 
-            Assert.AreEqual(Convert.ToDateTime("01/11/2015"), quotes.ElementAt(0).QuoteFinalisedDate);
-            Assert.AreEqual(Convert.ToDateTime("01/11/2015"), quotes.ElementAt(1).QuoteFinalisedDate);
-            Assert.AreEqual(Convert.ToDateTime("17/10/2015"), quotes.ElementAt(2).QuoteFinalisedDate);
+            Assert.AreEqual(Convert.ToDateTime("01/11/2015", new CultureInfo("en-AU")), quotes.ElementAt(0).QuoteFinalisedDate);
+            Assert.AreEqual(Convert.ToDateTime("01/11/2015", new CultureInfo("en-AU")), quotes.ElementAt(1).QuoteFinalisedDate);
+            Assert.AreEqual(Convert.ToDateTime("17/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(2).QuoteFinalisedDate);
             Assert.AreEqual("status_asc", viewModel.StatusSortParm);
             Assert.AreEqual("name_asc", viewModel.NameSortParm);
             Assert.AreEqual("email_asc", viewModel.EmailSortParm);
