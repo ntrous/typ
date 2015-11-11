@@ -12,6 +12,7 @@ namespace TradeYourPhone.Core.Enums
         public static readonly EmailTemplate QuoteConfirmationSelfPost = new EmailTemplate("4d04db37-318e-42ca-935c-718f3e74bfbd");
         public static readonly EmailTemplate SatchelSent = new EmailTemplate("9dcc6c9e-68bf-4c49-a677-7213b9aca046");
         public static readonly EmailTemplate Paid = new EmailTemplate("df65e45d-1e9f-4c71-876d-b4ec3ee38b7e");
+        public static readonly EmailTemplate Assessing = new EmailTemplate("0bb56324-bd77-4182-9ddc-50b6ca1ea8c8");
 
         private EmailTemplate(string value)
         {

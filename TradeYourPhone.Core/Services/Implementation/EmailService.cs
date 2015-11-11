@@ -101,6 +101,10 @@ namespace TradeYourPhone.Core.Services.Implementation
                 {
                     myMessage = SetupPaidEmail(myMessage, quote);
                 }
+                else if(template == EmailTemplate.Assessing)
+                {
+                    myMessage = SetupAssessingEmail(myMessage, quote);
+                }
 
                 myMessage.EnableTemplateEngine(template.Value);
                 var username = ConfigurationManager.AppSettings["SendGridUsername"].ToString();
@@ -162,6 +166,14 @@ namespace TradeYourPhone.Core.Services.Implementation
             return message;
         }
 
+        private SendGridMessage SetupAssessingEmail(SendGridMessage message, Quote quote)
+        {
+            message.AddSubstitution(":FirstName", new List<string> { quote.Customer.FirstName });
+            message.AddSubstitution(":QuoteRef", new List<string> { quote.QuoteReferenceId });
+
+            return message;
+        }
+
         /// <summary>
         /// Sends an email to the Alerts email address
         /// </summary>
@@ -193,7 +205,14 @@ namespace TradeYourPhone.Core.Services.Implementation
                 string to = ConfigurationManager.AppSettings["SalesEmail"];
                 string from = ConfigurationManager.AppSettings["SalesEmail"];
                 string subject = string.Format("New Quote Submitted: {0}", quote.QuoteReferenceId);
-                string body = string.Format("New quote id: {0} | First name: {1} | Last name: {2}", quote.QuoteReferenceId, quote.Customer.FirstName, quote.Customer.LastName);
+                string body = string.Format("New quote id: {0} | First name: {1} | Last name: {2}\r\n \r\n", quote.QuoteReferenceId, quote.Customer.FirstName, quote.Customer.LastName);
+
+                foreach(var phone in quote.Phones)
+                {
+                    body += string.Format("Phone: {0} for {1}\r\n", phone.PhoneMake.MakeName +" "+ phone.PhoneModel.ModelName, phone.PurchaseAmount.Value.ToString("C"));
+                }
+
+                body += string.Format("{0}Total: {1}", Environment.NewLine, quote.Phones.Sum(p => p.PurchaseAmount).Value.ToString("C"));
 
                 SendEmail(to, from, subject, body);
             }

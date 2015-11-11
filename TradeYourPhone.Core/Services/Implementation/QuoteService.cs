@@ -830,6 +830,13 @@ namespace TradeYourPhone.Core.Services.Implementation
                     emailService.SendEmailTemplate(EmailTemplate.Paid, quoteVM.quote);
                 }
             }
+            else if (quoteVM.quote.QuoteStatusId == (int)QuoteStatusEnum.Assessing)
+            {
+                if (quoteVM.CurrentQuoteStatus == (int)QuoteStatusEnum.WaitingForDelivery)
+                {
+                    emailService.SendEmailTemplate(EmailTemplate.Assessing, quoteVM.quote);
+                }
+            }
         }
 
         /// <summary>
