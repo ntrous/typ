@@ -214,6 +214,7 @@
                 $scope.status = response.QuoteDetails.QuoteStatus;
                 $scope.customer = { paymentType: '' };
                 $scope.spinner = false;
+                $scope.QuoteSubmitClicked();
 
                 // disable tabs so the user cannot edit previous tabs and quote
                 $scope.tabs[1].disabled = true;
@@ -345,6 +346,16 @@
         $analytics.eventTrack('detailsForm: ' + fieldName, { category: 'QuoteProcess' });
     }
 
+    $scope.QuoteSubmitClicked = function () {
+        window.google_trackConversion({
+            google_conversion_id: 943138204,
+            google_conversion_label: "6-nXCJCZ_WAQnMvcwQM",
+            google_conversion_value: 50.00,
+            google_conversion_currency: "AUD",
+            google_remarketing_only: false
+    });
+}
+
     $scope.init = function () {
         $scope.phoneModels = phoneModels;
         $scope.phoneConditions = phoneConditions;
@@ -374,18 +385,18 @@
             }
         });
     };
-    $scope.postageMethod = {};
-    $scope.init();
-    $scope.quoteKey = $cookies.tradeYourPhoneCookie;
-    $scope.detailsFormSubmitted = false;
-    $scope.onlyNumbersPattern = /^[0-9]*$/;
-    $scope.numberwithSpacesPattern = /^[\d ]+$/;
+$scope.postageMethod = {};
+$scope.init();
+$scope.quoteKey = $cookies.tradeYourPhoneCookie;
+$scope.detailsFormSubmitted = false;
+$scope.onlyNumbersPattern = /^[0-9]*$/;
+$scope.numberwithSpacesPattern = /^[\d ]+$/;
 
-    $scope.search = {
-        model: PhoneModelService.GetCurrentPhoneModel()
-    };
+$scope.search = {
+    model: PhoneModelService.GetCurrentPhoneModel()
+};
 
-    if ($scope.search.model != null) {
-        $scope.setCondition($scope.search.model);
-    }
+if ($scope.search.model != null) {
+    $scope.setCondition($scope.search.model);
+}
 });
