@@ -9,7 +9,14 @@ namespace TradeYourPhone.Core.Models
     [MetadataType(typeof(AddressMD))]
     partial class Address
     {
-
+        public void UpdateFromDTO(Address address)
+        {
+            AddressLine1 = address.AddressLine1;
+            AddressLine2 = address.AddressLine2;
+            PostCode = address.PostCode;
+            StateId = address.StateId;
+            CountryId = address.CountryId;
+        }
     }
 
     public class AddressMD

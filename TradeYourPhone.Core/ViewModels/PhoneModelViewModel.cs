@@ -5,22 +5,24 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TradeYourPhone.Core.DTO;
 
 namespace TradeYourPhone.Core.ViewModels
 {
     public class PhoneModelViewModel
     {
-        public PhoneModel Model { get; set; }
+        public PhoneModelDTO Model { get; set; }
+        public IList<PhoneMakeDTO> PhoneMakes { get; set; }
 
-        /// <summary>
-        /// This property is used instead of Model.PhoneConditionPrices as we cant bind the model to an ICollection
-        /// Instead we need the ConditionPrices in a List. Thus this property.
-        /// </summary>
-        public IList<PhoneConditionPrice> ConditionPrices { get; set; }
-
-        [DataType(DataType.Upload)]
-        public HttpPostedFileBase PrimaryImage { get; set; }
-
-        public SelectList PhoneMakes { get; set; }
+        public void MapPhoneMakes(IList<PhoneMake> phoneMakes)
+        {
+            PhoneMakes = new List<PhoneMakeDTO>();
+            foreach(var make in phoneMakes)
+            {
+                PhoneMakeDTO phoneMake = new PhoneMakeDTO();
+                phoneMake.Map(make);
+                PhoneMakes.Add(phoneMake);
+            }
+        }
     }
 }

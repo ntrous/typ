@@ -2,8 +2,11 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using TradeYourPhone.Core.DTO;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Services.Interface;
+using TradeYourPhone.Core.Utilities;
+using TradeYourPhone.Core.ViewModels;
 
 namespace TradeYourPhone.Web.Controllers
 {
@@ -16,125 +19,11 @@ namespace TradeYourPhone.Web.Controllers
             this.phoneService = phoneService;
         }
 
-        // GET: PhoneMakes
-        [Authorize]
-        public ActionResult Index()
-        {
-            return View(phoneService.GetAllPhoneMakes());
-        }
-
-        // GET: PhoneMakes/Details/5
-        [Authorize]
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PhoneMake phoneMake = phoneService.GetPhoneMakeById((int)id);
-            if (phoneMake == null)
-            {
-                return HttpNotFound();
-            }
-            return View(phoneMake);
-        }
-
-        // GET: PhoneMakes/Create
-        [Authorize]
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: PhoneMakes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,MakeName")] PhoneMake phoneMake)
-        {
-            if (ModelState.IsValid)
-            {
-                bool created = phoneService.CreatePhoneMake(phoneMake);
-                if (!created)
-                {
-                    ModelState.AddModelError("PhoneMake", "Phone Make already exists");
-                    return View(phoneMake);
-                }
-                return RedirectToAction("Index");
-            }
-
-            return View(phoneMake);
-        }
-
-        // GET: PhoneMakes/Edit/5
-        [Authorize]
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PhoneMake phoneMake = phoneService.GetPhoneMakeById((int)id);
-            if (phoneMake == null)
-            {
-                return HttpNotFound();
-            }
-            return View(phoneMake);
-        }
-
-        // POST: PhoneMakes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,MakeName")] PhoneMake phoneMake)
-        {
-            if (ModelState.IsValid)
-            {
-                bool modified = phoneService.ModifyPhoneMake(phoneMake);
-                if (!modified)
-                {
-                    ModelState.AddModelError("PhoneMake", "Phone Make already exists");
-                    return View(phoneMake);
-                }
-                return RedirectToAction("Index");
-            }
-            return View(phoneMake);
-        }
-
-        // GET: PhoneMakes/Delete/5
-        //[Authorize]
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    PhoneMake phoneMake = phoneService.GetPhoneMakeById((int)id);
-        //    if (phoneMake == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(phoneMake);
-        //}
-
-        //// POST: PhoneMakes/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //[Authorize]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    phoneService.DeletePhoneMakeById(id);
-        //    return RedirectToAction("Index");
-        //}
-
         /// <summary>
         /// Get all Phone Makes
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetPhoneMakes()
         {
@@ -146,6 +35,40 @@ namespace TradeYourPhone.Web.Controllers
                               name = s.MakeName
                           }).ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult GetPhoneMake(int id)
+        {
+            var phoneMake = phoneService.GetPhoneMakeById(id);
+            PhoneMakeDTO make = new PhoneMakeDTO();
+            make.Map(phoneMake);
+
+            return Json(make, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Saves an existing or new Phone Make
+        /// </summary>
+        /// <param name="phoneModelViewModel"></param>
+        /// <returns></returns>
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult SavePhoneMake(PhoneMakeDTO phoneMake)
+        {
+            bool success = false;
+            if (phoneMake.ID == 0)
+            {
+                success = phoneService.CreatePhoneMake(phoneMake.Name);
+            }
+            else
+            {
+                var make = new PhoneMake();
+                make.UpdateFromDTO(phoneMake);
+                success = phoneService.ModifyPhoneMake(make);
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }

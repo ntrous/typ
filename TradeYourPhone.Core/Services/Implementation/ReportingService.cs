@@ -30,12 +30,12 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <returns>DashboardViewModel</returns>
         public DashboardViewModel GetDashboardData(DateTime? from, DateTime? to)
         {
-            DateTime dateFrom = from ?? Util.GetAEST(DateTime.Today);
-            DateTime dateTo = to ?? Util.GetAEST(DateTime.Today);
+            DateTime dateFrom = from.Value == DateTime.MinValue ? DateTime.Today: from.Value;
+            DateTime dateTo = to.Value == DateTime.MinValue ? DateTime.Today: to.Value;
             dateTo = dateTo.Date.AddDays(1).AddSeconds(-1);
 
             DashboardViewModel vm = new DashboardViewModel();
-            vm.DateFrom = dateFrom; vm.DateTo = dateTo;
+            vm.DateFrom = Util.GetAEST(dateFrom.Date); vm.DateTo = Util.GetAEST(dateTo);
             vm.NoOfCreatedQuotes = GetTotalQuotesCreated(dateFrom, dateTo);
             vm.NoOfFinalisedQuotes = GetTotalFinalisedQuotes(dateFrom, dateTo);
             vm.TotalAmountToPay = GetTotalAmountToBePaid();

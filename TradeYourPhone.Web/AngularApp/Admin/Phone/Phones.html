@@ -1,0 +1,118 @@
+﻿<div class="col-md-12">
+    <h1 class="col-md-12 col-mobile">
+        <span class="col-md-offset-1">Phones</span>
+        <hr />
+    </h1>
+
+    <p>
+        <a href="/CreatePhone">Create New</a>
+    </p>
+
+    <div class="row">
+        <div class="col-md-2">
+            <b>Phone Id</b>
+            <input type="text"
+                   id="PhoneId"
+                   ng-model="phoneIndexViewModel.PhoneId"
+                   class="form-control"
+                   ng-enter="updatePage(phoneIndexViewModel)" />
+        </div>
+        <div class="col-md-2">
+            <b>Phone Make</b>
+            <select ng-model="phoneIndexViewModel.PhoneMakeId"
+                    id="PhoneMakeId"
+                    name="PhoneMakeId"
+                    ng-options="item.ID as item.Name for item in phoneIndexViewModel.PhoneMakes"
+                    class="form-control"></select>
+        </div>
+        <div class="col-md-2">
+            <b>Phone Model</b>
+            <select ng-model="phoneIndexViewModel.PhoneModelId"
+                    id="PhoneModelId"
+                    name="PhoneModelId"
+                    ng-options="item.ID as item.Name for item in phoneIndexViewModel.PhoneModels"
+                    class="form-control"></select>
+        </div>
+        <div class="col-md-2">
+            <b>Phone Status</b>
+            <select ng-model="phoneIndexViewModel.PhoneStatusId"
+                    id="PhoneStatusId"
+                    name="PhoneStatusId"
+                    ng-options="item.ID as item.Name for item in phoneIndexViewModel.PhoneStatuses"
+                    class="form-control"></select>
+        </div>
+        <div class="col-md-2">
+            <br />
+            <input type="submit"
+                   value="Search"
+                   class="btn btn-default"
+                   ng-click="updatePage(phoneIndexViewModel)" />
+        </div>
+    </div>
+    <br />
+    <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
+    <div ng-class="{'content-loading':spinner}">
+        <div>
+            <table class="table quoteTable table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <p>ID</p>
+                        </th>
+                        <th>
+                            <p>Phone Make</p>
+                        </th>
+                        <th>
+                            <p>Phone Model</p>
+                        </th>
+                        <th>
+                            <p>Phone Condition</p>
+                        </th>
+                        <th>
+                            <p>Phone Status</p>
+                        </th>
+                        <th>
+                            <p>Purchase Amount</p>
+                        </th>
+                        <th>
+                            <p>Sale Amount</p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-click="showPhone(phone.Id)" ng-repeat="phone in phoneIndexViewModel.Phones">
+                        <td>
+                            <p>{{phone.Id}}</p>
+                        </td>
+                        <td>
+                            <p>{{phone.PhoneMake}}</p>
+                        </td>
+                        <td>
+                            <p>{{phone.PhoneModel}}</p>
+                        </td>
+                        <td>
+                            <p>{{phone.PhoneCondition}}</p>
+                        </td>
+                        <td>
+                            <p>{{phone.PhoneStatus}}</p>
+                        </td>
+                        <td>
+                            <p>{{phone.PurchaseAmount}}</p>
+                        </td>
+                        <td>
+                            <p>{{phone.SaleAmount}}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination total-items="phoneIndexViewModel.TotalPhones"
+                        ng-model="phoneIndexViewModel.PageNumber"
+                        ng-change="updatePage(phoneIndexViewModel)"
+                        items-per-page="phoneIndexViewModel.PageSize"
+                        direction-links="true"
+                        boundary-links="true"
+                        max-size="10">
+            </pagination>
+        </div>
+    </div>
+</div>

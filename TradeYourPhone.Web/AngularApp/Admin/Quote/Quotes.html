@@ -1,0 +1,116 @@
+﻿<div class="col-md-12">
+    <h1 class="col-md-12 col-mobile">
+        <span class="col-md-offset-1">Quotes</span>
+        <hr />
+    </h1>
+    <div class="row">
+        <div class="col-md-2">
+            <b>Reference Id</b>
+            <input type="text"
+                   id="referenceId"
+                   ng-model="quoteViewModel.referenceId"
+                   class="form-control"
+                   ng-enter="updatePage(quoteViewModel)" />
+        </div>
+        <div class="col-md-2">
+            <b>Email</b>
+            <input type="text"
+                   id="email"
+                   ng-model="quoteViewModel.email"
+                   class="form-control"
+                   ng-enter="updatePage(quoteViewModel)" />
+        </div>
+        <div class="col-md-2">
+            <b>Last Name</b>
+            <input type="text"
+                   id="lastName"
+                   ng-model="quoteViewModel.lastName"
+                   class="form-control"
+                   ng-enter="updatePage(quoteViewModel)" />
+        </div>
+        <div class="col-md-2">
+            <b>First Name</b>
+            <input type="text"
+                   id="firstName"
+                   ng-model="quoteViewModel.firstName"
+                   class="form-control"
+                   ng-enter="updatePage(quoteViewModel)" />
+        </div>
+        <div class="col-md-2">
+            <b>Status</b>
+            <select ng-model="quoteViewModel.statusId"
+                    id="status"
+                    name="status"
+                    ng-options="item.ID as item.Name for item in quoteViewModel.QuoteStatuses"
+                    class="form-control">
+            </select>
+        </div>
+        <div class="col-md-2">
+            <br />
+            <input type="submit"
+                   value="Search"
+                   class="btn btn-default"
+                   ng-click="updatePage(quoteViewModel)" />
+        </div>
+    </div>
+    <br />
+    <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
+    <div ng-class="{'content-loading':spinner}">
+        <div>
+            <table class="table quoteTable table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <p>Quote Status</p>
+                        </th>
+                        <th>
+                            <p>Name</p>
+                        </th>
+                        <th>
+                            <p>Email</p>
+                        </th>
+                        <th>
+                            <p>Created Date</p>
+                        </th>
+                        <th>
+                            <p>Finalised Date</p>
+                        </th>
+                        <th>
+                            <p>Expiry Date</p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-click="showQuote(quote.QuoteId)" ng-repeat="quote in quoteViewModel.Quotes">
+                        <td>
+                            <p>{{quote.QuoteStatus}}</p>
+                        </td>
+                        <td>
+                            <p>{{quote.CustomerName}}</p>
+                        </td>
+                        <td>
+                            <p>{{quote.CustomerEmail}}</p>
+                        </td>
+                        <td>
+                            <p>{{quote.QuoteCreatedDate}}</p>
+                        </td>
+                        <td>
+                            <p>{{quote.QuoteFinalisedDate}}</p>
+                        </td>
+                        <td>
+                            <p>{{quote.QuoteExpiryDate}}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination total-items="quoteViewModel.TotalQuotes"
+                        ng-model="quoteViewModel.PageNumber"
+                        ng-change="updatePage(quoteViewModel)"
+                        items-per-page="quoteViewModel.PageSize"
+                        direction-links="true"
+                        boundary-links="true"
+                        max-size="10">
+            </pagination>
+        </div>
+    </div>
+</div>

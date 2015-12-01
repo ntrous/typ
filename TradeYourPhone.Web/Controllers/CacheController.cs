@@ -10,17 +10,12 @@ namespace TradeYourPhone.Web.Controllers
     [Authorize]
     public class CacheController : Controller
     {
-        // GET: Cache
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Index(CacheManagerViewModel viewModel)
+        public ActionResult ClearCache(CacheManagerViewModel viewModel)
         {
-            if(viewModel.ClearPhoneModels)
+            bool result = true;
+            try {
+                if (viewModel.ClearPhoneModels)
             {
                 var urlToRemove = Url.Action("GetPhoneModels", "PhoneModels");
                 HttpResponse.RemoveOutputCacheItem(urlToRemove);
@@ -55,8 +50,13 @@ namespace TradeYourPhone.Web.Controllers
                 var urlToRemove = Url.Action("GetPostageMethods", "Quotes");
                 HttpResponse.RemoveOutputCacheItem(urlToRemove);
             }
+            }
+            catch(Exception ex)
+            {
+                result = false;
+            }
 
-            return View(new CacheManagerViewModel { Success = true });
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

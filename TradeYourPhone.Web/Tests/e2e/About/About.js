@@ -6,7 +6,7 @@ describe('About - What We Do', function () {
 
     beforeEach(function () {
         browser.driver.manage().deleteAllCookies();
-        browser.get('/WhatWeDo');
+        browser.get('WhatWeDo');
         aboutPage = new AboutPage();
     });
 

@@ -6,7 +6,7 @@ describe('Home Page', function () {
 
     beforeEach(function () {
         browser.driver.manage().deleteAllCookies();
-        browser.get('/');
+        browser.get(browser.baseUrl);
         homePage = new HomePage();
     });
 
@@ -19,7 +19,7 @@ describe('Home Page', function () {
         it('Navigation Should Display', function () {
             expect(homePage.navContainer.isDisplayed()).toEqual(true);
             expect(homePage.navItems.count()).toEqual(5);
-            expect(homePage.navItems.getText()).toEqual(['Home', 'What We Do', 'Support', 'Contact Us', 'Blog']);
+            expect(homePage.navItems.getText()).toEqual(['Home', 'What We Do', 'Support', 'Contact', 'Blog']);
         });
 
         it('Phone Selection Area Should Be Displayed', function () {

@@ -9,12 +9,7 @@ namespace TradeYourPhone.Core.ViewModels
 {
     public class DashboardViewModel
     {
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        [DataType(DataType.Date)]
         public DateTime DateFrom { get; set; }
-
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        [DataType(DataType.Date)]
         public DateTime DateTo { get; set; }
 
         public int NoOfCreatedQuotes { get; set; }

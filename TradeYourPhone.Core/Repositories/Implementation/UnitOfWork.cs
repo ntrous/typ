@@ -18,10 +18,10 @@ namespace TradeYourPhone.Core.Repositories.Implementation
         private IGenericRepository<PhoneConditionPrice> phoneConditionPriceRepository;
         private IGenericRepository<PaymentType> paymentTypeRepository;
         private IGenericRepository<QuoteStatus> quoteStatusRepository;
-        private IGenericRepository<Quote> quoteRepository;
+        private IQuoteRepository quoteRepository;
         private IGenericRepository<State> stateRepository;
         private IGenericRepository<Country> countryRepository;
-        private IGenericRepository<Phone> phoneRepository;
+        private IPhoneRepository phoneRepository;
         private IGenericRepository<PhoneStatu> phoneStatusRepository;
         private IGenericRepository<Customer> customerRepository;
         private IGenericRepository<Address> addressRepository;
@@ -131,13 +131,13 @@ namespace TradeYourPhone.Core.Repositories.Implementation
             }
         }
 
-        public IGenericRepository<Quote> QuoteRepository
+        public IQuoteRepository QuoteRepository
         {
             get
             {
                 if (this.quoteRepository == null)
                 {
-                    this.quoteRepository = new GenericRepository<Quote>(context);
+                    this.quoteRepository = new QuoteRepository(context);
                 }
                 return quoteRepository;
             }
@@ -179,13 +179,13 @@ namespace TradeYourPhone.Core.Repositories.Implementation
             }
         }
 
-        public IGenericRepository<Phone> PhoneRepository
+        public IPhoneRepository PhoneRepository
         {
             get
             {
                 if (this.phoneRepository == null)
                 {
-                    this.phoneRepository = new GenericRepository<Phone>(context);
+                    this.phoneRepository = new PhoneRepository(context);
                 }
                 return phoneRepository;
             }

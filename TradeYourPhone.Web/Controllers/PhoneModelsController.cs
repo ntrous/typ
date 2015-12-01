@@ -24,10 +24,11 @@ namespace TradeYourPhone.Web.Controllers
 
         // GET: PhoneModels
         [Authorize]
-        public ActionResult Index()
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetPhoneModelsForView()
         {
-            var phoneModels = phoneService.GetAllPhoneModels();
-            return View(phoneModels.ToList());
+            var phoneModelsViewModel = phoneService.GetPhoneModelsForAdminView();
+            return Json(phoneModelsViewModel, JsonRequestBehavior.AllowGet);
         }
 
         // GET: PhoneModels/Details/5
@@ -46,97 +47,53 @@ namespace TradeYourPhone.Web.Controllers
             return View(phoneModel);
         }
 
-        // GET: PhoneModels/Create
-        [Authorize]
-        public ActionResult Create()
-        {
-            PhoneModelViewModel viewModel = new PhoneModelViewModel();
-            viewModel.PhoneMakes = new SelectList(phoneService.GetAllPhoneMakes(), "ID", "MakeName");
-            var conditions = phoneService.GetAllPhoneConditions();
-            viewModel.ConditionPrices = new List<PhoneConditionPrice>();
-            foreach (var condition in conditions)
-            {
-                viewModel.ConditionPrices.Add(new PhoneConditionPrice() { PhoneConditionId = condition.ID, PhoneCondition = condition });
-            }
-            return View(viewModel);
-        }
-
-        // POST: PhoneModels/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(PhoneModelViewModel viewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                bool created = phoneService.CreatePhoneModel(viewModel);
-                if (!created)
-                {
-                    ModelState.AddModelError("PhoneModel", "Phone Model already exists");
-                    return View(viewModel);
-                }
-                return RedirectToAction("Index");
-            }
-
-            viewModel.PhoneMakes = new SelectList(phoneService.GetAllPhoneMakes(), "ID", "MakeName");
-
-            return View(viewModel);
-        }
-
         // GET: PhoneModels/Edit/5
         [Authorize]
-        public ActionResult Edit(int? id)
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetPhoneModel(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            PhoneModelViewModel viewModel = new PhoneModelViewModel();
-            viewModel.PhoneMakes = new SelectList(phoneService.GetAllPhoneMakes(), "ID", "MakeName");
-            var conditions = phoneService.GetAllPhoneConditions();
-            viewModel.ConditionPrices = new List<PhoneConditionPrice>();
-            viewModel.Model = phoneService.GetPhoneModelById((int)id);
-
-            viewModel.ConditionPrices = viewModel.Model.PhoneConditionPrices.ToList();
-            if(viewModel.ConditionPrices.Count == 0)
-            {
-                foreach (var condition in conditions)
-                {
-                    viewModel.ConditionPrices.Add(new PhoneConditionPrice() { PhoneConditionId = condition.ID, PhoneModelId = viewModel.Model.ID, PhoneCondition = condition });
-                }
-            }
+            var viewModel = phoneService.GetPhoneModelForAdminView(id);
 
             if (viewModel == null)
             {
                 return HttpNotFound();
             }
 
-            return View(viewModel);
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetCreatePhoneModelViewModel()
+        {
+            var viewModel = phoneService.GetCreatePhoneModelViewModel();
+
+            if (viewModel == null)
+            {
+                return HttpNotFound();
+            }
+
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
 
         // POST: PhoneModels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(PhoneModelViewModel phoneModelViewModel)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult SavePhoneModel(PhoneModelViewModel phoneModelViewModel)
         {
-            if (ModelState.IsValid)
+            bool success = false;
+            if (phoneModelViewModel.Model.ID == 0)
             {
-                bool modified = phoneService.ModifyPhoneModel(phoneModelViewModel);
-                if (!modified)
-                {
-                    ModelState.AddModelError("PhoneModel", "Phone Model already exists");
-                    return View(phoneModelViewModel);
-                }
-                return RedirectToAction("Index");
+                success = phoneService.CreatePhoneModel(phoneModelViewModel);
             }
-            phoneModelViewModel.PhoneMakes = new SelectList(phoneService.GetAllPhoneMakes(), "ID", "MakeName");
-            return View(phoneModelViewModel);
+            else
+            {
+                success = phoneService.ModifyPhoneModel(phoneModelViewModel);
+            }
+
+            return Json(success, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

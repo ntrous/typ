@@ -9,7 +9,13 @@ namespace TradeYourPhone.Core.Models
     [MetadataType(typeof(PaymentDetailMD))]
     partial class PaymentDetail
     {
-
+        public void UpdateFromDTO(PaymentDetail paymentDetail)
+        {
+            PaymentTypeId = paymentDetail.PaymentTypeId;
+            BSB = paymentDetail.BSB;
+            AccountNumber = paymentDetail.AccountNumber;
+            PaypalEmail = paymentDetail.PaypalEmail;
+        }
     }
 
     public class PaymentDetailMD

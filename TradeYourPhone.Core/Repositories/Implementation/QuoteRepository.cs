@@ -1,83 +1,59 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using TradeYourPhone.Core.Enums;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Repositories.Interface;
+using TradeYourPhone.Core.Utilities;
 
 namespace TradeYourPhone.Core.Repositories.Implementation
 {
-    public class QuoteRepository : IGenericRepository<QuoteRepository>
+    public class QuoteRepository : GenericRepository<Quote>, IQuoteRepository
     {
-        internal DbContext context;
-        internal DbSet<QuoteRepository> dbSet;
+        public QuoteRepository(DbContext context) : base(context) { }
 
-        public QuoteRepository(DbContext context)
+        public void Insert(Quote entity, string userId)
         {
-            this.context = context;
-            this.dbSet = context.Set<QuoteRepository>();
+            this.dbSet.Add(entity);
+            context.SaveChanges();
+
+            QuoteStatusHistory record = new QuoteStatusHistory
+            {
+                QuoteId = entity.ID,
+                QuoteStatusId = entity.QuoteStatusId,
+                StatusDate = Util.GetAEST(DateTime.Now),
+                CreatedBy = userId ?? User.SystemUser.Value
+            };
+
+            var quoteStatusHistorydbSet = context.Set<QuoteStatusHistory>();
+            quoteStatusHistorydbSet.Add(record);
         }
 
-        public virtual IEnumerable<QuoteRepository> Get(
-            Expression<Func<QuoteRepository, bool>> filter = null,
-            Func<IQueryable<QuoteRepository>, IOrderedQueryable<QuoteRepository>> orderBy = null,
-            string includeProperties = "")
+        public void Update(Quote entityToUpdate, string userId)
         {
-            IQueryable<QuoteRepository> query = dbSet;
+            var quoteEntry = context.Entry(entityToUpdate);
+            var QuoteStatusProp = quoteEntry.Property("QuoteStatusId");
 
-            if (filter != null)
+            if(QuoteStatusProp.IsModified)
             {
-                query = query.Where(filter);
+                var dbSet = context.Set<QuoteStatusHistory>();
+                QuoteStatusHistory record = dbSet.Create();
+                record.QuoteId = entityToUpdate.ID;
+                record.QuoteStatusId = entityToUpdate.QuoteStatusId;
+                record.StatusDate = Util.GetAEST(DateTime.Now);
+                record.CreatedBy = userId ?? User.SystemUser.Value;
+
+                dbSet.Add(record);
             }
 
-            foreach (var includeProperty in includeProperties.Split
-                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(includeProperty);
-            }
-
-            if (orderBy != null)
-            {
-                return orderBy(query).ToList();
-            }
-            else
-            {
-                return query.ToList();
-            }
+            quoteEntry.State = EntityState.Modified;
         }
 
-        public virtual QuoteRepository GetByID(object id)
+        public int GetQuoteStatusId(int quoteId)
         {
-            return dbSet.Find(id);
-        }
-
-        public virtual void Insert(QuoteRepository entity)
-        {
-            dbSet.Add(entity);
-        }
-
-        public virtual void Delete(object id)
-        {
-            QuoteRepository entityToDelete = dbSet.Find(id);
-            Delete(entityToDelete);
-        }
-
-        public virtual void Delete(QuoteRepository entityToDelete)
-        {
-            if (context.Entry(entityToDelete).State == EntityState.Detached)
-            {
-                dbSet.Attach(entityToDelete);
-            }
-            dbSet.Remove(entityToDelete);
-        }
-
-        public virtual void Update(QuoteRepository entityToUpdate)
-        {
-            dbSet.Attach(entityToUpdate);
-            context.Entry(entityToUpdate).State = EntityState.Modified;
+            IQueryable<Quote> query = context.Set<Quote>();
+            int currentStatus = query.Where(q => q.ID == quoteId).Select(p => p.QuoteStatusId).First();
+            return currentStatus;
         }
     }
 }

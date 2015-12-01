@@ -37,6 +37,13 @@ namespace TradeYourPhone.Core.Services.Interface
         Quote GetQuoteById(int quoteId);
 
         /// <summary>
+        /// Gets quotes based on properties provided from the View Model
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        QuoteIndexViewModel GetQuotes(QuoteIndexViewModel viewModel);
+
+        /// <summary>
         /// Returns Quote based on the referenceId provided
         /// </summary>
         /// <param name="refId"></param>
@@ -96,7 +103,7 @@ namespace TradeYourPhone.Core.Services.Interface
         /// </summary>
         /// <param name="quote"></param>
         /// <returns></returns>
-        bool ModifyQuote(QuoteDetailsViewModel quoteVM);
+        Quote ModifyQuote(Quote quote, string userId);
 
         /// <summary>
         /// Delet the quote by ID provided

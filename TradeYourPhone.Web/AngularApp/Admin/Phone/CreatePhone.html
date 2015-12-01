@@ -1,0 +1,106 @@
+﻿<form name="createPhoneForm" novalidate>
+    <h2>Edit</h2>
+    <div class="form-horizontal">
+        <h4>Phone</h4>
+        <hr />
+        <p>
+            <a href="/Phones">Back To List</a>
+        </p>
+        <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
+        <div ng-class="{'content-loading':spinner}">
+            <div class="form-group">
+                <label class="control-label col-md-2">Phone Make</label>
+                <div class="col-md-10">
+                    <select ng-model="phone.PhoneMakeId"
+                            ng-change="GetPhoneModelsByMakeId(phone.PhoneMakeId)"
+                            id="PhoneMakeId"
+                            name="PhoneMakeId"
+                            ng-options="item.ID as item.Name for item in phoneDetailsViewModel.PhoneMakes"
+                            class="form-control"
+                            required></select>
+                </div>
+                <p class="help-block" ng-show="createPhoneCalled && createPhoneForm.PhoneMakeId.$error.required">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  Phone Make is required
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Phone Model</label>
+                <div class="col-md-10">
+                    <select ng-model="phone.PhoneModelId"
+                            id="PhoneModelId"
+                            name="PhoneModelId"
+                            ng-options="item.ID as item.Name for item in phoneModels"
+                            class="form-control"
+                            required></select>
+                </div>
+                <p class="help-block" ng-show="createPhoneCalled && createPhoneForm.PhoneModelId.$error.required">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  Phone Model is required
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Phone Condition</label>
+                <div class="col-md-10">
+                    <select ng-model="phone.PhoneConditionId"
+                            id="PhoneConditionId"
+                            name="PhoneConditionId"
+                            ng-options="item.ID as item.Name for item in phoneDetailsViewModel.Conditions"
+                            class="form-control"
+                            required></select>
+                </div>
+                <p class="help-block" ng-show="createPhoneCalled && createPhoneForm.PhoneConditionId.$error.required">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  Phone Condition is required
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">IMEI</label>
+                <div class="col-md-10">
+                    <input type="text"
+                           id="IMEI"
+                           ng-model="phone.IMEI"
+                           name="IMEI"
+                           class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Purchase Amount</label>
+                <div class="col-md-10">
+                    <input type="text"
+                           id="PurchaseAmount"
+                           ng-model="phone.PurchaseAmount"
+                           name="PurchaseAmount"
+                           class="form-control"
+                           required />
+                </div>
+                <p class="help-block" ng-show="createPhoneCalled && createPhoneForm.PurchaseAmount.$error.required">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  Purchase Amount is required
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Phone Status</label>
+                <div class="col-md-10">
+                    <select ng-model="phone.PhoneStatusId"
+                            id="PhoneStatusId"
+                            name="PhoneStatusId"
+                            ng-options="item.ID as item.Name for item in phoneDetailsViewModel.PhoneStatuses"
+                            class="form-control"
+                            required></select>
+                </div>
+                <p class="help-block" ng-show="createPhoneCalled && createPhoneForm.PhoneStatusId.$error.required">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  Phone Status is required
+                </p>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" ng-click="CreatePhone(createPhoneForm, phone)" />
+                    <span ng-show="result">{{result}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

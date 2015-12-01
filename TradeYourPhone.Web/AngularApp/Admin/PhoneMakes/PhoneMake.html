@@ -1,0 +1,34 @@
+﻿<form name="PhoneMakeForm" novalidate>
+    <h2>Edit</h2>
+    <div class="form-horizontal">
+        <h4>PhoneMake</h4>
+        <hr />
+        <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
+        <div ng-class="{'content-loading':spinner}">
+            <div class="form-group">
+                <label class="control-label col-md-2">Make Name</label>
+                <div class="col-md-10">
+                    <input type="text"
+                           id="MakeName"
+                           ng-model="phoneMake.Name"
+                           name="MakeName"
+                           class="form-control" 
+                           required/>
+                </div>
+                <p class="help-block" ng-show="savePhoneMakeCalled && PhoneMakeForm.MakeName.$error.required">
+                    <i class="glyphicon glyphicon-remove-circle"></i>  Phone Make is required
+                </p>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" ng-click="SavePhoneMake(phoneMake, PhoneMakeForm)" class="btn btn-default" />
+                    <span ng-show="result">{{result}}</span>
+                </div>
+            </div>
+            <p>
+                <a href="/PhoneMakes">Back to list</a>
+            </p>
+        </div>
+    </div>
+</form>

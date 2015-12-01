@@ -1,6 +1,6 @@
 ﻿tradeYourPhoneServices.service('ContactUsService', function ($http) {
     this.SendEmail = function (name, from, subject, message) {
-        return $http.post('/Email/SendEmail', { name: name, from: from, subject: subject, message: message })
+        return $http.post('/api/Email/SendEmail', { name: name, from: from, subject: subject, message: message })
        .then(
                function (response) {
                    return response.data;

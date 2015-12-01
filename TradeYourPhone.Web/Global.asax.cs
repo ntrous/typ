@@ -12,8 +12,7 @@ using TradeYourPhone.Web.Controllers;
 using System.Data.Entity;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Scraper;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Newtonsoft.Json;
 
 namespace TradeYourPhone.Web
 {
@@ -55,6 +54,8 @@ namespace TradeYourPhone.Web
 
             var factory = new UnityControllerFactory(container);
             ControllerBuilder.Current.SetControllerFactory(factory);
+
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
         }
     }
 }

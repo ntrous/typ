@@ -1,7 +1,7 @@
 ﻿tradeYourPhoneServices.service('QuoteService', function ($log, $http, $q, $cookies) {
 
     this.GetPhoneConditions = function () {
-        return $http.get('/PhoneConditions/GetPhoneConditions', { cache: true })
+        return $http.get('/service/PhoneConditions/GetPhoneConditions', { cache: true })
             .then(
                 function (response) {
                     return response.data;
@@ -15,7 +15,7 @@
     }
 
     this.CreateQuote = function () {
-        return $http.get('/Quotes/CreateQuote')
+        return $http.get('/service/Quotes/CreateQuote')
             .then(
                 function (response) {
                     $cookies.tradeYourPhoneCookie = response.data;
@@ -29,7 +29,7 @@
     }
 
     this.AddPhoneToQuote = function (key, modelId, conditionId) {
-        return $http.post('/Quotes/AddPhoneToQuoteInSession?key=' + key + '&modelId=' + modelId + '&conditionId=' + conditionId)
+        return $http.post('/service/Quotes/AddPhoneToQuoteInSession?key=' + key + '&modelId=' + modelId + '&conditionId=' + conditionId)
             .then(
                 function (response) {
                     return response.data;
@@ -42,7 +42,7 @@
     }
 
     this.GetQuoteDetails = function (key) {
-        return $http.get('/Quotes/GetQuoteDetails?key=' + key)
+        return $http.get('/service/Quotes/GetQuoteDetails?key=' + key)
         .then(
                 function (response) {
                     return response.data.QuoteDetails;
@@ -55,7 +55,7 @@
     }
 
     this.DeleteQuotePhone = function (key, phoneId) {
-        return $http.get('/Quotes/DeleteQuotePhone?key=' + key + '&phoneId=' + phoneId)
+        return $http.get('/service/Quotes/DeleteQuotePhone?key=' + key + '&phoneId=' + phoneId)
         .then(
                 function (response) {
                     return response.data;
@@ -68,7 +68,7 @@
     }
 
     this.GetStates = function () {
-        return $http.get('/Quotes/GetStateNames', { cache: true })
+        return $http.get('/service/Quotes/GetStateNames', { cache: true })
         .then(
                 function (response) {
                     return response.data;
@@ -81,7 +81,7 @@
     }
 
     this.GetPaymentTypes = function () {
-        return $http.get('/Quotes/GetPaymentTypeNames', { cache: true })
+        return $http.get('/service/Quotes/GetPaymentTypeNames', { cache: true })
         .then(
                 function (response) {
                     return response.data;
@@ -94,7 +94,7 @@
     }
 
     this.GetPostageMethods = function () {
-        return $http.get('/Quotes/GetPostageMethods', { cache: true })
+        return $http.get('/service/Quotes/GetPostageMethods', { cache: true })
         .then(
                 function (response) {
                     return response.data;
@@ -107,7 +107,7 @@
     }
 
     this.FinaliseQuote = function (key, viewModel) {
-        return $http.post('/Quotes/FinaliseQuote', { key: key, viewModel: viewModel })
+        return $http.post('/service/Quotes/FinaliseQuote', { key: key, viewModel: viewModel })
        .then(
                function (response) {
                    return response.data;
@@ -120,7 +120,7 @@
     }
 
     this.SaveQuote = function (key, viewModel) {
-        return $http.post('/Quotes/SaveQuote', { key: key, viewModel: viewModel })
+        return $http.post('/service/Quotes/SaveQuote', { key: key, viewModel: viewModel })
        .then(
                function (response) {
                    return response.data;

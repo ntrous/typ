@@ -1,0 +1,32 @@
+﻿<div class="col-md-12">
+    <h1 class="col-md-12 col-mobile">
+        <span class="col-md-offset-1">Phone Models</span>
+        <hr />
+    </h1>
+
+    <p>
+        <a href="/CreatePhoneModel">Create New</a>
+    </p>
+    <table class="table quoteTable table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <p>Phone Make</p>
+                </th>
+                <th>
+                    <p>Phone Model</p>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-click="showPhoneModel(phoneModel.ID)" ng-repeat="phoneModel in phoneModelsViewModel.PhoneModels">
+                <td>
+                    <p>{{phoneModel.PhoneMake}}</p>
+                </td>
+                <td>
+                    <p>{{phoneModel.Name}}</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

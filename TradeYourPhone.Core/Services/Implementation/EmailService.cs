@@ -206,6 +206,10 @@ namespace TradeYourPhone.Core.Services.Implementation
                 string from = ConfigurationManager.AppSettings["SalesEmail"];
                 string subject = string.Format("New Quote Submitted: {0}", quote.QuoteReferenceId);
                 string body = string.Format("New quote id: {0} | First name: {1} | Last name: {2}\r\n \r\n", quote.QuoteReferenceId, quote.Customer.FirstName, quote.Customer.LastName);
+                if (quote.PostageMethodId == (int)PostageMethodEnum.Satchel)
+                {
+                    body += "Satchel Required \r\n \r\n";
+                }
 
                 foreach(var phone in quote.Phones)
                 {

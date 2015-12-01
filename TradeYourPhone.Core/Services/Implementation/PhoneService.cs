@@ -10,6 +10,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using TradeYourPhone.Core.Enums;
+using PagedList;
+using TradeYourPhone.Core.DTO;
 
 namespace TradeYourPhone.Core.Services.Implementation
 {
@@ -41,12 +43,43 @@ namespace TradeYourPhone.Core.Services.Implementation
             return phoneMakeId;
         }
 
-        public bool CreatePhoneMake(PhoneMake phoneMake)
+        /// <summary>
+        /// Gets phones based on properties provided from the View Model
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        public PhoneIndexViewModel GetPhones(PhoneIndexViewModel viewModel)
         {
-            if (!DoesPhoneMakeExist(phoneMake.MakeName))
+            PhoneIndexViewModel phoneIndexViewModel = viewModel ?? new PhoneIndexViewModel();
+            phoneIndexViewModel.PageSize = 20;
+            var phones = SearchPhones(phoneIndexViewModel.PhoneId, phoneIndexViewModel.PhoneMakeId, phoneIndexViewModel.PhoneModelId, phoneIndexViewModel.PhoneStatusId);
+            phones = GetSortedPhones(phones, phoneIndexViewModel);
+            phoneIndexViewModel.TotalPhones = phones.Count;
+
+            if (phoneIndexViewModel.PageNumber == 0 || (phoneIndexViewModel.PageNumber > (int)System.Math.Ceiling(((double)phoneIndexViewModel.TotalPhones / (double)phoneIndexViewModel.PageSize))))
+            { phoneIndexViewModel.PageNumber = 1; }
+
+
+
+            var pagedPhones = phones.ToPagedList(phoneIndexViewModel.PageNumber, phoneIndexViewModel.PageSize);
+
+            phoneIndexViewModel.MapPhones(pagedPhones);
+            phoneIndexViewModel.MapPhoneMakes(GetAllPhoneMakes().ToList());
+            phoneIndexViewModel.MapPhoneModels(GetAllPhoneModels().ToList());
+            phoneIndexViewModel.MapPhoneStatuses(GetAllPhoneStatuses().ToList());
+
+            return phoneIndexViewModel;
+        }
+
+        public bool CreatePhoneMake(string phoneMake)
             {
-                phoneMake.MakeName = Util.UppercaseFirst(phoneMake.MakeName);
-                unitOfWork.PhoneMakeRepository.Insert(phoneMake);
+            if (!DoesPhoneMakeExist(phoneMake))
+            {
+                PhoneMake make = new PhoneMake
+                {
+                    MakeName = Util.UppercaseFirst(phoneMake)
+                };
+                unitOfWork.PhoneMakeRepository.Insert(make);
                 unitOfWork.Save();
                 return true;
             }
@@ -90,6 +123,24 @@ namespace TradeYourPhone.Core.Services.Implementation
             return models.OrderBy(m => m.ModelName);
         }
 
+        /// <summary>
+        /// Gets all phone models for the Phone Models Admin Page
+        /// </summary>
+        /// <returns></returns>
+        public PhoneModelIndexViewModel GetPhoneModelsForAdminView()
+        {
+            PhoneModelIndexViewModel viewModel = new PhoneModelIndexViewModel();
+            var models = unitOfWork.PhoneModelRepository.Get();
+            models = models.OrderBy(m => m.ModelName);
+            viewModel.MapPhoneModels(models.ToList());
+
+            return viewModel;
+        }
+
+        /// <summary>
+        /// Gets all phone models for the main site
+        /// </summary>
+        /// <returns></returns>
         public IList<PhoneViewModel> GetAllPhoneModelsForView()
         {
             var models = unitOfWork.PhoneModelRepository.Get().OrderByDescending(p => p.ModelName, new NaturalSortComparer<string>());
@@ -98,6 +149,11 @@ namespace TradeYourPhone.Core.Services.Implementation
             return phoneModels;
         }
 
+        /// <summary>
+        /// Gets subset of phone models for main site
+        /// </summary>
+        /// <param name="makeName"></param>
+        /// <returns></returns>
         public IList<PhoneViewModel> GetPhoneModelsForViewByMakeName(string makeName)
             {
             Expression<Func<PhoneModel, bool>> filterExp = (x => x.PhoneMake.MakeName == makeName);
@@ -113,6 +169,46 @@ namespace TradeYourPhone.Core.Services.Implementation
             return phoneModel;
         }
 
+        /// <summary>
+        /// Gets the Model and initial data for the Phone Model admin page
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public PhoneModelViewModel GetPhoneModelForAdminView(int id)
+        {
+            PhoneModelViewModel viewModel = new PhoneModelViewModel();
+            viewModel.MapPhoneMakes(GetAllPhoneMakes().ToList());
+            viewModel.Model = new PhoneModelDTO();
+            PhoneModel model = GetPhoneModelById(id);
+            viewModel.Model.Map(model);
+
+            return viewModel;
+        }
+
+        /// <summary>
+        /// Gets the initial view data for the Create Phone Model Page
+        /// </summary>
+        /// <returns></returns>
+        public CreatePhoneModelViewModel GetCreatePhoneModelViewModel()
+        {
+            CreatePhoneModelViewModel viewModel = new CreatePhoneModelViewModel();
+            viewModel.Model = new PhoneModelDTO();
+            viewModel.Model.PhoneConditionPrices = new List<PhoneConditionPriceDTO>();
+
+            var conditions = GetAllPhoneConditions().ToList();
+            foreach (var condition in conditions)
+            {
+                PhoneConditionDTO conditionDTO = new PhoneConditionDTO();
+                conditionDTO.Map(condition);
+                viewModel.Model.PhoneConditionPrices.Add(new PhoneConditionPriceDTO { PhoneConditionId = condition.ID, PhoneCondition = conditionDTO });
+            }
+
+            viewModel.MapPhoneMakes(GetAllPhoneMakes().ToList());
+            viewModel.MapPhoneConditions(GetAllPhoneConditions().ToList());
+
+            return viewModel;
+        }
+
         public IEnumerable<PhoneModel> GetPhoneModelsByMakeId(int phoneMakeId)
                 {
             Expression<Func<PhoneModel, bool>> filterExp = (x => x.PhoneMakeId == phoneMakeId);
@@ -126,7 +222,7 @@ namespace TradeYourPhone.Core.Services.Implementation
             var phoneStatuses = new[] { (int)PhoneStatusEnum.Paid, (int)PhoneStatusEnum.Listed, (int)PhoneStatusEnum.ReadyForSale, (int)PhoneStatusEnum.Sold, };
             IEnumerable<PhoneModel> topModels = models.Where(m => m.Phones.Any(p => phoneStatuses.Contains(p.PhoneStatusId))).OrderByDescending(m => m.Phones.Where(p => phoneStatuses.Contains(p.PhoneStatusId)).Count());
 
-            if(limit != 0)
+            if (limit != 0)
             {
                 topModels = topModels.Take(limit);
             }
@@ -173,24 +269,21 @@ namespace TradeYourPhone.Core.Services.Implementation
 
         public bool CreatePhoneModel(PhoneModelViewModel phoneModelViewModel)
         {
-            if (!DoesPhoneModelExistForMake(phoneModelViewModel.Model.PhoneMakeId, phoneModelViewModel.Model.ModelName))
+            if (!DoesPhoneModelExistForMake(phoneModelViewModel.Model.PhoneMakeId, phoneModelViewModel.Model.Name))
             {
-                if (phoneModelViewModel.PrimaryImage != null && phoneModelViewModel.PrimaryImage.ContentLength != 0)
+                if (!string.IsNullOrEmpty(phoneModelViewModel.Model.PrimaryImageString))
                 {
                     byte[] imageData = null;
-                    imageData = ImageManager.CompressImage(phoneModelViewModel.PrimaryImage.InputStream, "100");
+                    imageData = ImageManager.CompressImage(Convert.FromBase64String(phoneModelViewModel.Model.PrimaryImageString), "100");
 
-                    phoneModelViewModel.Model.PrimaryImage = imageData;
+                    phoneModelViewModel.Model.PrimaryImageString = Convert.ToBase64String(imageData);
                 }
-                unitOfWork.PhoneModelRepository.Insert(phoneModelViewModel.Model);
+
+                PhoneModel newModel = new PhoneModel();
+                newModel.UpdateFromDTO(phoneModelViewModel.Model);
+                unitOfWork.PhoneModelRepository.Insert(newModel);
                 unitOfWork.Save();
 
-                foreach (var condition in phoneModelViewModel.ConditionPrices)
-                {
-                    condition.PhoneModelId = phoneModelViewModel.Model.ID;
-                    unitOfWork.PhoneConditionPriceRepository.Insert(condition);
-                }
-                unitOfWork.Save();
                 return true;
             }
             return false;
@@ -198,35 +291,22 @@ namespace TradeYourPhone.Core.Services.Implementation
 
         public bool ModifyPhoneModel(PhoneModelViewModel phoneModelViewModel)
         {
-            PhoneModel originalModel = GetPhoneModelById(phoneModelViewModel.Model.ID);
-            if (!DoesPhoneModelExistForMake(phoneModelViewModel.Model.PhoneMakeId, phoneModelViewModel.Model.ModelName, phoneModelViewModel.Model.ID))
+            PhoneModel model = GetPhoneModelById(phoneModelViewModel.Model.ID);
+            if (DoesPhoneModelExistForMake(phoneModelViewModel.Model.PhoneMakeId, phoneModelViewModel.Model.Name, phoneModelViewModel.Model.ID))
             {
-                originalModel.ModelName = phoneModelViewModel.Model.ModelName;
+                return false;
             }
 
-            if (phoneModelViewModel.PrimaryImage != null && phoneModelViewModel.PrimaryImage.ContentLength != 0)
+            model.UpdateFromDTO(phoneModelViewModel.Model);
+            if (!string.IsNullOrEmpty(phoneModelViewModel.Model.PrimaryImageString))
             {
                 byte[] imageData = null;
-                imageData = ImageManager.CompressImage(phoneModelViewModel.PrimaryImage.InputStream, "100");
+                imageData = ImageManager.CompressImage(Convert.FromBase64String(phoneModelViewModel.Model.PrimaryImageString), "100");
 
-                originalModel.PrimaryImage = imageData;
+                model.PrimaryImageString = Convert.ToBase64String(imageData);
             }
 
-            unitOfWork.PhoneModelRepository.Update(originalModel);
-            unitOfWork.Save();
-
-            foreach (var condition in phoneModelViewModel.ConditionPrices)
-            {
-                if (condition.ID == 0)
-                {
-                    unitOfWork.PhoneConditionPriceRepository.Insert(condition);
-                }
-                else
-                {
-                    unitOfWork.PhoneConditionPriceRepository.Update(condition);
-                }
-            }
-
+            unitOfWork.PhoneModelRepository.Update(model);
             unitOfWork.Save();
             return true;
         }
@@ -371,41 +451,32 @@ namespace TradeYourPhone.Core.Services.Implementation
 
         public Phone GetPhoneById(int phoneId)
         {
-            Phone phone = unitOfWork.PhoneRepository.Get(p => p.Id == phoneId, null, "PhoneMake,PhoneModel,PhoneCondition").FirstOrDefault();
+            Phone phone = unitOfWork.PhoneRepository.Get(p => p.Id == phoneId, null, "PhoneMake,PhoneModel,PhoneCondition,PhoneStatusHistories").FirstOrDefault();
             return phone;
         }
 
         public bool CreatePhone(Phone phone)
         {
-            unitOfWork.PhoneRepository.Insert(phone);
-            unitOfWork.Save();
-            UpdatePhoneStatusHistory(phone.Id, 0, phone.PhoneStatusId, null);
+            unitOfWork.PhoneRepository.Insert(phone, null);
             unitOfWork.Save();
             return true;
         }
 
-        public bool ModifyPhone(Phone phone, string userId)
-        {
-            var histories = GetPhoneStatusHistory(phone.Id);
-            int existingPhoneStatusId = 0;
-            if (histories != null && histories.Count() > 0)
+        public bool CreatePhone(PhoneDTO phone)
             {
-                existingPhoneStatusId = histories.OrderByDescending(x => x.StatusDate).First().PhoneStatusId;
-            }
-            unitOfWork.PhoneRepository.Update(phone);
-            UpdatePhoneStatusHistory(phone.Id, existingPhoneStatusId, phone.PhoneStatusId, userId);
+            Phone newPhone = new Phone();
+            newPhone.UpdateFromDTO(phone);
+            unitOfWork.PhoneRepository.Insert(newPhone, null);
             unitOfWork.Save();
             return true;
         }
 
-        public bool ModifyPhones(IList<Phone> phones, string userId)
-        {
-            foreach (var phone in phones)
+        public Phone ModifyPhone(Phone phone, string userId)
             {
-                ModifyPhone(phone, userId);
-            }
+            unitOfWork.PhoneRepository.Update(phone, userId);
             unitOfWork.Save();
-            return true;
+
+            return phone;
         }
 
         /// <summary>
@@ -458,7 +529,7 @@ namespace TradeYourPhone.Core.Services.Implementation
         {
             Expression<Func<Phone, bool>> predicate = c => true;
 
-            if(phoneId != null && phoneId.Length > 0)
+            if (phoneId != null && phoneId.Length > 0)
             {
                 int id = 0;
                 bool isInt = int.TryParse(phoneId, out id);
@@ -466,7 +537,7 @@ namespace TradeYourPhone.Core.Services.Implementation
                 {
                     predicate = predicate.And(c => c.Id == id);
                 }
-                else if(!isInt)
+                else if (!isInt)
                 {
                     return new List<Phone>();
                 }
@@ -505,7 +576,7 @@ namespace TradeYourPhone.Core.Services.Implementation
             viewModel.SaleAmountParm = viewModel.SortOrder == "saleAmount_asc" ? "saleAmount_desc" : "saleAmount_asc";
             viewModel.PhoneIdParm = viewModel.SortOrder == "phoneId_asc" ? "phoneId_desc" : "phoneId_asc";
 
-            IEnumerable <Phone> phones = phonesToSort;
+            IEnumerable<Phone> phones = phonesToSort;
 
             switch (viewModel.SortOrder)
             {

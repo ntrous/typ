@@ -16,10 +16,10 @@ namespace TradeYourPhone.Core.Repositories.Interface
         IGenericRepository<PhoneConditionPrice> PhoneConditionPriceRepository { get; set; }
         IGenericRepository<PaymentType> PaymentTypeRepository { get; set; }
         IGenericRepository<QuoteStatus> QuoteStatusRepository { get; set; }
-        IGenericRepository<Quote> QuoteRepository { get; set; }
+        IQuoteRepository QuoteRepository { get; set; }
         IGenericRepository<State> StateRepository { get; set; }
         IGenericRepository<Country> CountryRepository { get; set; }
-        IGenericRepository<Phone> PhoneRepository { get; set; }
+        IPhoneRepository PhoneRepository { get; set; }
         IGenericRepository<PhoneStatu> PhoneStatusRepository { get; set; }
         IGenericRepository<Customer> CustomerRepository { get; set; }
         IGenericRepository<Address> AddressRepository { get; set; }

@@ -13,6 +13,7 @@ using TradeYourPhone.Core.Models.DomainModels;
 using TradeYourPhone.Core.Enums;
 using PagedList;
 using Microsoft.AspNet.Identity;
+using TradeYourPhone.Core.DTO;
 
 namespace TradeYourPhone.Web.Controllers
 {
@@ -29,66 +30,48 @@ namespace TradeYourPhone.Web.Controllers
 
         // GET: Quotes
         [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Index(QuoteIndexViewModel viewModel)
         {
-            int pageSize = 20;
-            QuoteIndexViewModel quoteIndexViewModel = viewModel ?? new QuoteIndexViewModel();
-            var quotes = quoteService.SearchQuotes(quoteIndexViewModel.referenceId, quoteIndexViewModel.email, quoteIndexViewModel.lastName, quoteIndexViewModel.firstName, quoteIndexViewModel.statusId);
-            quotes = quoteService.GetSortedQuotes(quotes, quoteIndexViewModel);
-            if (quotes.Count <= pageSize)
-            {
-                quoteIndexViewModel.page = 1;
-            }
-
-            quoteIndexViewModel.Quotes = quotes.ToPagedList(quoteIndexViewModel.page ?? 1, pageSize);
-            quoteIndexViewModel.QuoteStatuses = new SelectList(quoteService.GetAllQuoteStatuses(), "ID", "QuoteStatusName");
-
-            return View(quoteIndexViewModel);
+            QuoteIndexViewModel quoteIndexViewModel = quoteService.GetQuotes(viewModel);
+            return Json(quoteIndexViewModel, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Quotes/Details/5
         [Authorize]
-        public ActionResult Details(int? id)
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetQuote(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Quote quote = quoteService.GetQuoteById((int)id);
-            QuoteDetailsViewModel vm = SetupQuoteDetailsViewModel();
-            vm.quote = quote;
-            vm.CurrentQuoteStatus = quote.QuoteStatusId;
-            vm.phones = quote.Phones.ToList();
             if (quote == null)
             {
                 return HttpNotFound();
             }
-            return View(vm);
+
+            QuoteDetailsViewModel vm = SetupQuoteDetailsViewModel();
+            vm.MapQuote(quote);
+
+            return Json(vm, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Quotes/Details/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Details(QuoteDetailsViewModel viewModel)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult SaveQuoteDetails(QuoteDTO quote)
         {
-            if (ModelState.IsValid)
-            {
-                viewModel.quote.Phones = viewModel.phones;
-                viewModel.UserId = User.Identity.GetUserId();
-                bool modified = quoteService.ModifyQuote(viewModel);
-                if (!modified)
-                {
-                    ModelState.AddModelError("Quote", "Error");
-                    return View(SetupQuoteDetailsViewModel(viewModel));
-                }
-                return RedirectToAction("Index");
-            }
-            var phones = quoteService.GetQuoteById(viewModel.quote.ID).Phones;
-            viewModel.phones = phones.ToList();
-            return View(SetupQuoteDetailsViewModel(viewModel));
+            Quote quoteToUpdate = quoteService.GetQuoteById(quote.ID);
+            quoteToUpdate.UpdateFromDTO(quote);
+            quoteToUpdate = quoteService.ModifyQuote(quoteToUpdate, User.Identity.GetUserId());
+            QuoteDetailsViewModel vm = SetupQuoteDetailsViewModel();
+            vm.MapQuote(quoteToUpdate);
+
+            return Json(vm, JsonRequestBehavior.AllowGet);  
         }
 
         /// <summary>
@@ -171,6 +154,15 @@ namespace TradeYourPhone.Web.Controllers
         {
             QuoteDetailsResult result = quoteService.DeletePhoneFromQuote(key, phoneId);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetAllQuotes()
+        {
+            var quoteDetailsResult = quoteService.GetAllQuotes();
+
+            return Json(quoteDetailsResult, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -257,7 +249,7 @@ namespace TradeYourPhone.Web.Controllers
         private QuoteDetailsViewModel SetupQuoteDetailsViewModel(QuoteDetailsViewModel viewModel = null)
         {
             QuoteDetailsViewModel newViewModel = new QuoteDetailsViewModel();
-            if(viewModel == null)
+            if (viewModel == null)
             {
                 newViewModel = new QuoteDetailsViewModel();
             }
@@ -266,15 +258,15 @@ namespace TradeYourPhone.Web.Controllers
                 newViewModel = viewModel;
             }
 
-            newViewModel.PhoneStatuses = new SelectList(phoneService.GetAllPhoneStatuses(), "Id", "PhoneStatus");
-            newViewModel.PhoneMakes = new SelectList(phoneService.GetAllPhoneMakes(), "ID", "MakeName");
-            newViewModel.PhoneModels = new SelectList(phoneService.GetAllPhoneModels(), "ID", "ModelName");
-            newViewModel.Conditions = new SelectList(phoneService.GetAllPhoneConditions(), "ID", "Condition");
-            newViewModel.QuoteStatuses = new SelectList(quoteService.GetAllQuoteStatuses(), "ID", "QuoteStatusName");
-            newViewModel.PostageMethods = new SelectList(quoteService.GetAllPostageMethods(), "ID", "PostageMethodName");
-            newViewModel.PaymentTypes = new SelectList(quoteService.GetAllPaymentTypes(), "ID", "PaymentTypeName");
-            newViewModel.States = new SelectList(quoteService.GetAllStates(), "ID", "StateNameShort");
-            newViewModel.Countries = new SelectList(quoteService.GetAllCountries(), "ID", "CountryName");
+            newViewModel.MapPhoneStatuses(phoneService.GetAllPhoneStatuses().ToList());
+            newViewModel.MapPhoneMakes(phoneService.GetAllPhoneMakes().ToList());
+            newViewModel.MapPhoneModels(phoneService.GetAllPhoneModels().ToList());
+            newViewModel.MapPhoneConditions(phoneService.GetAllPhoneConditions().ToList());
+            newViewModel.MapQuoteStatuses(quoteService.GetAllQuoteStatuses().ToList());
+            newViewModel.PostageMethods = quoteService.GetAllPostageMethods().ToList();
+            newViewModel.PaymentTypes = quoteService.GetAllPaymentTypes().ToList();
+            newViewModel.States = quoteService.GetAllStates().ToList();
+            newViewModel.Countries = quoteService.GetAllCountries().ToList();
             return newViewModel;
         }
     }

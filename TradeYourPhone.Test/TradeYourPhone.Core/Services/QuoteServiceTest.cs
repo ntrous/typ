@@ -480,7 +480,6 @@ namespace TradeYourPhone.Test
         [TestMethod]
         public void ModifyQuoteTest()
         {
-            QuoteDetailsViewModel vm = new QuoteDetailsViewModel();
             Quote quote = quoteService.GetQuoteById(2);
             
             quote.Customer.Address.AddressLine2 = "Brunswick";
@@ -493,9 +492,7 @@ namespace TradeYourPhone.Test
             phone.PurchaseAmount = 10000;
             phone.PhoneConditionId = 2;
 
-            vm.quote = quote;
-            vm.UserId = User.SystemUser.Value;
-            Assert.AreEqual(true, quoteService.ModifyQuote(vm));
+            Assert.IsNotNull(quoteService.ModifyQuote(quote, User.SystemUser.Value));
             Quote modifiedQuote = quoteService.GetQuoteById(2);
 
             Assert.AreEqual("Brunswick", modifiedQuote.Customer.Address.AddressLine2);
@@ -510,9 +507,9 @@ namespace TradeYourPhone.Test
         [TestMethod]
         [ExpectedException(typeof(ArgumentException),
             "Parameter cannot be null")]
-        public void ModifyQuoteWithNoParamTest()
+        public void ModifyQuoteWithNoParamsTest()
         {
-            quoteService.ModifyQuote(null);
+            quoteService.ModifyQuote(null, null);
         }
 
         //[TestMethod]

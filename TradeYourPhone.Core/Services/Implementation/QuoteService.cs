@@ -15,6 +15,7 @@ using System.Web;
 using TradeYourPhone.Core.Models.DomainModels;
 using System.Reflection;
 using System.Web.Security;
+using PagedList;
 
 namespace TradeYourPhone.Core.Services.Implementation
 {
@@ -239,6 +240,30 @@ namespace TradeYourPhone.Core.Services.Implementation
         }
 
         /// <summary>
+        /// Gets quotes based on properties provided from the View Model
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        public QuoteIndexViewModel GetQuotes(QuoteIndexViewModel viewModel)
+        {
+            QuoteIndexViewModel quoteIndexViewModel = viewModel ?? new QuoteIndexViewModel();
+            viewModel.PageSize = 20;
+            var quotes = SearchQuotes(quoteIndexViewModel.referenceId, quoteIndexViewModel.email, quoteIndexViewModel.lastName, quoteIndexViewModel.firstName, quoteIndexViewModel.statusId);
+            quotes = GetSortedQuotes(quotes, quoteIndexViewModel);
+
+            quoteIndexViewModel.TotalQuotes = quotes.Count;
+            if (quoteIndexViewModel.PageNumber == 0 || (quoteIndexViewModel.PageNumber > (int)System.Math.Ceiling(((double)quoteIndexViewModel.TotalQuotes / (double)viewModel.PageSize))))
+            { quoteIndexViewModel.PageNumber = 1; }
+
+            var pagedQuotes = quotes.ToPagedList(quoteIndexViewModel.PageNumber, viewModel.PageSize);
+
+            quoteIndexViewModel.MapQuotes(pagedQuotes);
+            quoteIndexViewModel.MapStatuses(GetAllQuoteStatuses().ToList());
+
+            return quoteIndexViewModel;
+        }
+
+        /// <summary>
         /// Returns Quote based on the referenceId provided
         /// </summary>
         /// <param name="refId"></param>
@@ -401,7 +426,7 @@ namespace TradeYourPhone.Core.Services.Implementation
             {
                 QuoteReferenceId = key,
                 QuoteStatus = quote.QuoteStatus.QuoteStatusName,
-                Phones = new List<PhoneDetail>(),
+                Phones = new List<Models.DomainModels.PhoneDetail>(),
                 PostageMethod = quote.PostageMethod,
                 AgreedToTerms = quote.AgreedToTerms
             };
@@ -432,7 +457,7 @@ namespace TradeYourPhone.Core.Services.Implementation
                 Phone phoneObj = phoneService.GetPhoneById(item.Id);
                 if (phoneObj != null)
                 {
-                    PhoneDetail details = new PhoneDetail()
+                    Models.DomainModels.PhoneDetail details = new Models.DomainModels.PhoneDetail()
                     {
                         Id = phoneObj.Id,
                         PhoneMakeName = phoneObj.PhoneMake.MakeName,
@@ -533,9 +558,7 @@ namespace TradeYourPhone.Core.Services.Implementation
                     CreatedDate = Util.GetAEST(DateTime.Now)
                 };
 
-                unitOfWork.QuoteRepository.Insert(quote);
-                unitOfWork.Save();
-                UpdateQuoteStatusHistory(quote.ID, 0, quote.QuoteStatusId, null);
+                unitOfWork.QuoteRepository.Insert(quote, null);
                 unitOfWork.Save();
 
                 return key;
@@ -603,12 +626,11 @@ namespace TradeYourPhone.Core.Services.Implementation
                             }
                         }
 
-                        UpdateQuoteStatusHistory(quote.ID, quote.QuoteStatusId, (int)status, null);
                         quote.QuoteStatusId = (int)status;
                         quote.PostageMethodId = viewModel.PostageMethodId;
                         quote.AgreedToTerms = viewModel.AgreedToTerms;
                         
-                        unitOfWork.QuoteRepository.Update(quote);
+                        unitOfWork.QuoteRepository.Update(quote, null);
 
                         // Save the customer associated with this quote
                         SaveCustomer(quote, viewModel.Customer);
@@ -767,67 +789,49 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// </summary>
         /// <param name="quote"></param>
         /// <returns></returns>
-        public bool ModifyQuote(QuoteDetailsViewModel quoteVM)
+        public Quote ModifyQuote(Quote quote, string userId)
         {
-            if (quoteVM == null || quoteVM.quote == null)
+            if (quote == null || userId.Length == 0)
             {
                 throw new System.ArgumentException("Parameter cannot be null", "quote");
             }
 
-            SendEmailBasedOnStatus(quoteVM);
-            UpdateQuoteStatusHistory(quoteVM.quote.ID, quoteVM.CurrentQuoteStatus, quoteVM.quote.QuoteStatusId, quoteVM.UserId);
+            int currentQuoteStatusId = unitOfWork.QuoteRepository.GetQuoteStatusId(quote.ID);
+            SendEmailBasedOnStatus(currentQuoteStatusId, quote);
 
-            unitOfWork.QuoteRepository.Update(quoteVM.quote);
-            unitOfWork.CustomerRepository.Update(quoteVM.quote.Customer);
-            unitOfWork.AddressRepository.Update(quoteVM.quote.Customer.Address);
-            unitOfWork.PaymentDetailRepository.Update(quoteVM.quote.Customer.PaymentDetail);
-            phoneService.ModifyPhones(quoteVM.quote.Phones.ToList(), quoteVM.UserId);
+            unitOfWork.QuoteRepository.Update(quote, userId);
             unitOfWork.Save();
-            return true;
-        }
-
-        /// <summary>
-        /// If the status has changed a new Status history record will be added
-        /// </summary>
-        /// <param name="quoteId"></param>
-        /// <param name="oldQuoteStatusId"></param>
-        /// <param name="newQuoteStatusId"></param>
-        /// <param name="UserId">UserId of the user updating the Quote record</param>
-        private void UpdateQuoteStatusHistory(int quoteId, int oldQuoteStatusId, int newQuoteStatusId, string UserId)
-        {
-            if(oldQuoteStatusId != newQuoteStatusId)
-            {
-                QuoteStatusHistory record = new QuoteStatusHistory
-                {
-                    QuoteId = quoteId,
-                    QuoteStatusId = newQuoteStatusId,
-                    StatusDate = Util.GetAEST(DateTime.Now),
-                    CreatedBy = UserId ?? User.SystemUser.Value
-                };
-
-                unitOfWork.QuoteStatusHistoryRepository.Insert(record);
-            }
+            return quote;
         }
 
         /// <summary>
         /// Depending on the quote status an email may be triggered
         /// </summary>
         /// <param name="quote"></param>
-        private void SendEmailBasedOnStatus(QuoteDetailsViewModel quoteVM)
+        private void SendEmailBasedOnStatus(int currentQuoteStatusId, Quote quote)
         {
             // Check if we need to send email
-            if (quoteVM.quote.QuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery)
+            if (quote.QuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery)
             {
-                if (quoteVM.CurrentQuoteStatus == (int)QuoteStatusEnum.RequiresSatchel)
+                if (currentQuoteStatusId == (int)QuoteStatusEnum.RequiresSatchel)
                 {
-                    emailService.SendEmailTemplate(EmailTemplate.SatchelSent, quoteVM.quote);
+                    emailService.SendEmailTemplate(EmailTemplate.SatchelSent, quote);
                 }
             }
-            else if(quoteVM.quote.QuoteStatusId == (int)QuoteStatusEnum.Paid)
+            else if (quote.QuoteStatusId == (int)QuoteStatusEnum.Paid)
             {
-                if (quoteVM.CurrentQuoteStatus == (int)QuoteStatusEnum.Assessing || quoteVM.CurrentQuoteStatus == (int)QuoteStatusEnum.WaitingForDelivery)
+                if (currentQuoteStatusId == (int)QuoteStatusEnum.Assessing 
+                    || currentQuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery
+                    || currentQuoteStatusId == (int)QuoteStatusEnum.ReadyForPayment)
                 {
-                    emailService.SendEmailTemplate(EmailTemplate.Paid, quoteVM.quote);
+                    emailService.SendEmailTemplate(EmailTemplate.Paid, quote);
+                }
+            }
+            else if (quote.QuoteStatusId == (int)QuoteStatusEnum.Assessing)
+            {
+                if (currentQuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery)
+                {
+                    emailService.SendEmailTemplate(EmailTemplate.Assessing, quote);
                 }
             }
             else if (quoteVM.quote.QuoteStatusId == (int)QuoteStatusEnum.Assessing)

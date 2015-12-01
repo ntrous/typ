@@ -1,5 +1,5 @@
 ﻿var BlogPage = require('./BlogPage.js');
-var mockModule = require('../Mocks/mocks.js');
+var mockModule = require('../../Mocks/mocks.js');
 var blogPage;
 
 describe('Blog', function () {

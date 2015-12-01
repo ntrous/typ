@@ -11,9 +11,8 @@ namespace TradeYourPhone.Web
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                constraints: new { controller= "Home|Account|Email|PaymentTypes|PhoneConditionPrices|PhoneConditions|PhoneMakes|PhoneModels|Phones|Quotes|QuoteStatus|HtmlSnapshot|PriceScraper|Dashboard|Cache" }
+                url: "service/{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

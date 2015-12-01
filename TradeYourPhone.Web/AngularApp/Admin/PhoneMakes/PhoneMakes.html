@@ -1,0 +1,17 @@
+﻿<h2>Phone Makes</h2>
+<p>
+    <a href="/CreatePhoneMake">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <p>Phone Make</p>
+        </th>
+        <th></th>
+    </tr>
+    <tr ng-click="showPhoneMake(phoneMake.id)" ng-repeat="phoneMake in phoneMakesViewModel">
+        <td>
+            <p>{{phoneMake.name}}</p>
+        </td>
+    </tr>
+</table>

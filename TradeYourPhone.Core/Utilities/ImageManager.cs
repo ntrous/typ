@@ -5,7 +5,7 @@ namespace TradeYourPhone.Core.Utilities
 {
     public static class ImageManager
     {
-        public static byte[] CompressImage(Stream imageStream, string height)
+        public static byte[] CompressImage(object imageStream, string height)
         {
             Stream outputStream = new MemoryStream();
             ImageResizer.ImageJob j = new ImageResizer.ImageJob(imageStream, outputStream, new ImageResizer.ResizeSettings(

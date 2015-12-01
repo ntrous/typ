@@ -11,6 +11,7 @@ using TradeYourPhone.Core.Services.Interface;
 using TradeYourPhone.Core.ViewModels;
 using PagedList;
 using Microsoft.AspNet.Identity;
+using TradeYourPhone.Core.DTO;
 
 namespace TradeYourPhone.Web.Controllers
 {
@@ -25,26 +26,17 @@ namespace TradeYourPhone.Web.Controllers
         }
 
         // GET: Phones
-        public ActionResult Index(PhoneIndexViewModel viewModel)
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult GetPhones(PhoneIndexViewModel viewModel)
         {
-            int pageSize = 10;
-            PhoneIndexViewModel phoneIndexViewModel = viewModel ?? new PhoneIndexViewModel();
-            var phones = phoneService.SearchPhones(phoneIndexViewModel.PhoneId, phoneIndexViewModel.PhoneMakeId, phoneIndexViewModel.PhoneModelId, phoneIndexViewModel.PhoneStatusId);
-            phones = phoneService.GetSortedPhones(phones, phoneIndexViewModel);
-            if (phones.Count <= pageSize)
-            {
-                phoneIndexViewModel.page = 1;
-            }
+            var phones = phoneService.GetPhones(viewModel);
 
-            phoneIndexViewModel.Phones = phones.ToPagedList(viewModel.page ?? 1, 10);
-            phoneIndexViewModel.PhoneMakes = new SelectList(phoneService.GetAllPhoneMakes(), "ID", "MakeName");
-            phoneIndexViewModel.PhoneModels = new SelectList(phoneService.GetPhoneModelsByMakeId(phoneIndexViewModel.PhoneMakeId), "ID", "ModelName");
-            phoneIndexViewModel.PhoneStatuses = new SelectList(phoneService.GetAllPhoneStatuses(), "ID", "PhoneStatus");
-
-            return View(phoneIndexViewModel);
+            return Json(phones, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Phones/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -59,38 +51,19 @@ namespace TradeYourPhone.Web.Controllers
             return View(phone);
         }
 
-        // GET: Phones/Create
-        public ActionResult Create()
+        // POST: Phones/CreatePhone
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreatePhone(PhoneDTO phone)
         {
-            ViewBag.PhoneConditionId = new SelectList(phoneService.GetAllPhoneConditions(), "ID", "Condition");
-            ViewBag.PhoneMakeId = new SelectList(phoneService.GetAllPhoneMakes(), "ID", "MakeName");
-            ViewBag.PhoneModelId = Enumerable.Empty<SelectListItem>();
-            ViewBag.PhoneStatusId = new SelectList(phoneService.GetAllPhoneStatuses(), "Id", "PhoneStatus");
-            return View();
-        }
-
-        // POST: Phones/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,QuoteId,PhoneMakeId,PhoneModelId,PhoneConditionId,PurchaseAmount,SaleAmount,PhoneStatusId")] Phone phone)
-        {
-            if (ModelState.IsValid)
-            {
-                phoneService.CreatePhone(phone);
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.PhoneConditionId = new SelectList(phoneService.GetAllPhoneConditions(), "ID", "Condition");
-            ViewBag.PhoneMakeId = new SelectList(phoneService.GetAllPhoneMakes(), "ID", "MakeName");
-            ViewBag.PhoneModelId = new SelectList(phoneService.GetAllPhoneModels(), "ID", "ModelName");
-            ViewBag.PhoneStatusId = new SelectList(phoneService.GetAllPhoneStatuses(), "Id", "PhoneStatus");
-            return View(phone);
+            phoneService.CreatePhone(phone);
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Phones/Edit/5
-        public ActionResult Edit(int? id)
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetPhone(int? id)
         {
             if (id == null)
             {
@@ -101,30 +74,43 @@ namespace TradeYourPhone.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PhoneConditionId = new SelectList(phoneService.GetAllPhoneConditions(), "ID", "Condition", phone.PhoneConditionId);
-            ViewBag.PhoneMakeId = new SelectList(phoneService.GetAllPhoneMakes(), "ID", "MakeName", phone.PhoneMakeId);
-            ViewBag.PhoneModelId = new SelectList(phoneService.GetPhoneModelsByMakeId(phone.PhoneMakeId), "ID", "ModelName", phone.PhoneModelId);
-            ViewBag.PhoneStatusId = new SelectList(phoneService.GetAllPhoneStatuses(), "Id", "PhoneStatus", phone.PhoneStatusId);
-            return View(phone);
+            PhoneDetailsViewModel viewModel = new PhoneDetailsViewModel();
+            viewModel.MapPhone(phone);
+            viewModel.MapPhoneConditions(phoneService.GetAllPhoneConditions().ToList());
+            viewModel.MapPhoneMakes(phoneService.GetAllPhoneMakes().ToList());
+            viewModel.MapPhoneModels(phoneService.GetAllPhoneModels().ToList());
+            viewModel.MapPhoneStatuses(phoneService.GetAllPhoneStatuses().ToList());
+
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Phones/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,QuoteId,PhoneMakeId,PhoneModelId,PhoneConditionId,IMEI,PurchaseAmount,SaleAmount,PhoneStatusId")] Phone phone)
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult SavePhoneDetails(PhoneDTO phoneDTO)
         {
-            if (ModelState.IsValid)
-            {
-                phoneService.ModifyPhone(phone, User.Identity.GetUserId());
-                return RedirectToAction("Index");
-            }
-            ViewBag.PhoneConditionId = new SelectList(phoneService.GetAllPhoneConditions(), "ID", "Condition", phone.PhoneConditionId);
-            ViewBag.PhoneMakeId = new SelectList(phoneService.GetAllPhoneMakes(), "ID", "MakeName", phone.PhoneMakeId);
-            ViewBag.PhoneModelId = new SelectList(phoneService.GetPhoneModelsByMakeId(phone.PhoneMakeId), "ID", "ModelName", phone.PhoneModelId);
-            ViewBag.PhoneStatusId = new SelectList(phoneService.GetAllPhoneStatuses(), "Id", "PhoneStatus", phone.PhoneStatusId);
-            return View(phone);
+            Phone phone = phoneService.GetPhoneById(phoneDTO.Id);
+            phone.UpdateFromDTO(phoneDTO);
+            var updatedPhone = phoneService.ModifyPhone(phone, User.Identity.GetUserId());
+            phoneDTO.MapToDTO(updatedPhone);
+
+            return Json(phoneDTO, JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: Phones/Edit/5
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetPhoneReferenceData()
+        {
+            PhoneDetailsViewModel viewModel = new PhoneDetailsViewModel();
+            viewModel.MapPhoneConditions(phoneService.GetAllPhoneConditions().ToList());
+            viewModel.MapPhoneMakes(phoneService.GetAllPhoneMakes().ToList());
+            viewModel.MapPhoneModels(phoneService.GetAllPhoneModels().ToList());
+            viewModel.MapPhoneStatuses(phoneService.GetAllPhoneStatuses().ToList());
+
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Phones/Delete/5

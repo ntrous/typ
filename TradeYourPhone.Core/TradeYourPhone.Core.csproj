@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TradeYourPhone.Core</RootNamespace>
     <AssemblyName>TradeYourPhone.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -146,6 +146,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\CustomerDTO.cs" />
+    <Compile Include="DTO\PhoneConditionDTO.cs" />
+    <Compile Include="DTO\PhoneConditionPriceDTO.cs" />
+    <Compile Include="DTO\PhoneDTO.cs" />
+    <Compile Include="DTO\PhoneModelDTO.cs" />
+    <Compile Include="DTO\PhoneMakeDTO.cs" />
+    <Compile Include="DTO\PhoneStatusDTO.cs" />
+    <Compile Include="DTO\QuoteDTO.cs" />
+    <Compile Include="DTO\QuoteStatusDTO.cs" />
+    <Compile Include="DTO\PhoneStatusHistoryDTO.cs" />
+    <Compile Include="DTO\QuoteStatusHistoryDTO.cs" />
     <Compile Include="Enums\EmailTemplate.cs" />
     <Compile Include="Enums\PostageMethod.cs" />
     <Compile Include="Enums\PhoneStatus.cs" />
@@ -161,7 +172,9 @@
     <Compile Include="Models\Buddy Classes\AddressMD.cs" />
     <Compile Include="Models\Buddy Classes\CustomerMD.cs" />
     <Compile Include="Models\Buddy Classes\PaymentDetailsMD.cs" />
+    <Compile Include="Models\Buddy Classes\PhoneConditionPriceMD.cs" />
     <Compile Include="Models\Buddy Classes\PhoneMD.cs" />
+    <Compile Include="Models\Buddy Classes\PhoneMakeMD.cs" />
     <Compile Include="Models\Buddy Classes\PhoneModelMD.cs" />
     <Compile Include="Models\Buddy Classes\QuoteMD.cs" />
     <Compile Include="Models\Country.cs">
@@ -229,10 +242,14 @@
     <Compile Include="Models\QuoteStatusHistory.cs">
       <DependentUpon>NMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\Implementation\AuthRepository.cs" />
     <Compile Include="Repositories\Implementation\GenericRepository.cs" />
+    <Compile Include="Repositories\Implementation\PhoneRepository.cs" />
     <Compile Include="Repositories\Implementation\QuoteRepository.cs" />
     <Compile Include="Repositories\Implementation\UnitOfWork.cs" />
     <Compile Include="Repositories\Interface\IGenericRepository.cs" />
+    <Compile Include="Repositories\Interface\IPhoneRepository.cs" />
+    <Compile Include="Repositories\Interface\IQuoteRepository.cs" />
     <Compile Include="Repositories\Interface\IUnitOfWork.cs" />
     <Compile Include="Models\State.cs">
       <DependentUpon>NMModel.tt</DependentUpon>
@@ -258,9 +275,13 @@
     <Compile Include="Utilities\Util.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\CacheManagerViewModel.cs" />
+    <Compile Include="ViewModels\CreatePhoneModelViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\FinaliseQuoteViewModel.cs" />
     <Compile Include="ViewModels\GetQuoteViewModel.cs" />
+    <Compile Include="ViewModels\PhoneDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PhoneMakeViewModel.cs" />
+    <Compile Include="ViewModels\PhoneModelIndexViewModel.cs" />
     <Compile Include="ViewModels\PhoneModelViewModel.cs" />
     <Compile Include="ViewModels\PhoneViewModel.cs" />
     <Compile Include="ViewModels\PriceScraperViewModel.cs" />

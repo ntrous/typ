@@ -1,0 +1,145 @@
+﻿
+<h2>Edit</h2>
+<div class="form-horizontal">
+    <h4>Phone</h4>
+    <hr />
+    <p>
+        <a href="/Phones">Back To List</a>
+    </p>
+    <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
+    <div ng-class="{'content-loading':spinner}">
+        <div class="form-group" ng-show="phoneDetailsViewModel.Phone.QuoteId > 0">
+            <label class="control-label col-md-2">Quote</label>
+            <div class="col-md-10">
+                <p class="form-control-static">
+                    <a ng-href="Quote/{{phoneDetailsViewModel.Phone.QuoteId}}">Go to Quote</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">ID</label>
+            <div class="col-md-10">
+                <input type="text"
+                       id="ID"
+                       ng-model="phoneDetailsViewModel.Phone.Id"
+                       name="ID"
+                       class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Phone Make</label>
+            <div class="col-md-10">
+                <select ng-model="phoneDetailsViewModel.Phone.PhoneMakeId"
+                        ng-change="GetPhoneModelsByMakeId(phoneDetailsViewModel.Phone.PhoneMakeId)"
+                        id="PhoneMakeId"
+                        name="PhoneMakeId"
+                        ng-options="item.ID as item.Name for item in phoneDetailsViewModel.PhoneMakes"
+                        class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Phone Model</label>
+            <div class="col-md-10">
+                <select ng-model="phoneDetailsViewModel.Phone.PhoneModelId"
+                        id="PhoneModelId"
+                        name="PhoneModelId"
+                        ng-options="item.ID as item.Name for item in phoneModels"
+                        class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Phone Condition</label>
+            <div class="col-md-10">
+                <select ng-model="phoneDetailsViewModel.Phone.PhoneConditionId"
+                        id="PhoneConditionId"
+                        name="PhoneConditionId"
+                        ng-options="item.ID as item.Name for item in phoneDetailsViewModel.Conditions"
+                        class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">IMEI</label>
+            <div class="col-md-10">
+                <input type="text"
+                       id="IMEI"
+                       ng-model="phoneDetailsViewModel.Phone.IMEI"
+                       name="IMEI"
+                       class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Purchase Amount</label>
+            <div class="col-md-10">
+                <input type="text"
+                       id="PurchaseAmount"
+                       ng-model="phoneDetailsViewModel.Phone.PurchaseAmount"
+                       name="PurchaseAmount"
+                       class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Sale Amount</label>
+            <div class="col-md-10">
+                <input type="text"
+                       id="SaleAmount"
+                       ng-model="phoneDetailsViewModel.Phone.SaleAmount"
+                       name="SaleAmount"
+                       class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Phone Status</label>
+            <div class="col-md-10">
+                <select ng-model="phoneDetailsViewModel.Phone.PhoneStatusId"
+                        id="PhoneStatusId"
+                        name="PhoneStatusId"
+                        ng-options="item.ID as item.Name for item in phoneDetailsViewModel.PhoneStatuses"
+                        class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" ng-click="SavePhoneDetails(phoneDetailsViewModel.Phone)" />
+                <span ng-show="result">{{result}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Phone Status History</h4>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><label class="control-label">Status Date</label></th>
+                    <th><label class="control-label">Status</label></th>
+                    <th><label class="control-label">Status By</label></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="phoneHistory in phoneDetailsViewModel.Phone.PhoneStatusHistories">
+                    <td>
+                        <span>{{phoneHistory.StatusDate}}</span>
+                    </td>
+                    <td>
+                        <span>{{phoneHistory.PhoneStatus}}</span>
+                    </td>
+                    <td>
+                        <span>{{phoneHistory.CreatedBy}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

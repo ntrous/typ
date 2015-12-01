@@ -1,0 +1,58 @@
+﻿<h2>Dashboard</h2>
+
+<div class="row">
+    <div class="col-md-2">
+        <span>From</span> <input type="date" id="From" ng-model="dashboardViewModel.DateFrom" name="From" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <span>To</span> <input type="date" id="To" ng-model="dashboardViewModel.DateTo" name="To" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <br />
+        <input type="submit" value="Go" ng-click="UpdateDashboard(dashboardViewModel)" class="btn btn-default" />
+    </div>
+</div>
+<div class="row">
+    <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
+    <div ng-class="{'content-loading':spinner}">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <h2>Quotes</h2>
+                <div class="form-group">
+                    <label class="control-label">No of Created Quotes</label>
+                    <label class="form-control">{{dashboardViewModel.NoOfCreatedQuotes}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">No of Finalised Quotes</label>
+                    <label class="form-control">{{dashboardViewModel.NoOfFinalisedQuotes}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">No of Completed Quotes</label>
+                    <label class="form-control">{{dashboardViewModel.NoOfCompletedQuotes}}</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h2>Expenditure</h2>
+                <div class="form-group">
+                    <label class="control-label">Total Amount To Pay</label>
+                    <label class="form-control">{{dashboardViewModel.TotalAmountToPay}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Total Amount Paid</label>
+                    <label class="form-control">{{dashboardViewModel.TotalAmountPaid}}</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h2>Income</h2>
+                <div class="form-group">
+                    <label class="control-label">Total Devices Sold</label>
+                    <label class="form-control">{{dashboardViewModel.TotalDevicesSold}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Total Income Amount</label>
+                    <label class="form-control">{{dashboardViewModel.TotalIncomeAmount}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,13 +3,33 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using TradeYourPhone.Core.DTO;
 
 namespace TradeYourPhone.Core.Models
 {
     [MetadataType(typeof(QuoteMD))]
     partial class Quote
     {
+        public void UpdateFromDTO(QuoteDTO quoteDTO)
+        {
+            if (QuoteStatusId != quoteDTO.QuoteStatusId)
+            {
+                QuoteStatusId = quoteDTO.QuoteStatusId;
+            }
 
+            PostageMethodId = quoteDTO.PostageMethodId;
+            Notes = quoteDTO.Notes;
+
+            if (Customer != null)
+            {
+                Customer.UpdateFromDTO(quoteDTO.Customer);
+            }
+
+            foreach (var phone in Phones)
+            {
+                phone.UpdateFromDTO(quoteDTO.Phones.Where(p => p.Id == phone.Id).First());
+            }
+        }
     }
 
     public class QuoteMD

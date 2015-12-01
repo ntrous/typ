@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using TradeYourPhone.Core.DTO;
 
 namespace TradeYourPhone.Core.Models
 {
@@ -21,6 +22,16 @@ namespace TradeYourPhone.Core.Models
             {
                 return FirstName + " " + LastName;
             }
+        }
+
+        public void UpdateFromDTO(CustomerDTO customerDTO)
+        {
+            FirstName = customerDTO.FirstName;
+            LastName = customerDTO.LastName;
+            Email = customerDTO.Email;
+            PhoneNumber = customerDTO.PhoneNumber;
+            PaymentDetail.UpdateFromDTO(customerDTO.PaymentDetail);
+            Address.UpdateFromDTO(customerDTO.Address);
         }
     }
 

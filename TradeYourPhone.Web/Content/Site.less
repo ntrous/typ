@@ -51,6 +51,10 @@ h5 {
     font-family: 'Roboto Slab', serif !important;
 }
 
+[ng-cloak] {
+    display: none !important;
+ }
+
 .loading {
     position: fixed;
     top: 50%;
@@ -62,11 +66,16 @@ h5 {
     z-index: 1;
 }
 
+.content-loading {
+    opacity: 0.5;
+}
+
 .spinner {
     text-align: center;
     line-height: inherit;
 
     div {
+        text-align: left;
         opacity: 0.5;
     }
 
@@ -847,7 +856,6 @@ input[type="checkbox"].input-validation-error {
 
 .blog-post-preview {
     padding-bottom: 20px;
-    font-family: 'Noto Serif', serif!important;
 
     img {
         max-width: 100%;
@@ -983,6 +991,10 @@ input[type="checkbox"].input-validation-error {
             font-size: 12px;
         }
 
+    .author {
+        font-size: 12px;
+    }
+
     @media screen and (max-width: 770px) {
         color: rgba(74, 177, 108, 0.91);
         background-color: white;
@@ -1002,7 +1014,14 @@ input[type="checkbox"].input-validation-error {
         h1 {
             font-size: 17px;
             padding: 0px;
+}
+        .author {
+            font-size: 10px;
+            padding-left: 65px;
         }
+    }
+}
+
         .author {
             font-size: 10px;
             padding-left: 65px;
@@ -1065,7 +1084,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .blog-post-feature-image {
-    padding: 0!important;
+    padding: 0 !important;
 }
 
 .blog-post-feature-image img {
@@ -1076,57 +1095,57 @@ input[type="checkbox"].input-validation-error {
     padding-left: 0 !important;
     padding-right: 0 !important;
     padding-top: 20px;
-    font-family: 'Noto Serif', serif!important;
+    font-family: 'Noto Serif', serif !important;
 
     img.size-medium {
         max-width: 100%;
         max-height: 230px;
         padding: 5px 0 30px 0;
     }
-  
 }
 
 .blog-post-content p {
     font-size: 16px;
     line-height: 27px;
     margin-bottom: 28px;
-    
 }
 
 .blog-post-content h2 {
-     margin: 54px 0 28px;
-     font-size: 29px;
+    margin: 54px 0 28px;
+    font-size: 29px;
 }
 
 .blog-post-content h2:nth-of-type(1) {
-     margin: 10px 0 28px;
-     font-size: 29px;
+    margin: 10px 0 28px;
+    font-size: 29px;
 }
 
 
-.blog-post-content h3  {
+.blog-post-content h3 {
     font-size: 24px;
     margin: 54px 0 28px;
-   
-    
 }
 
 .phone-ads {
     max-width: 350px;
     overflow: hidden;
+
     > div {
         text-align: center;
+
         > div {
             padding: 18px 0;
+
             p {
-                padding: 0!important;
-                margin: 0!important;
+                padding: 0 !important;
+                margin: 0 !important;
             }
         }
     }
+
     h3 {
         text-align: center;
-       color: rgba(74, 177, 108, 0.91);
+        color: rgba(74, 177, 108, 0.91);
     }
 }
 
@@ -1147,19 +1166,21 @@ input[type="checkbox"].input-validation-error {
     }
 
     > div {
-         padding: 10px 0;
+        padding: 10px 0;
     }
+
     a:hover {
         color: rgba(74, 177, 108, 0.91);
     }
+
     h3 {
-       color: rgba(74, 177, 108, 0.91);
+        color: rgba(74, 177, 108, 0.91);
     }
 }
 
 .sell-now {
     width: 90px;
-    text-align: center!important;
+    text-align: center !important;
     margin-left: auto;
     margin-right: auto;
 }
