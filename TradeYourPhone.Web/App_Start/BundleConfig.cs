@@ -76,7 +76,7 @@ namespace TradeYourPhone.Web
             bundles.Add(angularUIBootstrapBundle);
 
             var angularModulesBundle = new ScriptBundle("~/bundles/angularModules");
-            angularModulesBundle.Include("~/Scripts/Libraries/Angulartics/angulartics.min.js", "~/Scripts/Libraries/Angulartics/angulartics-ga.min.js");
+            angularModulesBundle.Include("~/Scripts/Libraries/Angulartics/angulartics.min.js", "~/Scripts/Libraries/Angulartics/angulartics-ga.min.js", "~/Scripts/Libraries/Angular/angular-mocks.js");
             angularModulesBundle.Transforms.Add(jsTransformer);
             angularModulesBundle.Orderer = nullOrderer;
             bundles.Add(angularModulesBundle);

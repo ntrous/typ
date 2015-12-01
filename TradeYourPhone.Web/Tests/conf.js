@@ -1,18 +1,24 @@
 ﻿
 exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
+    baseUrl: 'http://localhost:53130',
     // ----- What tests to run -----
     specs: [
-        'e2e/*/*.js',
+        //'e2e/*/*.js'
+        'e2e/*/Blog.js'
     ],
 
     multiCapabilities: [
         {
             'browserName': 'chrome'
         }
+        //, {
+        //    'browserName': 'firefox'
+        //}
     ],
 
     // ----- The test framework -----
+
     framework: 'jasmine',
 
     // ----- Options to be passed to minijasminenode -----

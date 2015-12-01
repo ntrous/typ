@@ -6,7 +6,8 @@ var phoneToTest;
 describe('PhoneTab', function () {
 
     beforeEach(function () {
-        browser.get('http://localhost:53130/');
+        browser.driver.manage().deleteAllCookies();
+        browser.get('/');
         quotePage = new QuotePage();
         phoneToTest = 'Samsung Galaxy S6 Edge (64GB)';
 
@@ -63,6 +64,22 @@ describe('PhoneTab', function () {
             expect(quotePage.btnNew.isDisplayed()).toEqual(true);
             expect(quotePage.btnGood.isDisplayed()).toEqual(true);
             expect(quotePage.btnFaulty.isDisplayed()).toEqual(true);
+            // Good condition should be default
+            expect(quotePage.btnGood.getAttribute('class')).toContain('active');
+        });
+
+        describe('When deleting the phone text', function () {
+
+            beforeEach(function () {
+                quotePage.phoneInput.clear();
+            });
+
+            it('Phone Conditons and sell button should hide', function () {
+                // Condition and sell area should not be displayed
+                expect(quotePage.sellPhoneArea.isPresent()).toEqual(false);
+                expect(quotePage.phoneConditionArea.isPresent()).toEqual(false);
+                expect(quotePage.phoneInput.getAttribute('value')).toEqual('');
+            });
         });
     });
 
@@ -125,16 +142,7 @@ describe('PhoneTab', function () {
             expect(quotePage.quoteTabSection.isDisplayed()).toEqual(true);
             expect(quotePage.quoteTabSectionHeading.isDisplayed()).toEqual(true);
             expect(quotePage.quoteTabSectionHeading.getText()).toContain('Trade your phone for cash now');
-            // all tabs should be there, 3 for headings and 3 for content
-            expect(quotePage.quoteTabs.count()).toEqual(6);
-            // review tab should be active
-            expect(quotePage.reviewTabHeading.getAttribute('class')).toContain('active');
-            expect(quotePage.reviewTabContent.getAttribute('class')).toContain('active');
-            expect(quotePage.reviewTabHeading.getAttribute('heading')).toEqual('Review Your Quote');
-            expect(quotePage.detailsTabHeading.isDisplayed()).toEqual(true);
-            expect(quotePage.detailsTabHeading.getAttribute('heading')).toEqual('Enter Your Details');
-            expect(quotePage.summaryTabHeading.isDisplayed()).toEqual(true);
-            expect(quotePage.summaryTabHeading.getAttribute('heading')).toEqual('Review Your Summary');
+           
            // There is one phone so 'You have 1 phone in your cart, want to add another phone?' title should be used and shown
             expect(quotePage.phonesHeading.isDisplayed()).toEqual(true);
             expect(quotePage.noPhoneHeading.isDisplayed()).toEqual(false);
@@ -143,28 +151,8 @@ describe('PhoneTab', function () {
             // Condition and sell area should not be displayed
             expect(quotePage.sellPhoneArea.isPresent()).toEqual(false);
             expect(quotePage.phoneConditionArea.isPresent()).toEqual(false);
-
-            //table should show
-            expect(quotePage.reviewTable.isDisplayed()).toEqual(true);
-            expect(quotePage.reviewTableRows.count()).toEqual(1);
-            expect(quotePage.phoneInTable.getText()).toEqual(phoneToTest);
-            expect(quotePage.conditionInTable.getText()).toEqual('New');
-           
         });
     });
-
-    describe('When clicking continue on review tab', function () {
-
-        beforeEach(function () {
-            quotePage.sellPhone(phoneToTest, 'New', 1).then(function () {
-                quotePage.goToNextTab(1);
-            });
-        });
-
-        it('Should display the Details Tab', function () {
-            expect(quotePage.detailsTabHeading.getAttribute('class')).toContain('active');
-            expect(quotePage.detailsTabContent.getAttribute('class')).toContain('active');
-        });
-    });
-
 });
+
+   

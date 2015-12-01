@@ -1250,8 +1250,22 @@
     <Content Include="AngularApp\Quote\Home.html" />
     <Content Include="sitemap.xml" />
     <Content Include="Tests\conf.js" />
+    <Content Include="Tests\e2e\About\About.js" />
+    <Content Include="Tests\e2e\About\AboutPage.js" />
+    <Content Include="Tests\e2e\Blog\Blog.js" />
+    <Content Include="Tests\e2e\Blog\BlogPage.js" />
+    <Content Include="Tests\e2e\Contact\Contact.js" />
+    <Content Include="Tests\e2e\Contact\ContactPage.js" />
+    <Content Include="Tests\e2e\Mocks\mocks.js" />
+    <Content Include="Tests\e2e\Quotes\DetailsTab.js" />
+    <Content Include="Tests\e2e\Home\Home.js" />
+    <Content Include="Tests\e2e\Home\HomePage.js" />
     <Content Include="Tests\e2e\Quotes\PhoneTab.js" />
     <Content Include="Tests\e2e\Quotes\QuotePage.js" />
+    <Content Include="Tests\e2e\Quotes\ReviewTab.js" />
+    <Content Include="Tests\e2e\Quotes\SummaryTab.js" />
+    <Content Include="Tests\e2e\Support\Support.js" />
+    <Content Include="Tests\e2e\Support\SupportPage.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

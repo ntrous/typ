@@ -72,7 +72,7 @@
                     </p>
 
                     <p class="help-block" ng-show="detailsFormSubmitted && details.mobile.$invalid && !details.mobile.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid mobile numberf 
+                        <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid mobile number
                     </p>
                 </div>
             </div>
@@ -163,7 +163,7 @@
 
                 <div class="form-group"
                      ng-class="{'has-error':detailsFormSubmitted && details.paymentType.$invalid}">
-
+                    
                     <label for="paymentType">Payment Type</label>
                     <select ng-model="customer.paymentType"
                             ng-blur="fireFieldEvent('paymentType')"

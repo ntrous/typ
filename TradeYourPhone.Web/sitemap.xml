@@ -1,48 +1,65 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <!--
+ created with Free Online Sitemap Generator www.xml-sitemaps.com 
+-->
   <url>
     <loc>https://tradeyourphone.com.au/</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://tradeyourphone.com.au/FreeShipping</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://tradeyourphone.com.au/PriceGuarantee</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://tradeyourphone.com.au/WhatWeDo</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://tradeyourphone.com.au/Support</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://tradeyourphone.com.au/Contact</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://tradeyourphone.com.au/Blog</loc>
+    <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://tradeyourphone.com.au/CustomerReviews</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://tradeyourphone.com.au/sell-your-iphone</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://tradeyourphone.com.au/Privacy</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://tradeyourphone.com.au/TermsAndConditions</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://tradeyourphone.com.au/Blog/why-buying-used-phones-are-the-better-option-and-how-to-find-them</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://tradeyourphone.com.au/Blog/zombies-are-already-here-and-they-are-rude</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://tradeyourphone.com.au/Blog/review-a-year-with-a-sony-z3</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://tradeyourphone.com.au/Blog/the-confusing-concept-of-mobiles-and-recycling</loc>
+    <changefreq>daily</changefreq>
   </url>
 </urlset>
