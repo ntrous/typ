@@ -834,11 +834,11 @@ namespace TradeYourPhone.Core.Services.Implementation
                     emailService.SendEmailTemplate(EmailTemplate.Assessing, quote);
                 }
             }
-            else if (quoteVM.quote.QuoteStatusId == (int)QuoteStatusEnum.Assessing)
+            else if (quote.QuoteStatusId == (int)QuoteStatusEnum.Assessing)
             {
-                if (quoteVM.CurrentQuoteStatus == (int)QuoteStatusEnum.WaitingForDelivery)
+                if (currentQuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery)
                 {
-                    emailService.SendEmailTemplate(EmailTemplate.Assessing, quoteVM.quote);
+                    emailService.SendEmailTemplate(EmailTemplate.Assessing, quote);
                 }
             }
         }
