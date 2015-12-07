@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TradeYourPhone.Core.DTO;
 using TradeYourPhone.Core.Models;
 
-namespace TradeYourPhone.Core.ViewModels
+namespace TradeYourPhone.Web.ViewModels
 {
     public class CreatePhoneModelViewModel
     {

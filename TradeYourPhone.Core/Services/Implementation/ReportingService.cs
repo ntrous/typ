@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TradeYourPhone.Core.Enums;
 using TradeYourPhone.Core.Repositories.Interface;
 using TradeYourPhone.Core.Services.Interface;
-using TradeYourPhone.Core.Utilities;
-using TradeYourPhone.Core.ViewModels;
 
 namespace TradeYourPhone.Core.Services.Implementation
 {
@@ -23,37 +18,12 @@ namespace TradeYourPhone.Core.Services.Implementation
         #region Dashboard
 
         /// <summary>
-        /// Gets all the data for the Dashboard view
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns>DashboardViewModel</returns>
-        public DashboardViewModel GetDashboardData(DateTime? from, DateTime? to)
-        {
-            DateTime dateFrom = from.Value == DateTime.MinValue ? DateTime.Today: from.Value;
-            DateTime dateTo = to.Value == DateTime.MinValue ? DateTime.Today: to.Value;
-            dateTo = dateTo.Date.AddDays(1).AddSeconds(-1);
-
-            DashboardViewModel vm = new DashboardViewModel();
-            vm.DateFrom = Util.GetAEST(dateFrom.Date); vm.DateTo = Util.GetAEST(dateTo);
-            vm.NoOfCreatedQuotes = GetTotalQuotesCreated(dateFrom, dateTo);
-            vm.NoOfFinalisedQuotes = GetTotalFinalisedQuotes(dateFrom, dateTo);
-            vm.TotalAmountToPay = GetTotalAmountToBePaid();
-            vm.TotalAmountPaid = GetTotalAmountPaid(dateFrom, dateTo);
-            vm.NoOfCompletedQuotes = GetTotalCompletedQuotes(dateFrom, dateTo);
-            vm.TotalDevicesSold = GetTotalDevicesSold(dateFrom, dateTo);
-            vm.TotalIncomeAmount = GetTotalIncomeAmount(dateFrom, dateTo);
-
-            return vm;
-        }
-
-        /// <summary>
         /// Get total number of quotes created within the given date range
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        private int GetTotalQuotesCreated(DateTime from, DateTime to)
+        public int GetTotalQuotesCreated(DateTime from, DateTime to)
         {
             int total = unitOfWork.QuoteRepository.Get(q => q.CreatedDate >= from && q.CreatedDate <= to).Count();
             return total;
@@ -65,7 +35,7 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns>Total number of finalised quotes</returns>
-        private int GetTotalFinalisedQuotes(DateTime from, DateTime to)
+        public int GetTotalFinalisedQuotes(DateTime from, DateTime to)
         {
             int total = unitOfWork.QuoteRepository.Get(q => (q.QuoteStatusId == (int)QuoteStatusEnum.RequiresSatchel || q.QuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery)
                                                         && (q.QuoteFinalisedDate >= from && q.QuoteFinalisedDate <= to)).Count();
@@ -76,7 +46,7 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// Gets the total amount of money that needs to be paid
         /// </summary>
         /// <returns></returns>
-        private decimal GetTotalAmountToBePaid()
+        public decimal GetTotalAmountToBePaid()
         {
             decimal total = unitOfWork.QuoteRepository.Get(q => (q.QuoteStatusId == (int)QuoteStatusEnum.RequiresSatchel 
                                                                 || q.QuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery
@@ -92,7 +62,7 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        private decimal GetTotalAmountPaid(DateTime from, DateTime to)
+        public decimal GetTotalAmountPaid(DateTime from, DateTime to)
         {
             decimal total = unitOfWork.PhoneRepository.Get(includeProperties: "PhoneStatusHistories").Where(p => p.PhoneStatusHistories.Any(psh => psh.PhoneStatusId == (int)PhoneStatusEnum.Paid && (psh.StatusDate >= from && psh.StatusDate <= to)))
                                                             .Sum(p => p.PurchaseAmount).Value;
@@ -105,10 +75,9 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        private int GetTotalCompletedQuotes(DateTime from, DateTime to)
+        public int GetTotalCompletedQuotes(DateTime from, DateTime to)
         {
-            int total = unitOfWork.QuoteRepository.Get(q => q.QuoteStatusId == (int)QuoteStatusEnum.Paid, includeProperties: "QuoteStatusHistories")
-                                                    .Where(q => q.QuoteStatusHistories.Any(qsh => (qsh.StatusDate >= from && qsh.StatusDate <= to))).Count();
+            int total = unitOfWork.QuoteRepository.Get(q => q.QuoteStatusId == (int)QuoteStatusEnum.Paid, includeProperties: "QuoteStatusHistories").Count(q => q.QuoteStatusHistories.Any(qsh => (qsh.StatusDate >= from && qsh.StatusDate <= to)));
             return total;
         }
 
@@ -118,10 +87,9 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        private int GetTotalDevicesSold(DateTime from, DateTime to)
+        public int GetTotalDevicesSold(DateTime from, DateTime to)
         {
-            int total = unitOfWork.PhoneRepository.Get(p => p.PhoneStatusId == (int)PhoneStatusEnum.Sold, includeProperties: "PhoneStatusHistories")
-                                                    .Where(p => p.PhoneStatusHistories.Any(psh => psh.PhoneStatusId == (int)PhoneStatusEnum.Sold && (psh.StatusDate >= from && psh.StatusDate <= to))).Count();
+            int total = unitOfWork.PhoneRepository.Get(p => p.PhoneStatusId == (int)PhoneStatusEnum.Sold, includeProperties: "PhoneStatusHistories").Count(p => p.PhoneStatusHistories.Any(psh => psh.PhoneStatusId == (int)PhoneStatusEnum.Sold && (psh.StatusDate >= from && psh.StatusDate <= to)));
             return total;
         }
 
@@ -131,11 +99,47 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        private decimal GetTotalIncomeAmount(DateTime from, DateTime to)
+        public decimal GetTotalIncomeAmount(DateTime from, DateTime to)
         {
             decimal total = unitOfWork.PhoneRepository.Get(p => p.PhoneStatusId == (int)PhoneStatusEnum.Sold, includeProperties: "PhoneStatusHistories")
                                                     .Where(p => p.PhoneStatusHistories.Any(psh => psh.PhoneStatusId == (int)PhoneStatusEnum.Sold && (psh.StatusDate >= from && psh.StatusDate <= to)))
                                                         .Sum(p => p.SaleAmount).Value;
+            return total;
+        }
+
+        /// <summary>
+        /// Get total worth of all Phones by the purchase amount
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        public decimal GetTotalAssetWorth()
+        {
+            decimal total = unitOfWork.PhoneRepository.Get((p => p.PhoneStatusId == (int) PhoneStatusEnum.Paid
+                                                                 || p.PhoneStatusId == (int) PhoneStatusEnum.Listed
+                                                                 || p.PhoneStatusId == (int) PhoneStatusEnum.ReadyForSale)
+                                                                    , includeProperties: "PhoneStatusHistories").Sum(p => p.PurchaseAmount).Value;
+            return total;
+        }
+
+        /// <summary>
+        /// Get total of profit made on all sales
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        public decimal GetTotalProfit(DateTime from, DateTime to)
+        {
+            var soldPhones = unitOfWork.PhoneRepository.Get(p => p.PhoneStatusId == (int)PhoneStatusEnum.Sold, includeProperties: "PhoneStatusHistories")
+                                                    .Where(p => p.PhoneStatusHistories.Any(psh => psh.PhoneStatusId == (int)PhoneStatusEnum.Sold && (psh.StatusDate >= from && psh.StatusDate <= to)));
+
+            var totalPurchaseAmount = soldPhones.Sum(p => p.PurchaseAmount);
+            var totalSoldAmount = soldPhones.Sum(p => p.SaleAmount);
+            decimal total = 0;
+            if (totalPurchaseAmount != null && totalSoldAmount != null)
+            {
+                total = totalSoldAmount.Value - totalPurchaseAmount.Value;
+            }
             return total;
         }
 

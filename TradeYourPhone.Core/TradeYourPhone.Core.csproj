@@ -150,12 +150,12 @@
     <Compile Include="DTO\PhoneConditionDTO.cs" />
     <Compile Include="DTO\PhoneConditionPriceDTO.cs" />
     <Compile Include="DTO\PhoneDTO.cs" />
-    <Compile Include="DTO\PhoneModelDTO.cs" />
     <Compile Include="DTO\PhoneMakeDTO.cs" />
+    <Compile Include="DTO\PhoneModelDTO.cs" />
     <Compile Include="DTO\PhoneStatusDTO.cs" />
+    <Compile Include="DTO\PhoneStatusHistoryDTO.cs" />
     <Compile Include="DTO\QuoteDTO.cs" />
     <Compile Include="DTO\QuoteStatusDTO.cs" />
-    <Compile Include="DTO\PhoneStatusHistoryDTO.cs" />
     <Compile Include="DTO\QuoteStatusHistoryDTO.cs" />
     <Compile Include="Enums\EmailTemplate.cs" />
     <Compile Include="Enums\PostageMethod.cs" />
@@ -183,10 +183,6 @@
     <Compile Include="Models\Customer.cs">
       <DependentUpon>NMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DomainModels\CustomerDetail.cs" />
-    <Compile Include="Models\DomainModels\QuoteDetailsResult.cs" />
-    <Compile Include="Models\DomainModels\PhoneDetail.cs" />
-    <Compile Include="Models\DomainModels\QuoteDetails.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\NMModel.Context.cs">
       <DependentUpon>NMModel.Context.tt</DependentUpon>
@@ -254,41 +250,20 @@
     <Compile Include="Models\State.cs">
       <DependentUpon>NMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Scraper\IScraper.cs" />
-    <Compile Include="Scraper\MobileMonsterScraper.cs" />
-    <Compile Include="Scraper\PhoneMapper.cs" />
     <Compile Include="Services\Implementation\EmailService.cs" />
     <Compile Include="Services\Implementation\PhoneService.cs" />
     <Compile Include="Services\Implementation\QuoteService.cs" />
     <Compile Include="Services\Implementation\ReportingService.cs" />
-    <Compile Include="Services\Implementation\ScraperService.cs" />
     <Compile Include="Services\Interface\IEmailService.cs" />
     <Compile Include="Services\Interface\IPhoneService.cs" />
     <Compile Include="Services\Interface\IQuoteService.cs" />
     <Compile Include="Services\Interface\IReportingService.cs" />
-    <Compile Include="Services\Interface\IScraperService.cs" />
     <Compile Include="Utilities\ImageManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Log.cs" />
     <Compile Include="Utilities\Math.cs" />
     <Compile Include="Utilities\NaturalSortComparer.cs" />
     <Compile Include="Utilities\Util.cs" />
-    <Compile Include="ViewModels\AccountViewModel.cs" />
-    <Compile Include="ViewModels\CacheManagerViewModel.cs" />
-    <Compile Include="ViewModels\CreatePhoneModelViewModel.cs" />
-    <Compile Include="ViewModels\DashboardViewModel.cs" />
-    <Compile Include="ViewModels\FinaliseQuoteViewModel.cs" />
-    <Compile Include="ViewModels\GetQuoteViewModel.cs" />
-    <Compile Include="ViewModels\PhoneDetailsViewModel.cs" />
-    <Compile Include="ViewModels\PhoneMakeViewModel.cs" />
-    <Compile Include="ViewModels\PhoneModelIndexViewModel.cs" />
-    <Compile Include="ViewModels\PhoneModelViewModel.cs" />
-    <Compile Include="ViewModels\PhoneViewModel.cs" />
-    <Compile Include="ViewModels\PriceScraperViewModel.cs" />
-    <Compile Include="ViewModels\QuoteDetailsViewModel.cs" />
-    <Compile Include="ViewModels\PhoneIndexViewModel.cs" />
-    <Compile Include="ViewModels\QuoteIndexViewModel.cs" />
-    <Compile Include="ViewModels\SaveQuoteViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -316,6 +291,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\DomainModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />

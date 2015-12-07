@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TradeYourPhone.Core.Models.DomainModels;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TradeYourPhone.Web.ViewModels;
 
 namespace TradeYourPhone.Test.TradeYourPhone.Core.Models.DomainModels
 {

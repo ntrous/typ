@@ -1,10 +1,5 @@
 ﻿using TradeYourPhone.Core.Models;
-using TradeYourPhone.Core.Models.DomainModels;
-using TradeYourPhone.Core.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace TradeYourPhone.Core.Services.Interface
 {
@@ -37,13 +32,6 @@ namespace TradeYourPhone.Core.Services.Interface
         Quote GetQuoteById(int quoteId);
 
         /// <summary>
-        /// Gets quotes based on properties provided from the View Model
-        /// </summary>
-        /// <param name="viewModel"></param>
-        /// <returns></returns>
-        QuoteIndexViewModel GetQuotes(QuoteIndexViewModel viewModel);
-
-        /// <summary>
         /// Returns Quote based on the referenceId provided
         /// </summary>
         /// <param name="refId"></param>
@@ -51,12 +39,10 @@ namespace TradeYourPhone.Core.Services.Interface
         Quote GetQuoteByReferenceId(string refId);
 
         /// <summary>
-        /// Returns a QuoteDetailsResult object with the customer and all the phones associated with the key provided.
-        /// If the quote is in the New status, prices will also be revalidated.
+        /// Revalidates all Phone Prices for the given quote
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        QuoteDetailsResult GetQuoteDetailsByQuoteReferenceId(string key);
+        /// <param name="phones"></param>
+        Quote ReValidatePhonePrices(Quote quote);
 
         /// <summary>
         /// Adds a phone to the Quote. Returns a PhoneModelDetailsViewModel object with ALL phones associated with the quote.
@@ -64,7 +50,7 @@ namespace TradeYourPhone.Core.Services.Interface
         /// <param name="key"></param>
         /// <param name="phone"></param>
         /// <returns></returns>
-        QuoteDetailsResult AddPhoneToQuote(string key, string phoneModelId, string phoneConditionId);
+        Quote AddPhoneToQuote(string key, string phoneModelId, string phoneConditionId);
 
         /// <summary>
         /// Deletes a phone from a New Quote
@@ -72,7 +58,7 @@ namespace TradeYourPhone.Core.Services.Interface
         /// <param name="key"></param>
         /// <param name="phoneId"></param>
         /// <returns></returns>
-        QuoteDetailsResult DeletePhoneFromQuote(string key, string phoneId);
+        Quote DeletePhoneFromQuote(string key, string phoneId);
 
         /// <summary>
         /// Creates a new quote with a status of New and returns Unique reference ID
@@ -87,7 +73,7 @@ namespace TradeYourPhone.Core.Services.Interface
         /// <param name="key"></param>
         /// <param name="customer"></param>
         /// <returns></returns>
-        QuoteDetailsResult SaveQuote(string key, SaveQuoteViewModel viewModel);
+        Quote SaveQuote(Quote quote);
 
         /// <summary>
         /// Finalises the Quote by creating the customer and setting the quote status
@@ -95,8 +81,8 @@ namespace TradeYourPhone.Core.Services.Interface
         /// </summary>
         /// <param name="key">Unique Quote Key</param>
         /// <param name="customer">Customer object</param>
-        /// <returns>QuoteDetailResult</returns>
-        QuoteDetailsResult FinaliseQuote(string key, SaveQuoteViewModel viewModel);
+        /// <returns>QuoteDetailResult</returns>d
+        Quote FinaliseQuote(Quote quote);
 
         /// <summary>
         /// Modifies the quote object
@@ -122,7 +108,7 @@ namespace TradeYourPhone.Core.Services.Interface
         /// <param name="firstName"></param>
         /// <param name="quoteStatusId"></param>
         /// <returns></returns>
-        List<Quote> SearchQuotes(string referenceId, string email, string lastName, string firstName, int quoteStatusId);
+        List<Quote> SearchQuotes(string referenceId, string email, string fullName, int quoteStatusId);
 
         /// <summary>
         /// Based on sortOrder paramater the quotes will be sorted into specific order
@@ -130,7 +116,7 @@ namespace TradeYourPhone.Core.Services.Interface
         /// <param name="quotesToSort"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        List<Quote> GetSortedQuotes(List<Quote> quotesToSort, QuoteIndexViewModel viewModel);
+        List<Quote> GetSortedQuotes(List<Quote> quotesToSort, string sortOrder);
 
         /// <summary>
         /// Get all states

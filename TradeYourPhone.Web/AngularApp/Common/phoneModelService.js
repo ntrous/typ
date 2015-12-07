@@ -10,10 +10,10 @@
     }
 
     this.GetPhoneModels = function () {
-        return $http.get('/service/PhoneModels/GetPhoneModels', { cache: true })
+        return $http.get('/service/PhoneModels/GetPhoneModels')
             .then(
                 function (response) {
-                    return response.data;
+                    return response.data.PhoneModels;
                 },
                 function (httpError) {
                     // translate the error

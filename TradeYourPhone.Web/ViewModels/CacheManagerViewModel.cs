@@ -1,4 +1,4 @@
-﻿namespace TradeYourPhone.Core.ViewModels
+﻿namespace TradeYourPhone.Web.ViewModels
 {
     public class CacheManagerViewModel
     {

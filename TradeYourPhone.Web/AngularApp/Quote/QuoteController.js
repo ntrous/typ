@@ -33,19 +33,15 @@
     $scope.GetPhoneOffer = function (modelId, conditionId) {
         if (!modelId) { return }
 
-        var modelFound = false;
         for (var i = 0; i < $scope.phoneModels.length; i++) {
-            if ($scope.phoneModels[i].id == modelId) {
+            if ($scope.phoneModels[i].Id === modelId) {
                 var model = $scope.phoneModels[i];
-                var conditionPriceFound = false;
-                for (var i = 0; i < model.conditionPrices.length; i++) {
-                    if (model.conditionPrices[i].PhoneConditionId == conditionId) {
-                        $scope.phoneOffer = model.conditionPrices[i].OfferAmount;
-                        conditionPriceFound = true;
+                for (var i = 0; i < model.ConditionPrices.length; i++) {
+                    if (model.ConditionPrices[i].PhoneConditionId === conditionId) {
+                        $scope.phoneOffer = model.ConditionPrices[i].OfferAmount;
                         break;
                     }
                 }
-                modelFound = true;
                 break;
             }
         }
@@ -102,7 +98,7 @@
         var deferredPromise = $q.defer();
         if (key) {
             QuoteService.GetQuoteDetails($scope.quoteKey).then(function (response) {
-                if (response.Status = "OK") {
+                if (response.Status === "OK") {
                     $scope.quote = response.QuoteDetails;
                     $scope.tabs[0].active = true;
                     if (response.QuoteDetails.Customer) {
@@ -111,7 +107,7 @@
                     }
                     deferredPromise.resolve();
                 }
-                else if (response.Exception.Message == "500") {
+                else if (response.Exception.Message === "500") {
                     QuoteService.CreateQuote().then(function (response) {
                         $scope.quoteKey = response;
                         deferredPromise.resolve();
@@ -141,11 +137,11 @@
         $scope.deleteIndex = index;
         $scope.deleteSpinner = true;
         QuoteService.DeleteQuotePhone($scope.quoteKey, phoneId).then(function (response) {
-            if (response.Status = "OK") {
+            if (response.Status === "OK") {
                 $scope.quote = response.QuoteDetails;
             }
 
-            if ($scope.quote.Phones.length == 0) {
+            if ($scope.quote.Phones.length === 0) {
                 $timeout(function () {
                     $location.hash('main');
                     $anchorScroll();
@@ -159,7 +155,7 @@
         var deferredPromise = $q.defer();
         QuoteService.GetStates().then(function (response) {
             $scope.states = response;
-            $scope.customer.postageState = $scope.states[0].name;
+            $scope.customer.postageState = $scope.states[0];
             deferredPromise.resolve();
         });
         return deferredPromise.promise;
@@ -167,7 +163,7 @@
     $scope.GetPaymentTypes = function () {
         QuoteService.GetPaymentTypes().then(function (response) {
             $scope.paymentTypes = response;
-            $scope.customer.paymentType = $scope.paymentTypes[0].name;
+            $scope.customer.paymentType = $scope.paymentTypes[0];
         });
     }
 
@@ -191,15 +187,13 @@
                     AddressLine2: customerValue.postageSuburb,
                     PostCode: customerValue.postagePostcode,
                     CountryId: '1', // Australia
-                    State: { StateNameShort: customerValue.postageState }
+                    StateId: customerValue.postageState.id
                 },
                 PaymentDetail: {
                     BSB: customerValue.bsb,
                     AccountNumber: customerValue.accountNum,
                     PaypalEmail: customerValue.paypalEmail,
-                    PaymentType: {
-                        PaymentTypeName: customerValue.paymentType
-                    }
+                    PaymentTypeId: customerValue.paymentType.id
                 }
             },
             PostageMethodId: quote.PostageMethod.Id,
@@ -238,15 +232,13 @@
                         AddressLine2: customerValue.postageSuburb,
                         PostCode: customerValue.postagePostcode,
                         CountryId: '1', // Australia
-                        State: { StateNameShort: customerValue.postageState }
+                        StateId: customerValue.postageState.ID
                     },
                     PaymentDetail: {
                         BSB: customerValue.bsb,
                         AccountNumber: customerValue.accountNum,
                         PaypalEmail: customerValue.paypalEmail,
-                        PaymentType: {
-                            PaymentTypeName: customerValue.paymentType
-                        }
+                        PaymentTypeId: customerValue.paymentType.ID
                     }
                 },
                 PostageMethodId: quote.PostageMethod.Id,
@@ -266,10 +258,10 @@
         $scope.condition.id = 2;
         if (!$scope.phoneModels) {
             $scope.GetPhoneModels().then(function (response) {
-                $scope.GetPhoneOffer(item.id, $scope.condition.id)
+                $scope.GetPhoneOffer(item.Id, $scope.condition.id);
             });
         } else {
-            $scope.GetPhoneOffer(item.id, $scope.condition.id)
+            $scope.GetPhoneOffer(item.Id, $scope.condition.id);
         }
 
     }
@@ -291,7 +283,7 @@
 
     $scope.DisplayBankTransfer = function () {
         if ($scope.customer.paymentType) {
-            return $scope.customer.paymentType == 'Bank Transfer';
+            return $scope.customer.paymentType.PaymentTypeName === 'Bank Transfer';
         }
         else {
             return false;
@@ -300,7 +292,7 @@
 
     $scope.DisplayPaypal = function () {
         if ($scope.customer.paymentType) {
-            return $scope.customer.paymentType == 'Paypal';
+            return $scope.customer.paymentType.PaymentTypeName === 'Paypal';
         }
         else {
             return false;
@@ -373,11 +365,12 @@
             $scope.GetPaymentTypes(),
             $scope.GetStates()
         ]).then(function () {
+            $scope.GetPostageMethods();
             $scope.quote = quote;
             if (!$scope.quote) {
                 $scope.quote = { PostageMethod: null };
             }
-            $scope.GetPostageMethods();
+            
             $scope.tabs[0].active = true;
             if ($scope.quote && $scope.quote.Customer) {
                 $scope.customer = quote.Customer;

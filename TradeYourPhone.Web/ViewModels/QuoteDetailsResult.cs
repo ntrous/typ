@@ -1,11 +1,6 @@
-﻿using TradeYourPhone.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace TradeYourPhone.Core.Models.DomainModels
+namespace TradeYourPhone.Web.ViewModels
 {
     public class QuoteDetailsResult
     {
@@ -22,7 +17,7 @@ namespace TradeYourPhone.Core.Models.DomainModels
         public QuoteDetailsException(Exception ex)
         {
             Message = ex.Message;
-            InnerMessage = ex.InnerException != null ? ex.InnerException.Message : null;
+            InnerMessage = ex.InnerException?.Message;
         }   
     }
 }

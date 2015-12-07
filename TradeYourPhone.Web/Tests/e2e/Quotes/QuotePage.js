@@ -28,7 +28,7 @@
     this.sellPhoneArea = element(by.css('div[ng-if="phoneOffer!=null"]'));
     this.sellPhoneHeading = element(by.css('div[ng-if="phoneOffer!=null"] > h3.mainheading'));
     this.phonePrice = element(by.css('div[ng-if="phoneOffer!=null"] > h2'));
-    this.btnSellPhone = element(by.css('button[ng-click="addPhoneToQuote(search.model.id, condition.id)"]'));
+    this.btnSellPhone = element(by.css('button[ng-click="addPhoneToQuote(search.model.Id, condition.id)"]'));
 
 
     // Quote Section
@@ -103,9 +103,9 @@
     this.chosenType = this.paymentDetails.element(by.css('p:nth-of-type(2)'));
     this.paymentDetailsEntered = this.paymentDetails.element(by.css('p:nth-of-type(3)'));
     // Postage Details
-    this.postageDetails = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"]>div:nth-of-type(5)'));
+    this.postageDetails = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"]>div:nth-of-type(6)'));
     this.postageDetailsTitle = this.postageDetails.element(by.css('h3'));
-    this.postageInfo = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"]>div:nth-of-type(5)>p:nth-of-type(1)'));
+    this.postageInfo = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"]>div:nth-of-type(6)>p:nth-of-type(1)'));
     this.postagePost = this.postageDetails.element(by.css('div[ng-if="DisplayPostage()"]'));
     this.postageSatchel = this.postageDetails.element(by.css('div[ng-if="DisplaySatchel()"]'));
     // Summary Table
@@ -113,8 +113,7 @@
     this.phoneSummaryTableRows = this.phoneSummaryTable.all(by.css('tbody > tr'));
     // T&C, clear iCloud Warning
     this.cleariCloudCheck = this.summarySection.element(by.css('div[ng-show="DoesQuoteContainApple()"]'));
-    this.agreeTCLabel = this.summarySection.element(by.css('label[for="TCcheckbox"]'));
-    this.agreeTCCheckbox = this.summarySection.element(by.id('TCcheckbox'));
+    this.agreeTCLabel = this.summarySection.element(by.css('p.tc'));
     // Summary Buttons
     this.summarySubmit = element(by.css('button[ng-click="FinaliseQuote(customer, quote)"]'));
     this.backToDetailsBtn = element(by.css('button.back-btn[ng-click="goToTab(\'Quote\', 1)"]'));
@@ -184,7 +183,7 @@
     // DESCRIPTION: searches and selects the phone you pass in, selects the passed in condition and then clicks the 'Sell This Phone' button and waits till the Quote Section is displayed before returning
     this.sellPhone = function (phoneName, condition, conditionId) {
         return this.selectCondition(phoneName, condition, conditionId).then(function () { 
-            return element(by.css('button[ng-click="addPhoneToQuote(search.model.id, condition.id)"]')).click()
+            return element(by.css('button[ng-click="addPhoneToQuote(search.model.Id, condition.id)"]')).click()
             .then(function () {
                 browser.wait(function () {
                     return element(by.id('Quote')).isDisplayed();
@@ -217,18 +216,18 @@
     // PARAMETERS: type: string - payment type to select
     // DESCRIPTION: clicks the Payment Type dropdown and selects the type requested
     this.selectPaymentType = function (type) {
-        return this.paymentTypeSelect.click().then(function () {
+        return this.paymentTypeSelect.click().then(function() {
             return element(by.css('#paymentType > option[label="' + type + '"]')).click();
-        })
+        });
     }
 
     // FUNCTION NAME: selectState
     // PARAMETERS: state: string - state to select
     // DESCRIPTION: clicks the State dropdown and selects the state requested
     this.selectState = function (state) {
-        return this.stateSelect.click().then(function () {
+        return this.stateSelect.click().then(function() {
             return element(by.css('#state > option[label="' + state + '"]')).click();
-        })
+        });
     }
 
     // FUNCTION NAME: enterDetails

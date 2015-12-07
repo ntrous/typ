@@ -24,7 +24,7 @@ namespace TradeYourPhone.Test
                 QuoteReferenceId = "BFF8MGD3",
                 Customer = new Customer
                 {
-                    FirstName = "NavTest",
+                    FullName = "NavTest",
                     Email = "ntrous@gmail.com"
                 }
             };

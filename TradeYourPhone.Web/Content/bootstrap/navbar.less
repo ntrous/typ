@@ -242,7 +242,7 @@
 
 .navbar-nav {
   margin: (@navbar-padding-vertical / 2) -@navbar-padding-horizontal;
-  width: 75%;
+  width: 100%;
 
   > li > a {
     padding-top:    10px;
@@ -253,6 +253,9 @@
 
     @media screen and (max-width: 1200px) {
         width: 100%;
+        li {  
+            margin: 0 5.5%!important;
+        }
      }
 
      @media screen and (max-width: 991px) {
@@ -260,8 +263,10 @@
             margin: 0 3.8%!important;
         }
     }
+
+   
       li {  
-          margin: 0 4.9%;
+          margin: 0 6%;
       }
  
     a:hover {

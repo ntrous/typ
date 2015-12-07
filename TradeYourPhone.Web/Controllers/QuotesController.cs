@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Services.Interface;
-using TradeYourPhone.Core.ViewModels;
-using TradeYourPhone.Core.Models.DomainModels;
+using TradeYourPhone.Web.ViewModels;
 using TradeYourPhone.Core.Enums;
 using PagedList;
 using Microsoft.AspNet.Identity;
@@ -33,7 +28,26 @@ namespace TradeYourPhone.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Index(QuoteIndexViewModel viewModel)
         {
-            QuoteIndexViewModel quoteIndexViewModel = quoteService.GetQuotes(viewModel);
+            QuoteIndexViewModel quoteIndexViewModel = viewModel ?? new QuoteIndexViewModel();
+            viewModel.PageSize = 20;
+            var quotes = quoteService.SearchQuotes(quoteIndexViewModel.referenceId, quoteIndexViewModel.email, quoteIndexViewModel.fullName, quoteIndexViewModel.statusId);
+
+            viewModel.QuoteFinalisedDateSortParm = String.IsNullOrEmpty(viewModel.sortOrder) ? "quote_finalised_date_asc" : "";
+            viewModel.NameSortParm = viewModel.sortOrder == "name_asc" ? "name_desc" : "name_asc";
+            viewModel.EmailSortParm = viewModel.sortOrder == "email_asc" ? "email_desc" : "email_asc";
+            viewModel.CreatedDateSortParm = viewModel.sortOrder == "created_date_asc" ? "created_date_desc" : "created_date_asc";
+            viewModel.StatusSortParm = viewModel.sortOrder == "status_asc" ? "status_desc" : "status_asc";
+            quotes = quoteService.GetSortedQuotes(quotes, viewModel.sortOrder);
+
+            quoteIndexViewModel.TotalQuotes = quotes.Count;
+            if (quoteIndexViewModel.PageNumber == 0 || (quoteIndexViewModel.PageNumber > (int)System.Math.Ceiling(((double)quoteIndexViewModel.TotalQuotes / (double)viewModel.PageSize))))
+            { quoteIndexViewModel.PageNumber = 1; }
+
+            var pagedQuotes = quotes.ToPagedList(quoteIndexViewModel.PageNumber, viewModel.PageSize);
+
+            quoteIndexViewModel.MapQuotes(pagedQuotes);
+            quoteIndexViewModel.MapStatuses(quoteService.GetAllQuoteStatuses().ToList());
+
             return Json(quoteIndexViewModel, JsonRequestBehavior.AllowGet);
         }
 
@@ -95,7 +109,21 @@ namespace TradeYourPhone.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AddPhoneToQuoteInSession(string key, string modelId, string conditionId)
         {
-            QuoteDetailsResult addPhoneResult = quoteService.AddPhoneToQuote(key, modelId, conditionId);
+            QuoteDetailsResult addPhoneResult = new QuoteDetailsResult() { Status = "OK" };
+
+            try
+            {
+                Quote quote = quoteService.AddPhoneToQuote(key, modelId, conditionId);
+                
+                addPhoneResult.QuoteDetails = new QuoteDetails();
+                addPhoneResult.QuoteDetails.MapQuote(quote);
+            }
+            catch (Exception ex)
+            {
+                addPhoneResult.Status = "Error";
+                addPhoneResult.Exception = new QuoteDetailsException(ex);
+                addPhoneResult.QuoteDetails = null;
+            }
             return Json(addPhoneResult, JsonRequestBehavior.AllowGet);
         }
 
@@ -108,15 +136,32 @@ namespace TradeYourPhone.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult SaveQuote(string key, SaveQuoteViewModel viewModel)
         {
-            QuoteDetailsResult result = new QuoteDetailsResult();
-            if (ModelState.IsValid)
+            QuoteDetailsResult result = new QuoteDetailsResult() { Status = "OK" };
+            try
             {
-                result = quoteService.SaveQuote(key, viewModel);
+                if (ModelState.IsValid)
+                {
+                    Quote quote = quoteService.GetQuoteByReferenceId(key);
+                    quote.AgreedToTerms = viewModel.AgreedToTerms;
+                    quote.PostageMethodId = viewModel.PostageMethodId;
+                    quote.Customer = quote.Customer ?? viewModel.Customer;
+                    quote.Customer.UpdateFromCustomerObj(viewModel.Customer);
+                    quote = quoteService.SaveQuote(quote);
+
+                    result.QuoteDetails = new QuoteDetails();
+                    result.QuoteDetails.MapQuote(quote);
+                }
+                else
+                {
+                    result.Status = "Error";
+                    result.Exception = new QuoteDetailsException(new Exception("Customer object is not valid"));
+                }
             }
-            else
+            catch (Exception ex)
             {
                 result.Status = "Error";
-                result.Exception = new QuoteDetailsException(new Exception("Customer object is not valid"));
+                result.Exception = new QuoteDetailsException(ex);
+                result.QuoteDetails = null;
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -130,15 +175,30 @@ namespace TradeYourPhone.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult FinaliseQuote(string key, SaveQuoteViewModel viewModel)
         {
-            QuoteDetailsResult result = new QuoteDetailsResult();
-            if (ModelState.IsValid)
+            QuoteDetailsResult result = new QuoteDetailsResult() { Status = "OK" };
+            try
             {
-                result = quoteService.FinaliseQuote(key, viewModel);
+                if (ModelState.IsValid)
+                {
+                    Quote quote = quoteService.GetQuoteByReferenceId(key);
+                    quote.AgreedToTerms = viewModel.AgreedToTerms;
+                    quote.PostageMethodId = viewModel.PostageMethodId;
+                    quote.Customer = quote.Customer ?? viewModel.Customer;
+                    quote = quoteService.FinaliseQuote(quote);
+
+                    result.QuoteDetails = new QuoteDetails();
+                    result.QuoteDetails.MapQuote(quote);
+                }
+                else
+                {
+                    result.Status = "Error";
+                    result.Exception = new QuoteDetailsException(new Exception("Customer object is not valid"));
+                }
             }
-            else
+            catch (Exception ex)
             {
                 result.Status = "Error";
-                result.Exception = new QuoteDetailsException(new Exception("Customer object is not valid"));
+                result.Exception = new QuoteDetailsException(ex);
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -152,7 +212,22 @@ namespace TradeYourPhone.Web.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult DeleteQuotePhone(string key, string phoneId)
         {
-            QuoteDetailsResult result = quoteService.DeletePhoneFromQuote(key, phoneId);
+            QuoteDetailsResult result = new QuoteDetailsResult
+            {
+                Status = "OK",
+                QuoteDetails = new QuoteDetails()
+            };
+            try
+            {
+                Quote quote = quoteService.DeletePhoneFromQuote(key, phoneId);
+                result.QuoteDetails.MapQuote(quote);
+            }
+            catch (Exception ex)
+            {
+                result.Status = "Error";
+                result.Exception = new QuoteDetailsException(ex);
+            }
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -173,22 +248,31 @@ namespace TradeYourPhone.Web.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetQuoteDetails(string key)
         {
-            QuoteDetailsResult quoteDetailsResult = quoteService.GetQuoteDetailsByQuoteReferenceId(key);
-            return Json(quoteDetailsResult, JsonRequestBehavior.AllowGet);
+            QuoteDetailsResult result = new QuoteDetailsResult
+            {
+                Status = "OK",
+                QuoteDetails = new QuoteDetails()
+            };
+            try
+            {
+                Quote quote = quoteService.GetQuoteByReferenceId(key);
+                quote = quoteService.ReValidatePhonePrices(quote);
+                result.QuoteDetails.MapQuote(quote);
+            }
+            catch (Exception ex)
+            {
+                result.Status = "Error";
+                result.Exception = new QuoteDetailsException(ex);
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetStates()
         {
-            var phoneModels = quoteService.GetAllStates();
-            var result = (from s in phoneModels
-                          select new
-                          {
-                              id = s.ID,
-                              name = s.StateNameShort
-                          }).ToList();
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var states = quoteService.GetAllStates();
+            return Json(states, JsonRequestBehavior.AllowGet);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -209,13 +293,7 @@ namespace TradeYourPhone.Web.Controllers
         public ActionResult GetPaymentTypes()
         {
             var paymentTypes = quoteService.GetAllPaymentTypes();
-            var result = (from s in paymentTypes
-                          select new
-                          {
-                              id = s.ID,
-                              name = s.PaymentTypeName
-                          }).ToList();
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(paymentTypes, JsonRequestBehavior.AllowGet);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -236,14 +314,7 @@ namespace TradeYourPhone.Web.Controllers
         public ActionResult GetPostageMethods()
         {
             var postageMethods = quoteService.GetAllPostageMethods();
-            var result = (from s in postageMethods
-                          select new
-                          {
-                              Id = s.Id,
-                              PostageMethodName = s.PostageMethodName,
-                              Description = s.Description
-                          }).ToList();
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(postageMethods, JsonRequestBehavior.AllowGet);
         }
 
         private QuoteDetailsViewModel SetupQuoteDetailsViewModel(QuoteDetailsViewModel viewModel = null)

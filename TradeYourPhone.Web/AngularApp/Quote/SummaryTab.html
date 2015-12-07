@@ -17,53 +17,23 @@
             <h3><span class="glyphicon glyphicon-home"></span>   Your Address</h3>
             <p>{{customer.postageStreet}}</p>
             <p>{{customer.postageSuburb}}</p>
-            <p>{{customer.postageState}} {{customer.postagePostcode}}</p>
+            <p>{{customer.postageState.StateNameShort}} {{customer.postagePostcode}}</p>
         </div>
 
         <div class="col-md-4 col-mobile summarySection border-left">
-            <h3><span class="glyphicon glyphicon-usd"></span>  Payment Details</h3>
-            <p> A total amount of <b>{{quote.TotalAmount | currency}}</b> will be paid.</p>
-            <p>Chosen payment type is: {{customer.paymentType}}</p>
+            <h3><span class="glyphicon glyphicon-usd"></span>  Payment Details
+            </h3>
+            <p> A total amount of <b>{{quote.TotalAmount | currency}}</b> will be paid.
+            </p>
+            <p>Chosen payment type is: {{customer.paymentType.PaymentTypeName}}</p>
             <p ng-if="DisplayBankTransfer()">
-                BSB: {{customer.bsb}}<br />
+                BSB: {{customer.bsb}}<br/>
                 Account Number: {{customer.accountNum}}
             </p>
             <p ng-if="DisplayPaypal()">Paypal Email: {{customer.paypalEmail}}</p>
         </div>
 
         <div class="col-md-12 col-mobile summarySection">
-            <h3><span class="glyphicon glyphicon-envelope"></span>  Postage Information</h3>
-            <p>(This will also be emailed to you)</p>
-            <div ng-if="DisplaySatchel()">
-                <div>
-                    <p>
-                        You have chosen to send your phone to us via the free satchel method. After you submit your quote, your free reply-paid AusPost satchel will arrive in the mail shortly. <br />
-                        Simply package your phone in such a way that it wont get damaged and place it inside the satchel we will provide.<br />
-                        Then drop it off to your local post office and it will be sent straight to us absolutely free!<br />
-                        Note: You have two weeks from today to get your phone to us. After that it may be subject to a price change.
-                    </p>
-                </div>
-            </div>
-            <div ng-if="DisplayPostage()">
-                <div>
-                    <p>
-                        You have chosen to send your phone(s) to us yourself. Once you submit your quote, simply package your phone up in a satchel or a box and write the below free reply-paid address and your quote number on the front.<br />
-                        Then simply drop it off in the mail or at your local post shop and they will send it to us absolutely free!<br />
-                        Note: You have two weeks from today to get your phone to us. After that it may be subject to a price change.
-                        <br /><br />
-                        Reply Paid 90086<br />
-                        Trade Your Phone<br />
-                        PO Box 13265<br />
-                        LAW COURTS VIC 8010
-                        <br />
-                        <br />
-                        Quote: <bold>{{quoteKey}}</bold>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12 col-mobile">
             <div class="col-md-12 phoneDiv col-mobile">
                 <h3><span class="glyphicon glyphicon-list"></span> Phone Summary</h3>
                 <table class="table table-bordered table-striped">
@@ -108,37 +78,63 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-mobile">
-            <div class="col-md-12 col-mobile">
-                <label for="TCcheckbox">
-                    I agree to the <br class="visible-xxs" /><a target="_blank" href="/TermsAndConditions">Terms and Conditions</a>
-                    <input type="checkbox"
-                           id="TCcheckbox"
-                           ng-model="quote.AgreedToTerms">
-                </label>
+        <div class="col-md-12 col-mobile summarySection">
+            <h3><span class="glyphicon glyphicon-envelope"></span>  Postage Information</h3>
+            <p>(This will also be emailed to you)</p>
+            <div ng-if="DisplaySatchel()">
+                <div>
+                    <p>
+                        You have chosen to send your phone to us via the free satchel method. After you submit your quote, your free reply-paid AusPost satchel will arrive in the mail shortly. <br />
+                        Simply package your phone in such a way that it wont get damaged and place it inside the satchel we will provide.<br />
+                        Then drop it off to your local post office and it will be sent straight to us absolutely free!<br />
+                        Note: You have two weeks from today to get your phone to us. After that it may be subject to a price change.
+                    </p>
+                </div>
             </div>
-
+            <div ng-if="DisplayPostage()">
+                <div>
+                    <p>
+                        You have chosen to send your phone(s) to us yourself. Once you submit your quote, simply package your phone up in a satchel or a box and write the below free reply-paid address and your quote number on the front.<br />
+                        Then simply drop it off in the mail or at your local post shop and they will send it to us absolutely free!<br />
+                        Note: You have two weeks from today to get your phone to us. After that it may be subject to a price change.
+                        <br /><br />
+                        Reply Paid 90086<br />
+                        Trade Your Phone<br />
+                        PO Box 13265<br />
+                        LAW COURTS VIC 8010
+                        <br />
+                        <br />
+                        Quote: <bold>{{quoteKey}}</bold>
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="col-md-12 col-mobile">
+       
+
+      
+
+        <div class="col-md-12 col-mobile summarySection">
             <h3>
                 <span class="glyphicon glyphicon-check"></span>
                 Once you have reviewed your quote, personal and payment details, click the Submit button to finalise your quote
             </h3>
         </div>
         <div class="row">
-            <div class="col-md-3 col-md-offset-6 col-md-push-3">
+            <div class="col-md-5 col-md-offset-2 col-md-push-5 col-lg-4 col-lg-offset-4 col-lg-push-4">
                 <button class="btn btn-default next-btn"
-                        ng-disabled="quote.AgreedToTerms==false"
                         ng-click="FinaliseQuote(customer, quote)"
                         type="submit"
                         analytics-on="click"
                         analytics-category="QuoteProcess"
                         analytics-event="SubmitBtnClick">
-                    Submit  <i class="fa fa-paper-plane-o"></i>
+                    Submit <i class="fa fa-paper-plane-o"></i>
                 </button>
+                <div class="col-md-12 col-mobile">
+                    <p class="tc"><i class="fa fa-hand-o-right"></i>   By clicking Submit you agree to the <a target="_blank" href="/TermsAndConditions">Terms and Conditions</a></p>
+                </div>
             </div>
-            <div class="col-md-3 col-md-pull-9">
+            <div class="col-md-5 col-md-pull-7 col-lg-4 col-lg-pull-8">
                 <button class="btn btn-default back-btn"
                         type="button" ng-click="goToTab('Quote', 1)"
                         analytics-on="click"
@@ -151,7 +147,7 @@
 
     </div>
 
-    <div class="col-md-12 col-mobile" ng-show="WaitingForDelivery()||RequiresSatchel()">
+    <div class="col-md-12 col-mobile summarySection" ng-show="WaitingForDelivery()||RequiresSatchel()">
 
         <h3 class="centre">Thank you for submitting your quote, your reference number is {{result}}</h3>
         <br />

@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using PagedList;
 using TradeYourPhone.Core.DTO;
 
-namespace TradeYourPhone.Core.ViewModels
+namespace TradeYourPhone.Web.ViewModels
 {
     public class QuoteIndexViewModel
     {
@@ -16,8 +16,7 @@ namespace TradeYourPhone.Core.ViewModels
         public List<QuoteStatusDTO> QuoteStatuses { get; set; }
         public string referenceId { get; set; }
         public string email { get; set; }
-        public string lastName { get; set; }
-        public string firstName { get; set; }
+        public string fullName { get; set; }
         public int statusId { get; set; }
         public string currentFilter { get; set; }
         public int? page { get; set; }

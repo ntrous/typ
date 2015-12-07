@@ -1,6 +1,6 @@
 ﻿tradeYourPhoneServices.service('AdminPhoneModelsService', function ($log, $http, $q, $cookies) {
     this.GetPhoneModelsForView = function () {
-        return $http({ method: "GET", url: '/service/PhoneModels/GetPhoneModelsForView', cache: false })
+        return $http({ method: "GET", url: '/service/PhoneModels/GetPhoneModelsForAdminView', cache: false })
             .then(
                 function (response) {
                     return response.data;

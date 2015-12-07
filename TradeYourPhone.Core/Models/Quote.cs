@@ -30,6 +30,7 @@ namespace TradeYourPhone.Core.Models
         public Nullable<int> PostageMethodId { get; set; }
         public bool AgreedToTerms { get; set; }
         public string Notes { get; set; }
+        public string TrackingNumber { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual QuoteStatus QuoteStatus { get; set; }

@@ -1,6 +1,6 @@
 ﻿<script type="text/ng-template" id="PhoneDropdown.html">
     <a>
-        <img data-ng-src="data:image/png;base64,{{match.model.image}}" width="20" />
+        <img data-ng-src="data:image/png;base64,{{match.model.Image}}" width="20" />
         <span ng-bind-html="match.label | typeaheadHighlight:query"></span>
     </a>
 </script>
@@ -18,7 +18,7 @@
                            ng-model="search.model"
                            typeahead-editable="false"
                            typeahead-on-select="setCondition($item)"
-                           typeahead="phoneModel as phoneModel.name for phoneModel in phoneModels | filter:{name:$viewValue} | limitTo:20"
+                           typeahead="phoneModel as phoneModel.Name for phoneModel in phoneModels | filter:{Name:$viewValue} | limitTo:20"
                            placeholder="Type your model here... eg. iPhone 6"
                            typeahead-template-url="PhoneDropdown.html"
                            ng-change="resetInputs()"
@@ -37,7 +37,7 @@
                                     ng-repeat="phoneCondition in phoneConditions"
                                     ng-model="condition.id"
                                     btn-radio="phoneCondition.id"
-                                    ng-change="GetPhoneOffer(search.model.id, condition.id)">
+                                    ng-change="GetPhoneOffer(search.model.Id, condition.id)">
                                 {{phoneCondition.name}}
                             </button>
                         </div>
@@ -84,7 +84,7 @@
                 <h2>{{phoneOffer | currency}}</h2>
                 <button class="btn btn-default sell-btn"
                         type="button"
-                        ng-click="addPhoneToQuote(search.model.id, condition.id)"
+                        ng-click="addPhoneToQuote(search.model.Id, condition.id)"
                         ng-disabled="phoneOffer==null"
                         analytics-on="click"
                         analytics-category="QuoteProcess"

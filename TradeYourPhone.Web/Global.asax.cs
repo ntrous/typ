@@ -11,8 +11,8 @@ using TradeYourPhone.Core.Services.Implementation;
 using TradeYourPhone.Web.Controllers;
 using System.Data.Entity;
 using TradeYourPhone.Core.Models;
-using TradeYourPhone.Core.Scraper;
 using Newtonsoft.Json;
+using System;
 
 namespace TradeYourPhone.Web
 {
@@ -35,9 +35,6 @@ namespace TradeYourPhone.Web
             container.RegisterType<IQuoteService, QuoteService>();
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IReportingService, ReportingService>();
-            container.RegisterType<IScraperService, ScraperService>();
-
-            container.RegisterType<IScraper, MobileMonsterScraper>();
 
             container.RegisterType<IController, AccountController>("Account", new InjectionConstructor());
             container.RegisterType<IController, PhoneMakesController>("PhoneMakes");
@@ -49,13 +46,19 @@ namespace TradeYourPhone.Web
             container.RegisterType<IController, QuotesController>("Quotes");
             container.RegisterType<IController, PhonesController>("Phones");
             container.RegisterType<IController, EmailController>("Email");
-            container.RegisterType<IController, PriceScraperController>("PriceScraper");
             container.RegisterType<IController, DashboardController>("Dashboard");
 
             var factory = new UnityControllerFactory(container);
             ControllerBuilder.Current.SetControllerFactory(factory);
 
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception exception = Server.GetLastError();
+            Server.ClearError();
+            new EmailService().SendAlertEmailAndLogException("Error caught in global", exception);
         }
     }
 }

@@ -68,7 +68,7 @@
     }
 
     this.GetStates = function () {
-        return $http.get('/service/Quotes/GetStateNames', { cache: true })
+        return $http.get('/service/Quotes/GetStates', { cache: true })
         .then(
                 function (response) {
                     return response.data;
@@ -81,7 +81,7 @@
     }
 
     this.GetPaymentTypes = function () {
-        return $http.get('/service/Quotes/GetPaymentTypeNames', { cache: true })
+        return $http.get('/service/Quotes/GetPaymentTypes', { cache: true })
         .then(
                 function (response) {
                     return response.data;

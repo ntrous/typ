@@ -55,5 +55,12 @@ namespace TradeYourPhone.Core.Services.Interface
         /// <param name="subject"></param>
         /// <param name="body"></param>
         void SendAlertEmailAndLogException(string subject, MethodBase method, Exception ex, params object[] values);
+
+        /// <summary>
+        /// Sends an email and Logs the body to the Log
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="ex"></param>
+        void SendAlertEmailAndLogException(string subject, Exception ex);
     }
 }

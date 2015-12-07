@@ -1,11 +1,5 @@
-﻿
-using TradeYourPhone.Core.Models;
-using TradeYourPhone.Core.ViewModels;
-using System;
+﻿using TradeYourPhone.Core.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using TradeYourPhone.Core.DTO;
 
 namespace TradeYourPhone.Core.Services.Interface
 {
@@ -14,22 +8,17 @@ namespace TradeYourPhone.Core.Services.Interface
         IEnumerable<PhoneMake> GetAllPhoneMakes();
         PhoneMake GetPhoneMakeById(int phoneMakeId);
         int GetPhoneMakeIdByModelId(int phoneModelId);
-        PhoneIndexViewModel GetPhones(PhoneIndexViewModel viewModel);
         bool CreatePhoneMake(string phoneMake);
         bool ModifyPhoneMake(PhoneMake phoneMake);
         //bool DeletePhoneMakeById(int phoneMakeId);
 
         IEnumerable<PhoneModel> GetAllPhoneModels();
-        PhoneModelIndexViewModel GetPhoneModelsForAdminView();
-        IList<PhoneViewModel> GetAllPhoneModelsForView();
-        IList<PhoneViewModel> GetPhoneModelsForViewByMakeName(string makeName);
+        IList<PhoneModel> GetPhoneModelsByMakeName(string makeName);
         PhoneModel GetPhoneModelById(int phoneModelId);
-        PhoneModelViewModel GetPhoneModelForAdminView(int id);
-        CreatePhoneModelViewModel GetCreatePhoneModelViewModel();
         IEnumerable<PhoneModel> GetPhoneModelsByMakeId(int phoneMakeId);
-        IList<PhoneViewModel> GetMostPopularPhoneModels(int limit);
-        bool CreatePhoneModel(PhoneModelViewModel phoneModelViewModel);
-        bool ModifyPhoneModel(PhoneModelViewModel phoneModelViewModel);
+        IList<PhoneModel> GetMostPopularPhoneModels(int limit);
+        bool CreatePhoneModel(PhoneModel phoneModel);
+        bool ModifyPhoneModel(PhoneModel phoneModel);
         //bool DeletePhoneModelById(int phoneModelId);
 
         IEnumerable<PhoneCondition> GetAllPhoneConditions();
@@ -48,11 +37,10 @@ namespace TradeYourPhone.Core.Services.Interface
         IEnumerable<Phone> GetAllPhones();
         Phone GetPhoneById(int phoneId);
         bool CreatePhone(Phone phone);
-        bool CreatePhone(PhoneDTO phone);
         Phone ModifyPhone(Phone phone, string userId);
         bool DeletePhoneById(int phoneId);
         List<Phone> SearchPhones(string phoneId, int phoneMakeId, int phoneModelId, int phoneStatusId);
-        List<Phone> GetSortedPhones(List<Phone> phonesToSort, PhoneIndexViewModel viewModel);
+        List<Phone> GetSortedPhones(List<Phone> phonesToSort, string sortOrder);
 
         IEnumerable<PhoneStatu> GetAllPhoneStatuses();
 

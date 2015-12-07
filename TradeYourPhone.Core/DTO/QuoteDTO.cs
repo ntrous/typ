@@ -19,8 +19,10 @@ namespace TradeYourPhone.Core.DTO
         public Nullable<int> PostageMethodId { get; set; }
         public bool AgreedToTerms { get; set; }
         public string Notes { get; set; }
+        public string TrackingNumber { get; set; }
 
         public CustomerDTO Customer { get; set; }
+        public PostageMethod PostageMethod { get; set; }
         public ICollection<PhoneDTO> Phones { get; set; }
         public ICollection<QuoteStatusHistoryDTO> QuoteStatusHistories { get; set; }
 
@@ -36,8 +38,10 @@ namespace TradeYourPhone.Core.DTO
             PostageMethodId = quote.PostageMethodId;
             AgreedToTerms = quote.AgreedToTerms;
             Notes = quote.Notes;
+            TrackingNumber = quote.TrackingNumber;
             Customer = new CustomerDTO();
             Customer.Map(quote.Customer);
+            PostageMethod = quote.PostageMethod;
 
             Phones = new List<PhoneDTO>();
             foreach(var phone in quote.Phones)

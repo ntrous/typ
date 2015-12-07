@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Services.Interface;
-using TradeYourPhone.Core.ViewModels;
+using TradeYourPhone.Web.ViewModels;
 using PagedList;
 using Microsoft.AspNet.Identity;
 using TradeYourPhone.Core.DTO;
@@ -30,9 +30,31 @@ namespace TradeYourPhone.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult GetPhones(PhoneIndexViewModel viewModel)
         {
-            var phones = phoneService.GetPhones(viewModel);
+            PhoneIndexViewModel phoneIndexViewModel = viewModel ?? new PhoneIndexViewModel();
+            phoneIndexViewModel.PageSize = 20;
+            var phones = phoneService.SearchPhones(phoneIndexViewModel.PhoneId, phoneIndexViewModel.PhoneMakeId, phoneIndexViewModel.PhoneModelId, phoneIndexViewModel.PhoneStatusId);
 
-            return Json(phones, JsonRequestBehavior.AllowGet);
+            viewModel.PhoneMakeParm = string.IsNullOrEmpty(viewModel.SortOrder) ? "phoneMake_desc" : "";
+            viewModel.PhoneModelParm = viewModel.SortOrder == "phoneModel_asc" ? "phoneModel_desc" : "phoneModel_asc";
+            viewModel.PhoneConditionParm = viewModel.SortOrder == "phoneCondition_asc" ? "phoneCondition_desc" : "phoneCondition_asc";
+            viewModel.PhoneStatusParm = viewModel.SortOrder == "phoneStatus_asc" ? "phoneStatus_desc" : "phoneStatus_asc";
+            viewModel.PurchaseAmountParm = viewModel.SortOrder == "purchaseAmount_asc" ? "purchaseAmount_desc" : "purchaseAmount_asc";
+            viewModel.SaleAmountParm = viewModel.SortOrder == "saleAmount_asc" ? "saleAmount_desc" : "saleAmount_asc";
+            viewModel.PhoneIdParm = viewModel.SortOrder == "phoneId_asc" ? "phoneId_desc" : "phoneId_asc";
+            phones = phoneService.GetSortedPhones(phones, viewModel.SortOrder);
+            phoneIndexViewModel.TotalPhones = phones.Count;
+
+            if (phoneIndexViewModel.PageNumber == 0 || (phoneIndexViewModel.PageNumber > (int)System.Math.Ceiling(((double)phoneIndexViewModel.TotalPhones / (double)phoneIndexViewModel.PageSize))))
+            { phoneIndexViewModel.PageNumber = 1; }
+
+            var pagedPhones = phones.ToPagedList(phoneIndexViewModel.PageNumber, phoneIndexViewModel.PageSize);
+
+            phoneIndexViewModel.MapPhones(pagedPhones);
+            phoneIndexViewModel.MapPhoneMakes(phoneService.GetAllPhoneMakes().ToList());
+            phoneIndexViewModel.MapPhoneModels(phoneService.GetAllPhoneModels().ToList());
+            phoneIndexViewModel.MapPhoneStatuses(phoneService.GetAllPhoneStatuses().ToList());
+
+            return Json(phoneIndexViewModel, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Phones/Details/5
@@ -54,8 +76,10 @@ namespace TradeYourPhone.Web.Controllers
         // POST: Phones/CreatePhone
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CreatePhone(PhoneDTO phone)
+        public ActionResult CreatePhone(PhoneDTO phoneDto)
         {
+            Phone phone = new Phone();
+            phone.UpdateFromDTO(phoneDto);
             phoneService.CreatePhone(phone);
             return Json(true, JsonRequestBehavior.AllowGet);
         }

@@ -1,9 +1,4 @@
 ﻿tradeYourPhoneControllers.controller('IndexCtrl', function ($route, $scope, PhoneModelService, authService, $location, $cookies, $q) {
-    $scope.GetPhoneModels = function () {
-        PhoneModelService.GetPhoneModels().then(function (response) {
-            $scope.phoneModels = response;
-        });
-    }
 
     $scope.GoToQuote = function () {
         $location.path('/');
@@ -24,6 +19,4 @@
     };
 
     $scope.authentication = authService.authentication;
-
-    $scope.GetPhoneModels();
 });

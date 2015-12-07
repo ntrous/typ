@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TradeYourPhone.Core.ViewModels
+namespace TradeYourPhone.Web.ViewModels
 {
     public class SaveQuoteViewModel
     {

@@ -53,28 +53,28 @@
     <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
     <div ng-class="{'content-loading':spinner}">
         <div>
-            <table class="table quoteTable table-hover">
+            <table class="table quoteTable table-striped table-hover">
                 <thead>
                     <tr>
                         <th>
                             <p>ID</p>
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             <p>Phone Make</p>
                         </th>
                         <th>
                             <p>Phone Model</p>
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             <p>Phone Condition</p>
                         </th>
                         <th>
                             <p>Phone Status</p>
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             <p>Purchase Amount</p>
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             <p>Sale Amount</p>
                         </th>
                     </tr>
@@ -84,22 +84,22 @@
                         <td>
                             <p>{{phone.Id}}</p>
                         </td>
-                        <td>
+                        <td class="hidden-xs">
                             <p>{{phone.PhoneMake}}</p>
                         </td>
                         <td>
                             <p>{{phone.PhoneModel}}</p>
                         </td>
-                        <td>
+                        <td class="hidden-xs">
                             <p>{{phone.PhoneCondition}}</p>
                         </td>
                         <td>
                             <p>{{phone.PhoneStatus}}</p>
                         </td>
-                        <td>
+                        <td class="hidden-xs">
                             <p>{{phone.PurchaseAmount}}</p>
                         </td>
-                        <td>
+                        <td class="hidden-xs">
                             <p>{{phone.SaleAmount}}</p>
                         </td>
                     </tr>
@@ -111,7 +111,12 @@
                         items-per-page="phoneIndexViewModel.PageSize"
                         direction-links="true"
                         boundary-links="true"
-                        max-size="10">
+                        previous-text="&lsaquo;"
+                        next-text="&rsaquo;"
+                        first-text="&laquo;" 
+                        last-text="&raquo;"
+                        max-size="5"
+                        class="centre">
             </pagination>
         </div>
     </div>

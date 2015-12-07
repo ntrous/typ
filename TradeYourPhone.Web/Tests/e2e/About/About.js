@@ -48,7 +48,7 @@ describe('About - What We Do', function () {
             expect(aboutPage.quoteLink.getText()).toEqual('quote');
 
             expect(aboutPage.completeQuoteLink.getAttribute('href')).toEqual(browser.baseUrl +'/');
-            expect(aboutPage.quoteLink.getAttribute('href')).toEqual(browser.baseUrl +' / ');
+            expect(aboutPage.quoteLink.getAttribute('href')).toEqual(browser.baseUrl +'/');
         });
     });
 });

@@ -21,7 +21,7 @@ namespace TradeYourPhone.Core.Models
             PhoneModelId = phoneDTO.PhoneModelId;
             PhoneConditionId = phoneDTO.PhoneConditionId;
             IMEI = phoneDTO.IMEI;
-            PurchaseAmount = phoneDTO.PurchaseAmount;
+            PurchaseAmount = Convert.ToDecimal(phoneDTO.PurchaseAmount);
             SaleAmount = phoneDTO.SaleAmount;
         }
     }

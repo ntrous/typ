@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
-using TradeYourPhone.Core.ViewModels;
+using TradeYourPhone.Web.ViewModels;
 using TradeYourPhone.Core.Models;
 
 namespace TradeYourPhone.Web.Controllers

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using TradeYourPhone.Core.ViewModels;
+using TradeYourPhone.Web.ViewModels;
 
 namespace TradeYourPhone.Web.Controllers
 {

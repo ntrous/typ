@@ -12,5 +12,6 @@ namespace TradeYourPhone.Core.Repositories.Interface
         void Insert(Phone entity, string userId);
         void Update(Phone entityToUpdate, string userId);
         int GetPhoneStatusId(int quoteId);
+        Phone GetNewPhoneObject();
     }
 }

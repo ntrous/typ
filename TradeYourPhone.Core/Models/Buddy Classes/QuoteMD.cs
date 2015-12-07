@@ -19,6 +19,7 @@ namespace TradeYourPhone.Core.Models
 
             PostageMethodId = quoteDTO.PostageMethodId;
             Notes = quoteDTO.Notes;
+            TrackingNumber = quoteDTO.TrackingNumber;
 
             if (Customer != null)
             {

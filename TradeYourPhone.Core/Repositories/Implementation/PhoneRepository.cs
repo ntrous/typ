@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using TradeYourPhone.Core.Enums;
@@ -17,15 +17,13 @@ namespace TradeYourPhone.Core.Repositories.Implementation
             this.dbSet.Add(entity);
             context.SaveChanges();
 
-            PhoneStatusHistory record = new PhoneStatusHistory
-            {
-                PhoneId = entity.Id,
-                PhoneStatusId = entity.PhoneStatusId,
-                StatusDate = Util.GetAEST(DateTime.Now),
-                CreatedBy = userId ?? User.SystemUser.Value
-            };
-
             var phoneStatusHistorydbSet = context.Set<PhoneStatusHistory>();
+            PhoneStatusHistory record = phoneStatusHistorydbSet.Create();
+            record.PhoneId = entity.Id;
+            record.PhoneStatusId = entity.PhoneStatusId;
+            record.StatusDate = Util.GetAEST(DateTime.Now);
+            record.CreatedBy = userId ?? User.SystemUser.Value;
+
             phoneStatusHistorydbSet.Add(record);
         }
 
@@ -54,6 +52,15 @@ namespace TradeYourPhone.Core.Repositories.Implementation
             IQueryable<Phone> query = context.Set<Phone>();
             int currentStatus = query.Where(p => p.Id == phoneId).Select(p => p.PhoneStatusId).First();
             return currentStatus;
+        }
+
+        /// <summary>
+        /// Creates a New Phone object off the context so it is tracked by Entity Framework
+        /// </summary>
+        /// <returns></returns>
+        public Phone GetNewPhoneObject()
+        {
+            return this.dbSet.Create();
         }
     }
 }

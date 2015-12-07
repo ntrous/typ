@@ -58,20 +58,11 @@
             <h4>Customer</h4>
             <hr />
             <div class="form-group">
-                <label class="control-label">First Name</label>
+                <label class="control-label">Full Name</label>
                 <input type="text"
-                       id="FirstName"
-                       ng-model="quoteDetailsViewModel.Quote.Customer.FirstName"
-                       name="FirstName"
-                       class="form-control" />
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">Last Name</label>
-                <input type="text"
-                       id="LastName"
-                       ng-model="quoteDetailsViewModel.Quote.Customer.LastName"
-                       name="LastName"
+                       id="FullName"
+                       ng-model="quoteDetailsViewModel.Quote.Customer.FullName"
+                       name="FullName"
                        class="form-control" />
             </div>
 
@@ -139,6 +130,16 @@
                         name="CountryId"
                         ng-options="item.ID as item.CountryName for item in quoteDetailsViewModel.Countries"
                         class="form-control"></select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Tracking Number</label>
+                <input type="text"
+                       id="TrackingNumber"
+                       ng-model="quoteDetailsViewModel.Quote.TrackingNumber"
+                       name="TrackingNumber"
+                       class="form-control" />
+                <a ng-show="quoteDetailsViewModel.Quote.TrackingNumber" target="_blank" ng-href="http://auspost.com.au/track/track.html?id={{quoteDetailsViewModel.Quote.TrackingNumber}}">View Tracking Info</a>
             </div>
         </div>
         <div class="col-md-3">

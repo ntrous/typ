@@ -8,11 +8,11 @@ using System.Web.Mvc;
 using PagedList;
 using TradeYourPhone.Core.DTO;
 
-namespace TradeYourPhone.Core.ViewModels
+namespace TradeYourPhone.Web.ViewModels
 {
     public class PhoneIndexViewModel
     {
-        public List<PhoneDetail> Phones { get; set; }
+        public List<PhoneViewDetail> Phones { get; set; }
         public List<PhoneMakeDTO> PhoneMakes { get; set; }
         public List<PhoneModelDTO> PhoneModels { get; set; }
         public List<PhoneStatusDTO> PhoneStatuses { get; set; }
@@ -34,10 +34,10 @@ namespace TradeYourPhone.Core.ViewModels
 
         public void MapPhones(IPagedList<Phone> phones)
         {
-            Phones = new List<PhoneDetail>();
+            Phones = new List<PhoneViewDetail>();
             foreach(var phone in phones)
             {
-                PhoneDetail phoneDetail = new PhoneDetail();
+                PhoneViewDetail phoneDetail = new PhoneViewDetail();
                 phoneDetail.Map(phone);
                 Phones.Add(phoneDetail);
             }
@@ -98,7 +98,7 @@ namespace TradeYourPhone.Core.ViewModels
         }
     }
 
-    public class PhoneDetail
+    public class PhoneViewDetail
     {
         public int Id { get; set; }
         public string PhoneMake { get; set; }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TradeYourPhone.Core.ViewModels
+namespace TradeYourPhone.Web.ViewModels
 {
     public class DashboardViewModel
     {
@@ -18,8 +18,10 @@ namespace TradeYourPhone.Core.ViewModels
 
         public decimal TotalAmountToPay { get; set; }
         public decimal TotalAmountPaid { get; set; }
+        public decimal TotalProfit { get; set; }
 
         public int TotalDevicesSold { get; set; }
         public decimal TotalIncomeAmount { get; set; }
+        public decimal TotalAssetWorth { get; set; } 
     }
 }

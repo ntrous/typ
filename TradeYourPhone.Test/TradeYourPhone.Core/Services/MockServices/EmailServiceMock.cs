@@ -69,5 +69,15 @@ namespace TradeYourPhone.Test.TradeYourPhone.Core.Services.MockServices
         {
 
         }
+
+        /// <summary>
+        /// Sends an email and Logs the body to the Log
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        public void SendAlertEmailAndLogException(string subject, Exception ex)
+        {
+
+        }
     }
 }

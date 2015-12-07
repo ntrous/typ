@@ -4,12 +4,12 @@ using TradeYourPhone.Core.Models;
 using System.Collections.Generic;
 using TradeYourPhone.Core.Services.Interface;
 using System.Linq;
-using TradeYourPhone.Core.ViewModels;
+using TradeYourPhone.Web.ViewModels;
 using TradeYourPhone.Test.SetupData;
 using TradeYourPhone.Core.Enums;
-using TradeYourPhone.Core.Models.DomainModels;
 using System.Transactions;
 using System.Globalization;
+using TradeYourPhone.Core.Services.Implementation;
 
 namespace TradeYourPhone.Test
 {
@@ -24,13 +24,13 @@ namespace TradeYourPhone.Test
         public QuoteServiceTest()
         {
             cmd = new CreateMockData();
-            phoneService = cmd.GetPhoneService();
-            quoteService = cmd.GetQuoteService();
         }
 
         [TestInitialize()]
         public void Init()
         {
+            phoneService = cmd.GetPhoneService();
+            quoteService = cmd.GetQuoteService();
             _trans = new TransactionScope();
         }
 
@@ -202,54 +202,51 @@ namespace TradeYourPhone.Test
         {
             string key = "asd";
 
-            QuoteDetailsResult addPhoneResult = quoteService.AddPhoneToQuote(key, "5", "1");
-            Quote quote = quoteService.GetQuoteByReferenceId(key);
-            Phone newPhone = quote.Phones.OrderByDescending(x => x.Id).FirstOrDefault();
+            Quote quote = quoteService.AddPhoneToQuote(key, "5", "1");
 
-            Assert.AreEqual("OK", addPhoneResult.Status);
-            Assert.AreEqual(4, addPhoneResult.QuoteDetails.Phones.Count);
-            Assert.AreEqual(610, addPhoneResult.QuoteDetails.TotalAmount);
-            Assert.AreEqual("New", addPhoneResult.QuoteDetails.QuoteStatus);
-            Assert.AreEqual(3, newPhone.PhoneMakeId);
-            Assert.AreEqual(5, newPhone.PhoneModelId);
-            Assert.AreEqual(1, newPhone.PhoneConditionId);
+            Assert.AreEqual(4, quote.Phones.Count);
+            Assert.AreEqual("New", quote.QuoteStatus.QuoteStatusName);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException),
+            "One or more Parameters are null")]
         public void AddPhoneToQuoteNullParametersTest()
         {
-            QuoteDetailsResult addPhoneResult = quoteService.AddPhoneToQuote(null, null, null);
-            Assert.AreEqual("Error", addPhoneResult.Status);
-            Assert.AreEqual("One or more Parameters are null", addPhoneResult.Exception.Message);
-            Assert.AreEqual(null, addPhoneResult.QuoteDetails);
+            quoteService.AddPhoneToQuote(null, null, null);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException),
+            "One or more Parameters are null")]
         public void AddPhoneToQuoteEmptyParametersTest()
         {
-            QuoteDetailsResult addPhoneResult = quoteService.AddPhoneToQuote("", "", "");
-            Assert.AreEqual("Error", addPhoneResult.Status);
-            Assert.AreEqual("One or more Parameters are null", addPhoneResult.Exception.Message);
-            Assert.AreEqual(null, addPhoneResult.QuoteDetails);
+            quoteService.AddPhoneToQuote("", "", "");
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception),
+            "Quote does not exist")]
         public void AddPhoneToQuoteNonExistentKeyTest()
         {
-            QuoteDetailsResult addPhoneResult = quoteService.AddPhoneToQuote("thiskeydoesntexist", "1", "3");
-            Assert.AreEqual("Error", addPhoneResult.Status);
-            Assert.AreEqual("500", addPhoneResult.Exception.Message);
-            Assert.AreEqual("Quote does not exist", addPhoneResult.Exception.InnerMessage);
-            Assert.AreEqual(null, addPhoneResult.QuoteDetails);
+            Quote addPhoneResult = quoteService.AddPhoneToQuote("thiskeydoesntexist", "1", "3");
+            Assert.AreEqual(null, addPhoneResult);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception),
+            "PhoneConditionPrice does not exist")]
         public void AddPhoneToQuoteNonExistentModelTest()
         {
-            QuoteDetailsResult addPhoneResult = quoteService.AddPhoneToQuote("asd", "100000", "3");
-            Assert.AreEqual("Error", addPhoneResult.Status);
-            Assert.AreEqual("Model and/or Condition do not exist", addPhoneResult.Exception.Message);
-            Assert.AreEqual(null, addPhoneResult.QuoteDetails);
+            quoteService.AddPhoneToQuote("asd", "100000", "3");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception),
+            "Quote is not of status 'New'")]
+        public void AddPhoneToQuoteNonNewQuoteTest()
+        {
+            quoteService.AddPhoneToQuote("zxc", "100000", "3");
         }
 
         [TestMethod]
@@ -269,29 +266,6 @@ namespace TradeYourPhone.Test
         public void GetQuoteByReferenceIdWithNoParamTest()
         {
             Quote quote = quoteService.GetQuoteByReferenceId(null);
-        }
-
-        [TestMethod]
-        public void GetQuoteDetailsByQuoteReferenceIdTest()
-        {
-            QuoteDetailsResult getDetailsResult = quoteService.GetQuoteDetailsByQuoteReferenceId("asd");
-            Assert.AreEqual("OK", getDetailsResult.Status);
-            Assert.AreEqual(null, getDetailsResult.Exception);
-            Assert.AreEqual(3, getDetailsResult.QuoteDetails.Phones.Count);
-            Assert.AreEqual("Apple", getDetailsResult.QuoteDetails.Phones[0].PhoneMakeName);
-            Assert.AreEqual("Galaxy S4", getDetailsResult.QuoteDetails.Phones[0].PhoneModelName);
-            Assert.AreEqual("Good", getDetailsResult.QuoteDetails.Phones[0].PhoneCondition);
-            Assert.AreEqual("Jack Daniels", getDetailsResult.QuoteDetails.Customer.fullname);
-            Assert.AreEqual("3000", getDetailsResult.QuoteDetails.Customer.postagePostcode);
-        }
-
-        [TestMethod]
-        public void GetQuoteDetailsByQuoteReferenceIdNoKeyTest()
-        {
-            QuoteDetailsResult getDetailsResult = quoteService.GetQuoteDetailsByQuoteReferenceId("");
-            Assert.AreEqual("Error", getDetailsResult.Status);
-            Assert.AreEqual("key parameter is empty", getDetailsResult.Exception.Message);
-            Assert.AreEqual(null, getDetailsResult.QuoteDetails);
         }
 
         [TestMethod]
@@ -323,6 +297,30 @@ namespace TradeYourPhone.Test
         [TestMethod]
         [ExpectedException(typeof(ArgumentException),
             "Parameter(s) cannot be null")]
+        public void DeletePhoneFromQuoteWithNullParamTest()
+        {
+            quoteService.DeletePhoneFromQuote("asd", null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception),
+            "500")]
+        public void DeletePhoneFromQuoteWithNonNewQuoteTest()
+        {
+            quoteService.DeletePhoneFromQuote("zxc", "16");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception),
+            "500")]
+        public void DeletePhoneFromQuoteWithNonExistentPhoneTest()
+        {
+            quoteService.DeletePhoneFromQuote("asd", "16666");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException),
+            "Parameter(s) cannot be null")]
         public void DeletePhoneFromQuoteWithEmptyParamTest()
         {
             quoteService.DeletePhoneFromQuote("", "");
@@ -335,6 +333,14 @@ namespace TradeYourPhone.Test
             Quote newQuote = quoteService.GetAllQuotes().OrderByDescending(x => x.ID).FirstOrDefault();
             Assert.AreEqual(quoteId, newQuote.QuoteReferenceId);
             Assert.AreEqual(1, newQuote.QuoteStatusId);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void CreateQuoteWithNullUnitOfWorkTest()
+        {
+            quoteService = new QuoteService(null, null, null);
+            quoteService.CreateQuote();
         }
 
         [TestMethod]
@@ -355,28 +361,28 @@ namespace TradeYourPhone.Test
                         AddressLine2 = "TestAddressLine2",
                         CountryId = 1,
                         PostCode = "3000",
-                        State = new State() { StateNameShort = "VIC" }
+                        StateId = 1
                     },
                     PaymentDetail = new PaymentDetail()
                     {
-                        PaymentType = new PaymentType() { PaymentTypeName = "Bank Transfer" },
+                        PaymentTypeId = 1,
                         BSB = "013365",
                         AccountNumber = "123456789"
                     }
                 }
             };
 
-            QuoteDetailsResult result = quoteService.SaveQuote("asd", viewModel);
-            Assert.AreEqual("OK", result.Status);
-            Assert.AreEqual(null, result.Exception);
-            Assert.AreEqual("asd", result.QuoteDetails.QuoteReferenceId);
-            Assert.AreEqual("New", result.QuoteDetails.QuoteStatus);
-            Assert.AreEqual(false, result.QuoteDetails.AgreedToTerms);
-            Assert.AreEqual("Free Satchel", result.QuoteDetails.PostageMethod.PostageMethodName);
-            Assert.AreEqual(510, result.QuoteDetails.TotalAmount);
-            Assert.AreEqual(3, result.QuoteDetails.Phones.Count());
-
             Quote quote = quoteService.GetQuoteByReferenceId("asd");
+            quote.PostageMethodId = viewModel.PostageMethodId;
+            quote.AgreedToTerms = viewModel.AgreedToTerms;
+            quote.Customer = viewModel.Customer;
+
+            Quote result = quoteService.SaveQuote(quote);
+            Assert.AreEqual("asd", result.QuoteReferenceId);
+            Assert.AreEqual("New", result.QuoteStatus.QuoteStatusName);
+            Assert.AreEqual(false, result.AgreedToTerms);
+            Assert.AreEqual("Free Satchel", result.PostageMethod.PostageMethodName);
+            Assert.AreEqual(3, result.Phones.Count());
             Assert.IsNull(quote.QuoteFinalisedDate);
             Assert.AreEqual((int)QuoteStatusEnum.New, quote.QuoteStatusId);
             Assert.AreEqual("Free Satchel", quote.PostageMethod.PostageMethodName);
@@ -384,35 +390,23 @@ namespace TradeYourPhone.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException),
+            "quoteToSave parameter is null/empty")]
         public void SaveQuoteWithNullKeyTest()
         {
-            QuoteDetailsResult result = quoteService.SaveQuote(null, null);
-
-            Assert.AreEqual("Error", result.Status);
-            Assert.AreEqual("One or more Parameters are null", result.Exception.Message);
+            quoteService.SaveQuote(null);
         }
 
         [TestMethod]
-        public void SaveQuoteWithEmptyKeyTest()
-        {
-            QuoteDetailsResult result = quoteService.SaveQuote("", null);
-
-            Assert.AreEqual("Error", result.Status);
-            Assert.AreEqual("One or more Parameters are null", result.Exception.Message);
-        }
-
-        [TestMethod]
+        [ExpectedException(typeof(ArgumentException),
+            "quoteToSave parameter is null/empty")]
         public void SaveQuoteWithNonExistingQuoteTest()
         {
-            QuoteDetailsResult result = quoteService.SaveQuote("doesntexist", new SaveQuoteViewModel());
-
-            Assert.AreEqual("Error", result.Status);
-            Assert.AreEqual("500", result.Exception.Message);
-            Assert.AreEqual("Quote does not exist", result.Exception.InnerMessage);
+            quoteService.SaveQuote(new Quote());
         }
 
         [TestMethod]
-        public void FinaliseQuoteTest()
+        public void FinaliseQuoteWithSelfPostTest()
         {
             SaveQuoteViewModel viewModel = new SaveQuoteViewModel()
             {
@@ -420,8 +414,7 @@ namespace TradeYourPhone.Test
                 AgreedToTerms = true,
                 Customer = new Customer()
                 {
-                    FirstName = "TestFirstName",
-                    LastName = "TestLastName",
+                    FullName = "TestFirstName TestLastName",
                     Email = "test@test.com",
                     PhoneNumber = "0449651096",
                     Address = new Address()
@@ -430,28 +423,28 @@ namespace TradeYourPhone.Test
                         AddressLine2 = "TestAddressLine2",
                         CountryId = 1,
                         PostCode = "2000",
-                        State = new State() { StateNameShort = "NSW" }
+                        StateId = 2
                     },
                     PaymentDetail = new PaymentDetail()
                     {
-                        PaymentType = new PaymentType() { PaymentTypeName = "Bank Transfer" },
+                        PaymentTypeId = 1,
                         BSB = "013365",
                         AccountNumber = "123456789"
                     }
                 }
             };
 
-            QuoteDetailsResult result = quoteService.FinaliseQuote("asd", viewModel);
-            Assert.AreEqual("OK", result.Status);
-            Assert.AreEqual(null, result.Exception);
-            Assert.AreEqual("asd", result.QuoteDetails.QuoteReferenceId);
-            Assert.AreEqual("Waiting For Delivery", result.QuoteDetails.QuoteStatus);
-            Assert.AreEqual(true, result.QuoteDetails.AgreedToTerms);
-            Assert.AreEqual("Post Yourself", result.QuoteDetails.PostageMethod.PostageMethodName);
-            Assert.AreEqual(510, result.QuoteDetails.TotalAmount);
-            Assert.AreEqual(3, result.QuoteDetails.Phones.Count());
-
             Quote quote = quoteService.GetQuoteByReferenceId("asd");
+            quote.PostageMethodId = viewModel.PostageMethodId;
+            quote.AgreedToTerms = viewModel.AgreedToTerms;
+            quote.Customer = viewModel.Customer;
+
+            Quote result = quoteService.FinaliseQuote(quote);
+            Assert.AreEqual("asd", result.QuoteReferenceId);
+            Assert.AreEqual("Waiting For Delivery", result.QuoteStatus.QuoteStatusName);
+            Assert.AreEqual(true, result.AgreedToTerms);
+            Assert.AreEqual("Post Yourself", result.PostageMethod.PostageMethodName);
+            Assert.AreEqual(3, result.Phones.Count());
             Assert.IsNotNull(quote.QuoteFinalisedDate);
             Assert.AreEqual((int)QuoteStatusEnum.WaitingForDelivery, quote.QuoteStatusId);
             Assert.AreEqual("Post Yourself", quote.PostageMethod.PostageMethodName);
@@ -459,22 +452,64 @@ namespace TradeYourPhone.Test
         }
 
         [TestMethod]
-        public void FinaliseQuoteWithNoKeyTest()
+        public void FinaliseQuoteWithSatchelTest()
         {
-            QuoteDetailsResult result = quoteService.FinaliseQuote(null, null);
+            SaveQuoteViewModel viewModel = new SaveQuoteViewModel()
+            {
+                PostageMethodId = 1,
+                AgreedToTerms = true,
+                Customer = new Customer()
+                {
+                    FullName = "TestFirstName TestLastName",
+                    Email = "test@test.com",
+                    PhoneNumber = "0449651096",
+                    Address = new Address()
+                    {
+                        AddressLine1 = "TestAddressLine1",
+                        AddressLine2 = "TestAddressLine2",
+                        CountryId = 1,
+                        PostCode = "2000",
+                        StateId = 2
+                    },
+                    PaymentDetail = new PaymentDetail()
+                    {
+                        PaymentTypeId = 1,
+                        BSB = "013365",
+                        AccountNumber = "123456789"
+                    }
+                }
+            };
 
-            Assert.AreEqual("Error", result.Status);
-            Assert.AreEqual("One or more Parameters are null", result.Exception.Message);
+            Quote quote = quoteService.GetQuoteByReferenceId("asd");
+            quote.PostageMethodId = viewModel.PostageMethodId;
+            quote.AgreedToTerms = viewModel.AgreedToTerms;
+            quote.Customer = viewModel.Customer;
+
+            Quote result = quoteService.FinaliseQuote(quote);
+            Assert.AreEqual("asd", result.QuoteReferenceId);
+            Assert.AreEqual("Requires Satchel", result.QuoteStatus.QuoteStatusName);
+            Assert.AreEqual(true, result.AgreedToTerms);
+            Assert.AreEqual("Free Satchel", result.PostageMethod.PostageMethodName);
+            Assert.AreEqual(3, result.Phones.Count());
+            Assert.IsNotNull(quote.QuoteFinalisedDate);
+            Assert.AreEqual((int)QuoteStatusEnum.RequiresSatchel, quote.QuoteStatusId);
+            Assert.AreEqual(true, quote.AgreedToTerms);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException),
+            "quoteToSave parameter is null/empty")]
+        public void FinaliseQuoteWithNoKeyTest()
+        {
+            quoteService.FinaliseQuote(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException),
+            "quoteToSave parameter is null/empty")]
         public void FinaliseQuoteWithNonExistingQuoteTest()
         {
-            QuoteDetailsResult result = quoteService.FinaliseQuote("doesntexist", new SaveQuoteViewModel());
-
-            Assert.AreEqual("Error", result.Status);
-            Assert.AreEqual("500", result.Exception.Message);
-            Assert.AreEqual("Quote does not exist", result.Exception.InnerMessage);
+             quoteService.FinaliseQuote(new Quote());
         }
 
         [TestMethod]
@@ -512,40 +547,24 @@ namespace TradeYourPhone.Test
             quoteService.ModifyQuote(null, null);
         }
 
-        //[TestMethod]
-        //public void DeleteQuoteByIdTest()
-        //{
-        //    Assert.AreEqual(2, quoteService.GetQuoteById(2).ID);
-        //    quoteService.DeleteQuoteById(2);
-        //    Quote quote = quoteService.GetQuoteById(2);
-        //    Assert.AreEqual(null, quote);
-        //}
-
-        //[TestMethod]
-        //public void DeleteQuoteByIdWithZeroParamTest()
-        //{
-        //    bool result = quoteService.DeleteQuoteById(0);
-        //    Assert.AreEqual(false, result);
-        //}
-
         [TestMethod]
         public void SearchQuotesTest()
         {
-            List<Quote> quotes = quoteService.SearchQuotes(null, null, null, null, 0);
+            List<Quote> quotes = quoteService.SearchQuotes(null, null, null, 0);
             Assert.AreEqual(5, quotes.Count);
         }
 
         [TestMethod]
         public void SearchQuotesEmptyParamTest()
         {
-            List<Quote> quotes = quoteService.SearchQuotes("", "", "", "", 0);
+            List<Quote> quotes = quoteService.SearchQuotes("", "", "", 0);
             Assert.AreEqual(5, quotes.Count);
         }
 
         [TestMethod]
         public void SearchQuotesTestByReferenceId()
         {
-            List<Quote> quotes = quoteService.SearchQuotes("asd", null, null, null, 0);
+            List<Quote> quotes = quoteService.SearchQuotes("asd", null, null, 0);
             Assert.AreEqual(1, quotes.Count);
             Assert.AreEqual("Jack", quotes[0].Customer.FirstName);
         }
@@ -553,7 +572,7 @@ namespace TradeYourPhone.Test
         [TestMethod]
         public void SearchQuotesTestByEmail()
         {
-            List<Quote> quotes = quoteService.SearchQuotes(null, "Jim@johnson.com", null, null, 0);
+            List<Quote> quotes = quoteService.SearchQuotes(null, "Jim@johnson.com", null, 0);
             Assert.AreEqual(1, quotes.Count);
             Assert.AreEqual("Jim", quotes[0].Customer.FirstName);
         }
@@ -561,7 +580,7 @@ namespace TradeYourPhone.Test
         [TestMethod]
         public void SearchQuotesTestByLastname()
         {
-            List<Quote> quotes = quoteService.SearchQuotes(null, null, "Beam", null, 0);
+            List<Quote> quotes = quoteService.SearchQuotes(null, null, "Beam", 0);
             Assert.AreEqual(1, quotes.Count);
             Assert.AreEqual("Jim", quotes[0].Customer.FirstName);
         }
@@ -569,7 +588,7 @@ namespace TradeYourPhone.Test
         [TestMethod]
         public void SearchQuotesTestByFirstname()
         {
-            List<Quote> quotes = quoteService.SearchQuotes(null, null, null, "Jim", 0);
+            List<Quote> quotes = quoteService.SearchQuotes(null, null, "Jim", 0);
             Assert.AreEqual(1, quotes.Count);
             Assert.AreEqual("Beam", quotes[0].Customer.LastName);
         }
@@ -577,221 +596,166 @@ namespace TradeYourPhone.Test
         [TestMethod]
         public void GetSortedQuotesTest()
         {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = null
-            };
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, null);
 
             Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(2).QuoteStatus.QuoteStatusName);
             Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(1).QuoteStatus.QuoteStatusName);
             Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(0).QuoteStatus.QuoteStatusName);
-            Assert.AreEqual("status_asc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_asc", viewModel.NameSortParm);
-            Assert.AreEqual("email_asc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_asc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("quote_finalised_date_asc", viewModel.QuoteFinalisedDateSortParm);
         }
 
         [TestMethod]
         public void GetSortedQuotesByNameTest()
         {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = "name_asc"
-            };
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, "name_asc");
 
             Assert.AreEqual("Beam", quotes.ElementAt(0).Customer.LastName);
             Assert.AreEqual("Buyer", quotes.ElementAt(1).Customer.LastName);
             Assert.AreEqual("Daniels", quotes.ElementAt(2).Customer.LastName);
-            Assert.AreEqual("status_asc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_desc", viewModel.NameSortParm);
-            Assert.AreEqual("email_asc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_asc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("", viewModel.QuoteFinalisedDateSortParm);
         }
 
         [TestMethod]
         public void GetSortedQuotesByNameDescTest()
         {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = "name_desc"
-            };
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, "name_desc");
 
             Assert.AreEqual("Daniels", quotes.ElementAt(2).Customer.LastName);
             Assert.AreEqual("Johnson", quotes.ElementAt(1).Customer.LastName);
             Assert.AreEqual("Seller", quotes.ElementAt(0).Customer.LastName);
-            Assert.AreEqual("status_asc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_asc", viewModel.NameSortParm);
-            Assert.AreEqual("email_asc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_asc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("", viewModel.QuoteFinalisedDateSortParm);
         }
 
         [TestMethod]
         public void GetSortedQuotesByStatusDescTest()
-        {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = "status_desc"
-            };
+        { 
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, "status_desc");
 
             Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(2).QuoteStatus.QuoteStatusName);
             Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(1).QuoteStatus.QuoteStatusName);
             Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(0).QuoteStatus.QuoteStatusName);
-            Assert.AreEqual("status_asc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_asc", viewModel.NameSortParm);
-            Assert.AreEqual("email_asc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_asc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("", viewModel.QuoteFinalisedDateSortParm);
         }
 
         [TestMethod]
         public void GetSortedQuotesByStatusTest()
         {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = "status_asc"
-            };
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, "status_asc");
 
             Assert.AreEqual("New", quotes.ElementAt(0).QuoteStatus.QuoteStatusName);
             Assert.AreEqual("New", quotes.ElementAt(1).QuoteStatus.QuoteStatusName);
             Assert.AreEqual("Waiting For Delivery", quotes.ElementAt(2).QuoteStatus.QuoteStatusName);
-            Assert.AreEqual("status_desc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_asc", viewModel.NameSortParm);
-            Assert.AreEqual("email_asc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_asc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("", viewModel.QuoteFinalisedDateSortParm);
         }
 
         [TestMethod]
         public void GetSortedQuotesByEmailTest()
         {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = "email_asc"
-            };
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, "email_asc");
 
             Assert.AreEqual("bob@johnson.com", quotes.ElementAt(0).Customer.Email);
             Assert.AreEqual("i@b.com", quotes.ElementAt(1).Customer.Email);
             Assert.AreEqual("Jack@bourbon.com", quotes.ElementAt(2).Customer.Email);
-            Assert.AreEqual("status_asc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_asc", viewModel.NameSortParm);
-            Assert.AreEqual("email_desc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_asc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("", viewModel.QuoteFinalisedDateSortParm);
         }
 
         [TestMethod]
         public void GetSortedQuotesByEmailDescTest()
         {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = "email_desc"
-            };
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, "email_desc");
 
             Assert.AreEqual("Jack@bourbon.com", quotes.ElementAt(2).Customer.Email);
             Assert.AreEqual("Jim@johnson.com", quotes.ElementAt(1).Customer.Email);
             Assert.AreEqual("sam@sung.com", quotes.ElementAt(0).Customer.Email);
-            Assert.AreEqual("status_asc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_asc", viewModel.NameSortParm);
-            Assert.AreEqual("email_asc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_asc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("", viewModel.QuoteFinalisedDateSortParm);
         }
 
         [TestMethod]
         public void GetSortedQuotesByCreatedDateTest()
         {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = "created_date_asc"
-            };
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, "created_date_asc");
 
             Assert.AreEqual(Convert.ToDateTime("13/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(0).CreatedDate);
             Assert.AreEqual(Convert.ToDateTime("14/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(1).CreatedDate);
             Assert.AreEqual(Convert.ToDateTime("17/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(2).CreatedDate);
-            Assert.AreEqual("status_asc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_asc", viewModel.NameSortParm);
-            Assert.AreEqual("email_asc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_desc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("", viewModel.QuoteFinalisedDateSortParm);
         }
 
         [TestMethod]
         public void GetSortedQuotesByCreatedDateDescTest()
         {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = "created_date_desc"
-            };
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, "created_date_desc");
 
             Assert.AreEqual(Convert.ToDateTime("17/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(2).CreatedDate);
             Assert.AreEqual(Convert.ToDateTime("01/11/2015", new CultureInfo("en-AU")), quotes.ElementAt(1).CreatedDate);
             Assert.AreEqual(Convert.ToDateTime("01/11/2015", new CultureInfo("en-AU")), quotes.ElementAt(0).CreatedDate);
-            Assert.AreEqual("status_asc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_asc", viewModel.NameSortParm);
-            Assert.AreEqual("email_asc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_asc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("", viewModel.QuoteFinalisedDateSortParm);
         }
 
         [TestMethod]
         public void GetSortedQuotesByQuoteFinalisedDateTest()
         {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = "quote_finalised_date_asc"
-            };
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, "quote_finalised_date_asc");
 
             Assert.AreEqual(null, quotes.ElementAt(0).QuoteFinalisedDate);
             Assert.AreEqual(null, quotes.ElementAt(1).QuoteFinalisedDate);
             Assert.AreEqual(Convert.ToDateTime("17/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(2).QuoteFinalisedDate);
-            Assert.AreEqual("status_asc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_asc", viewModel.NameSortParm);
-            Assert.AreEqual("email_asc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_asc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("", viewModel.QuoteFinalisedDateSortParm);
         }
 
         [TestMethod]
         public void GetSortedQuotesByQuoteFinalisedDateDescTest()
         {
-            QuoteIndexViewModel viewModel = new QuoteIndexViewModel
-            {
-                sortOrder = ""
-            };
             var quotes = quoteService.GetAllQuotes().ToList();
-            quotes = quoteService.GetSortedQuotes(quotes, viewModel);
+            quotes = quoteService.GetSortedQuotes(quotes, "");
 
             Assert.AreEqual(Convert.ToDateTime("01/11/2015", new CultureInfo("en-AU")), quotes.ElementAt(0).QuoteFinalisedDate);
             Assert.AreEqual(Convert.ToDateTime("01/11/2015", new CultureInfo("en-AU")), quotes.ElementAt(1).QuoteFinalisedDate);
             Assert.AreEqual(Convert.ToDateTime("17/10/2015", new CultureInfo("en-AU")), quotes.ElementAt(2).QuoteFinalisedDate);
-            Assert.AreEqual("status_asc", viewModel.StatusSortParm);
-            Assert.AreEqual("name_asc", viewModel.NameSortParm);
-            Assert.AreEqual("email_asc", viewModel.EmailSortParm);
-            Assert.AreEqual("created_date_asc", viewModel.CreatedDateSortParm);
-            Assert.AreEqual("quote_finalised_date_asc", viewModel.QuoteFinalisedDateSortParm);
+        }
+
+        [TestMethod]
+        public void RevalidatePricesWithHigherAmountTest()
+        {
+            var quote = quoteService.GetQuoteByReferenceId("asd");
+            quote.Phones.ElementAt(0).PurchaseAmount = 1000;
+            quote = quoteService.ReValidatePhonePrices(quote);
+
+            Assert.AreEqual(120, quote.Phones.ElementAt(0).PurchaseAmount);
+            Assert.AreEqual(100, quote.Phones.ElementAt(1).PurchaseAmount);
+            Assert.AreEqual(100, quote.Phones.ElementAt(2).PurchaseAmount);
+        }
+
+        [TestMethod]
+        public void RevalidatePricesWithLowerAmountTest()
+        {
+            var quote = quoteService.GetQuoteByReferenceId("asd");
+            quote.Phones.ElementAt(0).PurchaseAmount = 1;
+            quote = quoteService.ReValidatePhonePrices(quote);
+
+            Assert.AreEqual(1, quote.Phones.ElementAt(0).PurchaseAmount);
+            Assert.AreEqual(100, quote.Phones.ElementAt(1).PurchaseAmount);
+            Assert.AreEqual(100, quote.Phones.ElementAt(2).PurchaseAmount);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException),
+            "Quote cannot be null")]
+        public void RevalidatePricesWithnullParamTest()
+        {
+            quoteService.ReValidatePhonePrices(null);
+        }
+
+        [TestMethod]
+        public void RevalidatePricesWithNonNewQuoteTest()
+        {
+            var quote = quoteService.GetQuoteByReferenceId("zxc");
+            quote.Phones.ElementAt(0).PurchaseAmount = 1;
+            quote = quoteService.ReValidatePhonePrices(quote);
+
+            Assert.AreEqual(1, quote.Phones.ElementAt(0).PurchaseAmount);
+            Assert.AreEqual(120, quote.Phones.ElementAt(1).PurchaseAmount);
+            Assert.AreEqual(180, quote.Phones.ElementAt(2).PurchaseAmount);
         }
 
         #endregion
@@ -839,6 +803,17 @@ namespace TradeYourPhone.Test
         {
             var postageMethods = quoteService.GetAllPostageMethods();
             Assert.AreEqual(2, postageMethods.Count());
+        }
+
+        #endregion
+
+        #region State
+
+        [TestMethod]
+        public void GetStateByIdTest()
+        {
+            var state = quoteService.GetStateById(1);
+            Assert.AreEqual("VIC", state.StateNameShort);
         }
 
         #endregion

@@ -1,21 +1,15 @@
-﻿using TradeYourPhone.Core;
-using TradeYourPhone.Core.Enums;
+﻿using TradeYourPhone.Core.Enums;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Utilities;
 using TradeYourPhone.Core.Repositories.Interface;
 using TradeYourPhone.Core.Services.Interface;
-using TradeYourPhone.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
-using TradeYourPhone.Core.Models.DomainModels;
 using System.Reflection;
-using System.Web.Security;
-using PagedList;
 
 namespace TradeYourPhone.Core.Services.Implementation
 {
@@ -64,16 +58,6 @@ namespace TradeYourPhone.Core.Services.Implementation
         }
 
         /// <summary>
-        /// Get Payment Type ID by providing the Payment Type Name
-        /// </summary>
-        /// <param name="paymentTypeName"></param>
-        /// <returns></returns>
-        private int GetPaymentTypeIdByPaymentTypeName(string paymentTypeName)
-        {
-            return unitOfWork.PaymentTypeRepository.Get().Where(x => x.PaymentTypeName == paymentTypeName).First().ID;
-        }
-
-        /// <summary>
         /// Creates a new Payment Type
         /// </summary>
         /// <param name="paymentType"></param>
@@ -109,18 +93,6 @@ namespace TradeYourPhone.Core.Services.Implementation
         }
 
         /// <summary>
-        /// Delete Payment Type by ID
-        /// </summary>
-        /// <param name="paymentTypeId"></param>
-        /// <returns></returns>
-        //public bool DeletePaymentTypeById(int paymentTypeId)
-        //{
-        //    unitOfWork.PaymentTypeRepository.Delete(paymentTypeId);
-        //    unitOfWork.Save();
-        //    return true;
-        //}
-
-        /// <summary>
         /// Returns true if PaymentType already exists
         /// </summary>
         /// <param name="paymentType"></param>
@@ -128,7 +100,7 @@ namespace TradeYourPhone.Core.Services.Implementation
         private bool DoesPaymentTypeExist(string paymentType)
         {
             IEnumerable<PaymentType> paymentTypes = GetAllPaymentTypes().Where(x => x.PaymentTypeName.ToLower() == paymentType.ToLower());
-            if (paymentTypes.Count() > 0) { return true; }
+            if (paymentTypes.Any()) { return true; }
             return false;
         }
 
@@ -192,18 +164,6 @@ namespace TradeYourPhone.Core.Services.Implementation
         }
 
         /// <summary>
-        /// Deletes Quote Status by ID
-        /// </summary>
-        /// <param name="quoteStatusId"></param>
-        /// <returns></returns>
-        //public bool DeleteQuoteStatusById(int quoteStatusId)
-        //{
-        //    unitOfWork.QuoteStatusRepository.Delete(quoteStatusId);
-        //    unitOfWork.Save();
-        //    return true;
-        //}
-
-        /// <summary>
         /// Retuns true if Quote Status already exists
         /// </summary>
         /// <param name="quoteStatus"></param>
@@ -211,7 +171,7 @@ namespace TradeYourPhone.Core.Services.Implementation
         private bool DoesQuoteStatusExist(string quoteStatus)
         {
             IEnumerable<QuoteStatus> quoteStatuses = GetAllQuoteStatuses().Where(x => x.QuoteStatusName.ToLower() == quoteStatus.ToLower());
-            if (quoteStatuses.Count() > 0) { return true; }
+            if (quoteStatuses.Any()) { return true; }
             return false;
         }
 
@@ -240,30 +200,6 @@ namespace TradeYourPhone.Core.Services.Implementation
         }
 
         /// <summary>
-        /// Gets quotes based on properties provided from the View Model
-        /// </summary>
-        /// <param name="viewModel"></param>
-        /// <returns></returns>
-        public QuoteIndexViewModel GetQuotes(QuoteIndexViewModel viewModel)
-        {
-            QuoteIndexViewModel quoteIndexViewModel = viewModel ?? new QuoteIndexViewModel();
-            viewModel.PageSize = 20;
-            var quotes = SearchQuotes(quoteIndexViewModel.referenceId, quoteIndexViewModel.email, quoteIndexViewModel.lastName, quoteIndexViewModel.firstName, quoteIndexViewModel.statusId);
-            quotes = GetSortedQuotes(quotes, quoteIndexViewModel);
-
-            quoteIndexViewModel.TotalQuotes = quotes.Count;
-            if (quoteIndexViewModel.PageNumber == 0 || (quoteIndexViewModel.PageNumber > (int)System.Math.Ceiling(((double)quoteIndexViewModel.TotalQuotes / (double)viewModel.PageSize))))
-            { quoteIndexViewModel.PageNumber = 1; }
-
-            var pagedQuotes = quotes.ToPagedList(quoteIndexViewModel.PageNumber, viewModel.PageSize);
-
-            quoteIndexViewModel.MapQuotes(pagedQuotes);
-            quoteIndexViewModel.MapStatuses(GetAllQuoteStatuses().ToList());
-
-            return quoteIndexViewModel;
-        }
-
-        /// <summary>
         /// Returns Quote based on the referenceId provided
         /// </summary>
         /// <param name="refId"></param>
@@ -272,71 +208,48 @@ namespace TradeYourPhone.Core.Services.Implementation
         {
             if (refId == null)
             {
-                throw new System.ArgumentException("Parameter cannot be null", "refId");
+                throw new System.ArgumentException("Parameter cannot be null");
             }
             Quote quote = unitOfWork.QuoteRepository.Get(x => x.QuoteReferenceId == refId, null, "Phones").FirstOrDefault();
+            if (quote == null)
+            {
+                throw new Exception("Quote does not exist");
+            }
             return quote;
         }
 
         /// <summary>
-        /// Returns a QuoteDetailsResult object with the customer and all the phones associated with the key provided.
-        /// If the quote is in the New status, prices will also be revalidated.
+        /// Checks all phones on the given quote and ensures the latest rate is applied and saved.
+        /// If the latest rate is higher than the original offer, no change is made.
+        /// If the quote is not of status 'New' no change is made.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public QuoteDetailsResult GetQuoteDetailsByQuoteReferenceId(string key)
+        /// <param name="quote"></param>
+        public Quote ReValidatePhonePrices(Quote quote)
         {
-            QuoteDetailsResult getDetailsResult = new QuoteDetailsResult() { Status = "OK" };
             try
             {
-                if (!string.IsNullOrEmpty(key))
+                if (quote == null)
                 {
-                    Quote quote = GetQuoteByReferenceId(key);
-                    if (quote != null)
-                    {
-                        if (quote.QuoteStatusId == (int)QuoteStatusEnum.New)
-                        {
-                            ReValidatePhonePrices(quote.Phones.ToList());
-                        }
-
-                        getDetailsResult.QuoteDetails = BuildQuoteDetails(key, quote);
-                    }
-                    else
-                    {
-                        getDetailsResult.Status = "Error";
-                        Exception inner = new Exception("Quote does not exist");
-                        throw new Exception("500", inner);
-                    }
+                    throw new ArgumentException("Quote cannot be null");
                 }
-                else { throw new Exception("key parameter is empty"); }
-            }
-            catch(Exception ex)
-            {
-                emailService.SendAlertEmailAndLogException("GetQuoteDetailsByQuoteReferenceId Failed!", MethodBase.GetCurrentMethod(), ex, key);
-                getDetailsResult.Status = "Error";
-                getDetailsResult.Exception = new QuoteDetailsException(ex);
-                getDetailsResult.QuoteDetails = null;
-            }
-
-            return getDetailsResult;
-        }
-
-        /// <summary>
-        /// Checks the PurchaseAmount on the Phone record and ensures the latest rate is applied and saved.
-        /// If the latest rate is higher than the original offer, no change is made.
-        /// </summary>
-        /// <param name="phones"></param>
-        private void ReValidatePhonePrices(List<Phone> phones)
-        {
-            foreach(var phone in phones)
-            {
-                decimal offer = phoneService.GetPhoneConditionPrice(phone.PhoneModelId, phone.PhoneConditionId).OfferAmount;
-                if(phone.PurchaseAmount > offer)
+                if (quote.QuoteStatusId != (int) QuoteStatusEnum.New) return quote;
+                foreach (var phone in quote.Phones)
                 {
-                    phone.PurchaseAmount = offer;
-                    unitOfWork.PhoneRepository.Update(phone);
+                    decimal offer =
+                        phoneService.GetPhoneConditionPrice(phone.PhoneModelId, phone.PhoneConditionId).OfferAmount;
+                    if (phone.PurchaseAmount > offer)
+                    {
+                        phone.PurchaseAmount = offer;
+                        unitOfWork.QuoteRepository.Update(quote);
+                    }
+                    unitOfWork.Save();
                 }
-                unitOfWork.Save();
+                return quote;
+            }
+            catch (Exception ex)
+            {
+                emailService.SendAlertEmailAndLogException("ReValidatePhonePrices Failed!", MethodBase.GetCurrentMethod(), ex, quote);
+                throw ex;
             }
         }
 
@@ -346,131 +259,44 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="key"></param>
         /// <param name="phone"></param>
         /// <returns></returns>
-        public QuoteDetailsResult AddPhoneToQuote(string key, string phoneModelId, string phoneConditionId)
+        public Quote AddPhoneToQuote(string key, string phoneModelId, string phoneConditionId)
         {
-            QuoteDetailsResult addPhoneResult = new QuoteDetailsResult() { Status = "OK" };
             try
             {
-                if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(phoneModelId) && !string.IsNullOrEmpty(phoneConditionId))
+                if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(phoneModelId) ||
+                    string.IsNullOrEmpty(phoneConditionId))
                 {
-                    Quote quote = GetQuoteByReferenceId(key);
-                    if (quote != null && quote.QuoteStatusId == (int)QuoteStatusEnum.New)
-                    {
-                        Phone phone = CreatePhoneObject(quote.ID, phoneModelId, phoneConditionId);
-                        phoneService.CreatePhone(phone);
-                    }
-                    else
-                    {
-                        Exception inner = new Exception(quote == null ? "Quote does not exist" : "Quote is not of status 'New'");
-                        throw new Exception("500", inner);
-                    }
-
-                    addPhoneResult.QuoteDetails = BuildQuoteDetails(key, quote);
-                }
-                else
-                {
-                    throw new Exception("One or more Parameters are null");
+                    throw new ArgumentException("One or more Parameters are null");
                 }
 
-                return addPhoneResult;
+                Quote quote = GetQuoteByReferenceId(key);
+                if (!IsQuoteNew(key))
+                {
+                    throw new Exception("Quote is not of status 'New'");
+
+                }
+
+                var modelId = Convert.ToInt32(phoneModelId);
+                var conditionId = Convert.ToInt32(phoneConditionId);
+                PhoneConditionPrice conditionPrice = phoneService.GetPhoneConditionPrice(modelId, conditionId);
+
+                Phone phone = unitOfWork.PhoneRepository.GetNewPhoneObject();
+                phone.PhoneModelId = modelId;
+                phone.PhoneConditionId = conditionId;
+                phone.PhoneStatusId = (int) PhoneStatusEnum.New;
+                phone.PurchaseAmount = conditionPrice.OfferAmount;
+                phone.PhoneMakeId = phoneService.GetPhoneMakeIdByModelId(modelId);
+
+                quote.Phones.Add(phone);
+                var updatedQuote = ModifyQuote(quote, User.SystemUser.Value);
+
+                return updatedQuote;
             }
             catch (Exception ex)
             {
                 emailService.SendAlertEmailAndLogException("AddPhoneToQuote Failed!", MethodBase.GetCurrentMethod(), ex, key, phoneModelId, phoneConditionId);
-                addPhoneResult.Status = "Error";
-                addPhoneResult.Exception = new QuoteDetailsException(ex);
-                addPhoneResult.QuoteDetails = null;
-                return addPhoneResult;
+                throw ex;
             }
-        }
-
-        /// <summary>
-        /// Constructs a Phone object using QuoteId, ModelId and ConditionId. Sets Phone Status to New.
-        /// Ensures PurchaseAmount is the latest.
-        /// </summary>
-        /// <param name="quoteId"></param>
-        /// <param name="phoneModelId"></param>
-        /// <param name="phoneConditionId"></param>
-        /// <returns></returns>
-        private Phone CreatePhoneObject(int quoteId, string phoneModelId, string phoneConditionId)
-        {
-            int modelId = Convert.ToInt32(phoneModelId);
-            int conditionId = Convert.ToInt32(phoneConditionId);
-            PhoneConditionPrice conditionPrice = phoneService.GetPhoneConditionPrice(modelId, conditionId);
-            if(conditionPrice == null)
-            {
-                throw new Exception("Model and/or Condition do not exist");
-            }
-
-            Phone phone = new Phone()
-            {
-                PhoneModelId = modelId,
-                PhoneConditionId = conditionId,
-                QuoteId = quoteId,
-                PhoneStatusId = (int)PhoneStatusEnum.New,
-                PurchaseAmount = conditionPrice.OfferAmount,
-                PhoneMakeId = phoneService.GetPhoneMakeIdByModelId(modelId)
-            };
-
-            return phone;
-        }
-
-        /// <summary>
-        /// Constructs a QuoteDetails object from a ICollection of Phones and a nullable customer object
-        /// </summary>
-        /// <param name="phones"></param>
-        /// <returns></returns>
-        private QuoteDetails BuildQuoteDetails(string key, Quote quote)
-        {
-            QuoteDetails quoteDetails = new QuoteDetails()
-            {
-                QuoteReferenceId = key,
-                QuoteStatus = quote.QuoteStatus.QuoteStatusName,
-                Phones = new List<Models.DomainModels.PhoneDetail>(),
-                PostageMethod = quote.PostageMethod,
-                AgreedToTerms = quote.AgreedToTerms
-            };
-
-            if(quote.Customer != null)
-            {
-                quote.Customer.Quotes = null;
-                quoteDetails.Customer = new CustomerDetail
-                {
-                    fullname = quote.Customer.FullName,
-                    email = quote.Customer.Email,
-                    emailConfirm = quote.Customer.Email,
-                    mobile = quote.Customer.PhoneNumber,
-                    postageStreet = quote.Customer.Address.AddressLine1,
-                    postageSuburb = quote.Customer.Address.AddressLine2,
-                    postageState = quote.Customer.Address.State.StateNameShort,
-                    postagePostcode = quote.Customer.Address.PostCode,
-                    paymentType = quote.Customer.PaymentDetail.PaymentType.PaymentTypeName,
-                    bsb = quote.Customer.PaymentDetail.BSB,
-                    accountNum = quote.Customer.PaymentDetail.AccountNumber,
-                    paypalEmail = quote.Customer.PaymentDetail.PaypalEmail,
-                    paypalSameAsPersonal = quote.Customer.PaymentDetail.PaypalEmail == quote.Customer.Email
-                };
-            }
-
-            foreach (var item in quote.Phones.OrderBy(x => x.Id))
-            {
-                Phone phoneObj = phoneService.GetPhoneById(item.Id);
-                if (phoneObj != null)
-                {
-                    Models.DomainModels.PhoneDetail details = new Models.DomainModels.PhoneDetail()
-                    {
-                        Id = phoneObj.Id,
-                        PhoneMakeName = phoneObj.PhoneMake.MakeName,
-                        PhoneModelName = phoneObj.PhoneModel.ModelName,
-                        PhoneCondition = phoneObj.PhoneCondition.Condition,
-                        OfferPrice = phoneObj.PurchaseAmount.ToString(),
-                        PrimaryImageString = phoneObj.PhoneModel.PrimaryImageString
-                    };
-                    quoteDetails.Phones.Add(details);
-                }
-            }
-
-            return quoteDetails;
         }
 
         /// <summary>
@@ -479,25 +305,18 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="key"></param>
         /// <param name="phoneId"></param>
         /// <returns></returns>
-        public QuoteDetailsResult DeletePhoneFromQuote(string key, string phoneId)
+        public Quote DeletePhoneFromQuote(string key, string phoneId)
         {
             if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(phoneId))
             {
                 throw new System.ArgumentException("Parameter(s) cannot be null");
             }
 
-            QuoteDetailsResult deletePhoneResult = new QuoteDetailsResult() { Status = "OK" };
             try
             {
                 bool quoteNew = IsQuoteNew(key);
                 bool phoneInQuote = IsPhoneInQuote(key, Convert.ToInt32(phoneId));
-                if (quoteNew && phoneInQuote)
-                {
-                    phoneService.DeletePhoneById(Convert.ToInt32(phoneId));
-                    Quote quote = GetQuoteByReferenceId(key);
-                    deletePhoneResult.QuoteDetails = BuildQuoteDetails(key, quote);
-                }
-                else
+                if (!quoteNew || !phoneInQuote)
                 {
                     Exception inner = new Exception
                     (
@@ -505,16 +324,15 @@ namespace TradeYourPhone.Core.Services.Implementation
                     );
                     throw new Exception("500", inner);
                 }
+                phoneService.DeletePhoneById(Convert.ToInt32(phoneId));
+                Quote quote = GetQuoteByReferenceId(key);
 
-                return deletePhoneResult;
+                return quote;
             }
             catch (Exception ex)
             {
                 emailService.SendAlertEmailAndLogException("DeletePhoneFromQuote Failed!", MethodBase.GetCurrentMethod(), ex, key, phoneId);
-                deletePhoneResult.Status = "Error";
-                deletePhoneResult.Exception = new QuoteDetailsException(ex);
-                deletePhoneResult.QuoteDetails = null;
-                return deletePhoneResult;
+                throw ex;
             }
         }
 
@@ -563,7 +381,7 @@ namespace TradeYourPhone.Core.Services.Implementation
 
                 return key;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 emailService.SendAlertEmailAndLogException("CreateQuote Failed!", MethodBase.GetCurrentMethod(), ex);
                 throw ex;
@@ -576,10 +394,10 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="key"></param>
         /// <param name="customer"></param>
         /// <returns></returns>
-        public QuoteDetailsResult SaveQuote(string key, SaveQuoteViewModel viewModel)
+        public Quote SaveQuote(Quote quote)
         {
-            return SaveQuote(key, viewModel, false);
-        } 
+            return SaveQuote(quote, false);
+        }
 
         /// <summary>
         /// Finalises the Quote by creating the customer and setting the quote status
@@ -588,9 +406,9 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="key">Unique Quote Key</param>
         /// <param name="customer">Customer object</param>
         /// <returns>QuoteDetailResult</returns>
-        public QuoteDetailsResult FinaliseQuote(string key, SaveQuoteViewModel viewModel)
+        public Quote FinaliseQuote(Quote quote)
         {
-            return SaveQuote(key, viewModel, true);
+            return SaveQuote(quote, true);
         }
 
         /// <summary>
@@ -599,168 +417,65 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="key">Unique Quote Key</param>
         /// <param name="customer">Customer object</param>
         /// <returns>QuoteDetailResult</returns>
-        private QuoteDetailsResult SaveQuote(string key, SaveQuoteViewModel viewModel, bool finalised)
+        private Quote SaveQuote(Quote quoteToSave, bool finalised)
         {
-            QuoteDetailsResult saveQuoteResult = new QuoteDetailsResult() { Status = "OK" };
             try
             {
-                if (!string.IsNullOrEmpty(key) && viewModel != null)
+                if (quoteToSave == null || quoteToSave.ID == 0)
                 {
-                    // Save all quote related properties
-                    Quote quote = GetQuoteByReferenceId(key);
-                    if (quote != null)
+                    throw new ArgumentException("quoteToSave parameter is null/empty");
+                }
+                // Save all quote related properties
+                QuoteStatusEnum status = QuoteStatusEnum.New;
+                if (finalised)
+                {
+                    status = GetQuoteStatusByPostageMethod((int)quoteToSave.PostageMethodId);
+                    quoteToSave.QuoteFinalisedDate = Util.GetAEST(DateTime.Now);
+                    quoteToSave.QuoteExpiryDate = Util.GetAEST(DateTime.Now.AddDays(14));
+
+                    // Update every phone to status Waiting on Delivery and then add a status history record
+                    foreach (var phone in quoteToSave.Phones)
                     {
-                        QuoteStatusEnum status = QuoteStatusEnum.New;
-                        if(finalised)
-                        {
-                            status = GetQuoteStatusByPostageMethod(viewModel.PostageMethodId);
-                            quote.QuoteFinalisedDate = Util.GetAEST(DateTime.Now);
-                            quote.QuoteExpiryDate = Util.GetAEST(DateTime.Now.AddDays(14));
-
-                            // Update every phone to status Waiting on Delivery and then add a status history record
-                            foreach(var phone in quote.Phones)
-                            {
-                                int existingStatusId = phone.PhoneStatusId;
-                                phone.PhoneStatusId = (int)PhoneStatusEnum.WaitingForDelivery;
-                                phoneService.UpdatePhoneStatusHistory(phone.Id, existingStatusId, phone.PhoneStatusId, User.SystemUser.Value);
-                            }
-                        }
-
-                        quote.QuoteStatusId = (int)status;
-                        quote.PostageMethodId = viewModel.PostageMethodId;
-                        quote.AgreedToTerms = viewModel.AgreedToTerms;
-                        
-                        unitOfWork.QuoteRepository.Update(quote, null);
-
-                        // Save the customer associated with this quote
-                        SaveCustomer(quote, viewModel.Customer);
-
-                        // Commit all changes for Quote and Child entities
-                        unitOfWork.Save();
-
-                        saveQuoteResult.QuoteDetails = BuildQuoteDetails(key, quote);
-
-                        if (finalised)
-                        {
-                            // Send customer a confirmation email
-                            EmailTemplate template = EmailTemplate.QuoteConfirmationSatchel;
-                            if(quote.PostageMethodId == (int)PostageMethodEnum.Satchel)
-                            {
-                                template = EmailTemplate.QuoteConfirmationSatchel;
-                            }
-                            else if (quote.PostageMethodId == (int)PostageMethodEnum.SelfPost)
-                            {
-                                template = EmailTemplate.QuoteConfirmationSelfPost;
-                            }
-
-                            emailService.SendEmailTemplate(template, quote);
-                        }
-                    }
-                    else
-                    {
-                        Exception inner = new Exception("Quote does not exist");
-                        throw new Exception("500", inner);
+                        int existingStatusId = phone.PhoneStatusId;
+                        phone.PhoneStatusId = (int)PhoneStatusEnum.WaitingForDelivery;
+                        phoneService.UpdatePhoneStatusHistory(phone.Id, existingStatusId, phone.PhoneStatusId, User.SystemUser.Value);
                     }
                 }
-                else
+
+                quoteToSave.QuoteStatusId = (int)status;
+
+                unitOfWork.QuoteRepository.Update(quoteToSave, null);
+
+                // Save the customer associated with this quote
+                //SaveCustomer(quote, viewModel.Customer);
+
+                // Commit all changes for Quote and Child entities
+                unitOfWork.Save();
+
+                if (finalised)
                 {
-                    throw new Exception("One or more Parameters are null");
+                    // Send customer a confirmation email
+                    var template = EmailTemplate.QuoteConfirmationSatchel;
+                    switch (quoteToSave.PostageMethodId)
+                    {
+                        case (int) PostageMethodEnum.Satchel:
+                            template = EmailTemplate.QuoteConfirmationSatchel;
+                            break;
+                        case (int) PostageMethodEnum.SelfPost:
+                            template = EmailTemplate.QuoteConfirmationSelfPost;
+                            break;
+                    }
+
+                    emailService.SendEmailTemplate(template, quoteToSave);
                 }
+
+                return quoteToSave;
             }
             catch (Exception ex)
             {
-                emailService.SendAlertEmailAndLogException("SaveQuote Failed!", MethodBase.GetCurrentMethod(), ex, key, viewModel, finalised);
-                saveQuoteResult.Status = "Error";
-                saveQuoteResult.Exception = new QuoteDetailsException(ex);
-                return saveQuoteResult;
+                emailService.SendAlertEmailAndLogException("SaveQuote Failed!", MethodBase.GetCurrentMethod(), ex, quoteToSave, finalised);
+                throw ex;
             }
-
-            return saveQuoteResult;
-        }
-
-        /// <summary>
-        /// Save Customer entity and all child entities
-        /// </summary>
-        /// <param name="quote">Quote that the customer is a child of</param>
-        /// <param name="newCustomer">The customer entity to save</param>
-        /// <returns></returns>
-        private bool SaveCustomer(Quote quote, Customer newCustomer)
-        {
-            bool success = true;
-
-            if (quote.Customer == null)
-            {
-                quote.Customer = MergeCustomer(quote.Customer, newCustomer);
-                quote.Customer.Quotes.Add(quote);
-
-                unitOfWork.CustomerRepository.Insert(quote.Customer);
-                unitOfWork.AddressRepository.Insert(quote.Customer.Address);
-                unitOfWork.PaymentDetailRepository.Insert(quote.Customer.PaymentDetail);
-            }
-            else
-            {
-                quote.Customer = MergeCustomer(quote.Customer, newCustomer);
-
-                unitOfWork.CustomerRepository.Update(quote.Customer);
-                unitOfWork.AddressRepository.Update(quote.Customer.Address);
-                unitOfWork.PaymentDetailRepository.Update(quote.Customer.PaymentDetail);
-            }
-
-            return success;
-        }
-
-        /// <summary>
-        /// Merge a new Customer object with an Existing Customer object
-        /// </summary>
-        /// <param name="customerToMergeTo"></param>
-        /// <param name="newCustomer"></param>
-        /// <returns></returns>
-        private Customer MergeCustomer(Customer customerToMergeTo, Customer newCustomer)
-        {
-            customerToMergeTo = customerToMergeTo ?? new Customer();
-            customerToMergeTo.FirstName = newCustomer.FirstName;
-            customerToMergeTo.LastName = newCustomer.LastName;
-            customerToMergeTo.Email = newCustomer.Email;
-            customerToMergeTo.PhoneNumber = newCustomer.PhoneNumber;
-            customerToMergeTo.Address = MergeAddress(customerToMergeTo.Address, newCustomer.Address);
-            customerToMergeTo.PaymentDetail = MergePaymentDetail(customerToMergeTo.PaymentDetail, newCustomer.PaymentDetail);
-
-            return customerToMergeTo;
-        }
-
-        /// <summary>
-        /// Merge Address object with existing Address object
-        /// </summary>
-        /// <param name="addressToMergeTo"></param>
-        /// <param name="newAddress"></param>
-        /// <returns></returns>
-        private Address MergeAddress(Address addressToMergeTo, Address newAddress)
-        {
-            addressToMergeTo = addressToMergeTo ?? new Address();
-            addressToMergeTo.AddressLine1 = newAddress.AddressLine1;
-            addressToMergeTo.AddressLine2 = newAddress.AddressLine2;
-            addressToMergeTo.PostCode = newAddress.PostCode;
-            addressToMergeTo.CountryId = newAddress.CountryId;
-            addressToMergeTo.State = GetStateById(GetStateIdByStateShortName(newAddress.State.StateNameShort));
-
-            return addressToMergeTo;
-        }
-
-        /// <summary>
-        /// Merge PaymentDetail object with Existing PaymentDetail object
-        /// </summary>
-        /// <param name="paymentDetailToMergeTo"></param>
-        /// <param name="newPaymentDetail"></param>
-        /// <returns></returns>
-        private PaymentDetail MergePaymentDetail(PaymentDetail paymentDetailToMergeTo, PaymentDetail newPaymentDetail)
-        {
-            paymentDetailToMergeTo = paymentDetailToMergeTo ?? new PaymentDetail();
-            paymentDetailToMergeTo.PaymentTypeId = GetPaymentTypeIdByPaymentTypeName(newPaymentDetail.PaymentType.PaymentTypeName);
-            paymentDetailToMergeTo.BSB = newPaymentDetail.BSB;
-            paymentDetailToMergeTo.AccountNumber = newPaymentDetail.AccountNumber;
-            paymentDetailToMergeTo.PaypalEmail = newPaymentDetail.PaypalEmail;
-
-            return paymentDetailToMergeTo;
         }
 
         /// <summary>
@@ -820,7 +535,7 @@ namespace TradeYourPhone.Core.Services.Implementation
             }
             else if (quote.QuoteStatusId == (int)QuoteStatusEnum.Paid)
             {
-                if (currentQuoteStatusId == (int)QuoteStatusEnum.Assessing 
+                if (currentQuoteStatusId == (int)QuoteStatusEnum.Assessing
                     || currentQuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery
                     || currentQuoteStatusId == (int)QuoteStatusEnum.ReadyForPayment)
                 {
@@ -853,7 +568,7 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="firstName"></param>
         /// <param name="quoteStatusId"></param>
         /// <returns></returns>
-        public List<Quote> SearchQuotes(string referenceId, string email, string lastName, string firstName, int quoteStatusId)
+        public List<Quote> SearchQuotes(string referenceId, string email, string fullName, int quoteStatusId)
         {
             Expression<Func<Quote, bool>> predicate = c => true;
 
@@ -865,15 +580,11 @@ namespace TradeYourPhone.Core.Services.Implementation
             {
                 predicate = predicate.And(c => c.Customer.Email.ToLower() == email.ToLower());
             }
-            if (!string.IsNullOrEmpty(lastName) && lastName.Trim().Length > 0)
+            if (!string.IsNullOrEmpty(fullName) && fullName.Trim().Length > 0)
             {
-                predicate = predicate.And(c => c.Customer.LastName.ToLower() == lastName.ToLower());
+                predicate = predicate.And(c => c.Customer.FullName.ToLower().Contains(fullName.ToLower()));
             }
-            if (!string.IsNullOrEmpty(firstName) && firstName.Trim().Length > 0)
-            {
-                predicate = predicate.And(c => c.Customer.FirstName.ToLower() == firstName.ToLower());
-            }
-            if(quoteStatusId != 0)
+            if (quoteStatusId != 0)
             {
                 predicate = predicate.And(c => c.QuoteStatusId == quoteStatusId);
             }
@@ -889,17 +600,11 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="quotesToSort"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public List<Quote> GetSortedQuotes(List<Quote> quotesToSort, QuoteIndexViewModel viewModel)
+        public List<Quote> GetSortedQuotes(List<Quote> quotesToSort, string sortOrder)
         {
-            viewModel.QuoteFinalisedDateSortParm = String.IsNullOrEmpty(viewModel.sortOrder) ? "quote_finalised_date_asc" : "";
-            viewModel.NameSortParm = viewModel.sortOrder == "name_asc" ? "name_desc" : "name_asc";
-            viewModel.EmailSortParm = viewModel.sortOrder == "email_asc" ? "email_desc" : "email_asc";
-            viewModel.CreatedDateSortParm = viewModel.sortOrder == "created_date_asc" ? "created_date_desc" : "created_date_asc";
-            viewModel.StatusSortParm = viewModel.sortOrder == "status_asc" ? "status_desc" : "status_asc";
-
             IEnumerable<Quote> quotes = quotesToSort;
 
-            switch (viewModel.sortOrder)
+            switch (sortOrder)
             {
                 case "name_asc":
                     quotes = quotes.OrderBy(s => s.Customer.LastName).ThenBy(s => s.Customer.FirstName);
@@ -943,12 +648,12 @@ namespace TradeYourPhone.Core.Services.Implementation
         private string GetUniqueQuoteKey()
         {
             string key = GetUniqueKey();
-            bool alreadyExists = GetQuoteByReferenceId(key) != null ? true : false;
+            bool alreadyExists = unitOfWork.QuoteRepository.DoesQuoteExist(key);
 
             while (alreadyExists)
             {
                 key = GetUniqueKey();
-                alreadyExists = GetQuoteByReferenceId(key) != null ? true : false;
+                alreadyExists = unitOfWork.QuoteRepository.DoesQuoteExist(key);
             }
 
             return key;
@@ -1000,16 +705,6 @@ namespace TradeYourPhone.Core.Services.Implementation
         public List<string> GetAllStateNames()
         {
             return unitOfWork.StateRepository.Get().Select(x => x.StateNameShort).ToList();
-        }
-
-        /// <summary>
-        /// Get the State ID by providing the State Short Name
-        /// </summary>
-        /// <param name="stateShortName"></param>
-        /// <returns></returns>
-        private int GetStateIdByStateShortName(string stateShortName)
-        {
-            return unitOfWork.StateRepository.Get().Where(x => x.StateNameShort == stateShortName).First().ID;
         }
 
         public State GetStateById(int id)

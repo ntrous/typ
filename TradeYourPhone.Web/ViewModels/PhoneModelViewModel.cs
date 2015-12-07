@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using TradeYourPhone.Core.DTO;
 
-namespace TradeYourPhone.Core.ViewModels
+namespace TradeYourPhone.Web.ViewModels
 {
     public class PhoneModelViewModel
     {

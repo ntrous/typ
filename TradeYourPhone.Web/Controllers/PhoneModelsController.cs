@@ -6,10 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TradeYourPhone.Core.DTO;
 using TradeYourPhone.Core.Enums;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Services.Interface;
-using TradeYourPhone.Core.ViewModels;
+using TradeYourPhone.Web.ViewModels;
 
 namespace TradeYourPhone.Web.Controllers
 {
@@ -25,10 +26,14 @@ namespace TradeYourPhone.Web.Controllers
         // GET: PhoneModels
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult GetPhoneModelsForView()
+        public ActionResult GetPhoneModelsForAdminView()
         {
-            var phoneModelsViewModel = phoneService.GetPhoneModelsForAdminView();
-            return Json(phoneModelsViewModel, JsonRequestBehavior.AllowGet);
+            var viewModel = new PhoneModelIndexViewModel();
+            var models = phoneService.GetAllPhoneModels();
+            models = models.OrderBy(m => m.ModelName);
+            viewModel.MapPhoneModels(models.ToList());
+
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
 
         // GET: PhoneModels/Details/5
@@ -52,12 +57,11 @@ namespace TradeYourPhone.Web.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetPhoneModel(int id)
         {
-            var viewModel = phoneService.GetPhoneModelForAdminView(id);
-
-            if (viewModel == null)
-            {
-                return HttpNotFound();
-            }
+            var viewModel = new PhoneModelViewModel();
+            var model = phoneService.GetPhoneModelById(id);
+            viewModel.Model = new PhoneModelDTO();
+            viewModel.Model.Map(model);
+            viewModel.MapPhoneMakes(phoneService.GetAllPhoneMakes().ToList());
 
             return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
@@ -66,12 +70,19 @@ namespace TradeYourPhone.Web.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetCreatePhoneModelViewModel()
         {
-            var viewModel = phoneService.GetCreatePhoneModelViewModel();
+            CreatePhoneModelViewModel viewModel = new CreatePhoneModelViewModel();
+            viewModel.Model = new PhoneModelDTO {PhoneConditionPrices = new List<PhoneConditionPriceDTO>()};
 
-            if (viewModel == null)
+            var conditions = phoneService.GetAllPhoneConditions().ToList();
+            foreach (var condition in conditions)
             {
-                return HttpNotFound();
+                PhoneConditionDTO conditionDTO = new PhoneConditionDTO();
+                conditionDTO.Map(condition);
+                viewModel.Model.PhoneConditionPrices.Add(new PhoneConditionPriceDTO { PhoneConditionId = condition.ID, PhoneCondition = conditionDTO });
             }
+
+            viewModel.MapPhoneMakes(phoneService.GetAllPhoneMakes().ToList());
+            viewModel.MapPhoneConditions(phoneService.GetAllPhoneConditions().ToList());
 
             return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
@@ -86,11 +97,15 @@ namespace TradeYourPhone.Web.Controllers
             bool success = false;
             if (phoneModelViewModel.Model.ID == 0)
             {
-                success = phoneService.CreatePhoneModel(phoneModelViewModel);
+                PhoneModel model = new PhoneModel();
+                model.UpdateFromDTO(phoneModelViewModel.Model);
+                success = phoneService.CreatePhoneModel(model);
             }
             else
             {
-                success = phoneService.ModifyPhoneModel(phoneModelViewModel);
+                PhoneModel model = phoneService.GetPhoneModelById(phoneModelViewModel.Model.ID);
+                model.UpdateFromDTO(phoneModelViewModel.Model);
+                success = phoneService.ModifyPhoneModel(model);
             }
 
             return Json(success, JsonRequestBehavior.AllowGet);
@@ -101,11 +116,14 @@ namespace TradeYourPhone.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get)]
-        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
+        //[OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPhoneModels()
         {
-            var phoneModels = phoneService.GetAllPhoneModelsForView();
-            return Json(phoneModels, JsonRequestBehavior.AllowGet);
+            var viewModel = new PhoneModelsViewModel();
+            var phoneModels = phoneService.GetAllPhoneModels();
+            viewModel.MapPhoneModels(phoneModels.ToList());
+
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -116,8 +134,12 @@ namespace TradeYourPhone.Web.Controllers
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPhoneModelsByMakeName(string makeName)
         {
-            var phoneModels = phoneService.GetPhoneModelsForViewByMakeName(makeName);
-            return Json(phoneModels, JsonRequestBehavior.AllowGet);
+            var phoneModels = phoneService.GetPhoneModelsByMakeName(makeName);
+
+            var viewModel = new PhoneModelsViewModel();
+            viewModel.MapPhoneModels(phoneModels.ToList());
+
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -128,7 +150,10 @@ namespace TradeYourPhone.Web.Controllers
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetMostPopularPhoneModels(int limit)
         {
+            var viewModel = new PhoneModelsViewModel();
             var phoneModels = phoneService.GetMostPopularPhoneModels(limit);
+            viewModel.MapPhoneModels(phoneModels.ToList());
+
             return Json(phoneModels, JsonRequestBehavior.AllowGet);
         }
 

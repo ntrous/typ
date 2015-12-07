@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using TradeYourPhone.Core.Enums;
@@ -16,16 +16,14 @@ namespace TradeYourPhone.Core.Repositories.Implementation
         {
             this.dbSet.Add(entity);
             context.SaveChanges();
-
-            QuoteStatusHistory record = new QuoteStatusHistory
-            {
-                QuoteId = entity.ID,
-                QuoteStatusId = entity.QuoteStatusId,
-                StatusDate = Util.GetAEST(DateTime.Now),
-                CreatedBy = userId ?? User.SystemUser.Value
-            };
-
+            
             var quoteStatusHistorydbSet = context.Set<QuoteStatusHistory>();
+            QuoteStatusHistory record = quoteStatusHistorydbSet.Create();
+            record.QuoteId = entity.ID;
+            record.QuoteStatusId = entity.QuoteStatusId;
+            record.StatusDate = Util.GetAEST(DateTime.Now);
+            record.CreatedBy = userId ?? User.SystemUser.Value;
+
             quoteStatusHistorydbSet.Add(record);
         }
 
@@ -54,6 +52,13 @@ namespace TradeYourPhone.Core.Repositories.Implementation
             IQueryable<Quote> query = context.Set<Quote>();
             int currentStatus = query.Where(q => q.ID == quoteId).Select(p => p.QuoteStatusId).First();
             return currentStatus;
+        }
+
+        public bool DoesQuoteExist(string quoteReferenceId)
+        {
+            IQueryable<Quote> query = context.Set<Quote>();
+            bool exists = query.Any(q => q.QuoteReferenceId == quoteReferenceId);
+            return exists;
         }
     }
 }

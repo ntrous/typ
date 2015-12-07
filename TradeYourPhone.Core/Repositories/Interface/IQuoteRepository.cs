@@ -12,5 +12,6 @@ namespace TradeYourPhone.Core.Repositories.Interface
         void Insert(Quote entity, string userId);
         void Update(Quote entityToUpdate, string userId);
         int GetQuoteStatusId(int quoteId);
+        bool DoesQuoteExist(string quoteReferenceId);
     }
 }

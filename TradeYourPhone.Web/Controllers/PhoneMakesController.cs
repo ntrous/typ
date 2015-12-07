@@ -6,7 +6,7 @@ using TradeYourPhone.Core.DTO;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Services.Interface;
 using TradeYourPhone.Core.Utilities;
-using TradeYourPhone.Core.ViewModels;
+using TradeYourPhone.Web.ViewModels;
 
 namespace TradeYourPhone.Web.Controllers
 {

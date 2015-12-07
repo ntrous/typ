@@ -35,7 +35,7 @@ describe('DetailsTab', function () {
             expect(quotePage.suburbField.isDisplayed()).toEqual(true);
             expect(quotePage.stateSelect.isDisplayed()).toEqual(true);
             // State should be defaulted to VIC
-            expect(quotePage.stateSelect.getAttribute('value')).toEqual('0');
+            expect(quotePage.stateSelect.getAttribute('value')).toEqual('1');
             expect(quotePage.stateDropDown.count()).toEqual(8);
             expect(quotePage.stateDropDown.getText()).toEqual(['VIC', 'NSW', 'WA', 'TAS', 'QLD', 'SA', 'ACT', 'NT']);
             expect(quotePage.postcodeField.isDisplayed()).toEqual(true);
@@ -43,7 +43,7 @@ describe('DetailsTab', function () {
             // Payment fields
             expect(quotePage.paymentTypeSelect.isDisplayed()).toEqual(true);
             // payment type defualts to bank transfer
-            expect(quotePage.paymentTypeSelect.getAttribute('value')).toEqual('0');
+            expect(quotePage.paymentTypeSelect.getAttribute('value')).toEqual('1');
             expect(quotePage.paymentTypeDropDown.count()).toEqual(2);
             expect(quotePage.paymentTypeDropDown.getText()).toEqual(['Bank Transfer', 'Paypal']);
             expect(quotePage.bsbField.isDisplayed()).toEqual(true);

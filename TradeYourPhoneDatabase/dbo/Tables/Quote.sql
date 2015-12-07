@@ -9,6 +9,7 @@
     [QuoteReferenceId]   NVARCHAR (8) NOT NULL,
     [CreatedDate]        DATETIME     NULL,
     [Notes] VARCHAR(MAX) NULL, 
+    [TrackingNumber] VARCHAR(255) NULL, 
     CONSTRAINT [PrimaryKey_21eb8be7-e598-465b-a48c-12132fce0635] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_Quote_0] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([ID]) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT [FK_Quote_3] FOREIGN KEY ([QuoteStatusId]) REFERENCES [dbo].[QuoteStatus] ([ID]),

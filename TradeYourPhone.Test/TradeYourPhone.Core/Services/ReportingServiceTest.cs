@@ -22,34 +22,34 @@ namespace TradeYourPhone.Test.TradeYourPhone.Core.Services
             reportingService = cmd.GetReportingService();
         }
 
-        [TestMethod]
-        public void GetDashboardDataTest()
-        {
-            var dashboardVM = reportingService.GetDashboardData(DateTime.Parse("13-10-2015", new CultureInfo("en-AU")), DateTime.Parse("17-10-2015", new CultureInfo("en-AU")));
+        //[TestMethod]
+        //public void GetDashboardDataTest()
+        //{
+        //    var dashboardVM = reportingService.GetDashboardData(DateTime.Parse("13-10-2015", new CultureInfo("en-AU")), DateTime.Parse("17-10-2015", new CultureInfo("en-AU")));
 
-            Assert.AreEqual(3, dashboardVM.NoOfCreatedQuotes);
-            Assert.AreEqual(1, dashboardVM.NoOfFinalisedQuotes);
-            Assert.AreEqual(1050, dashboardVM.TotalAmountToPay);
-        }
+        //    Assert.AreEqual(3, dashboardVM.NoOfCreatedQuotes);
+        //    Assert.AreEqual(1, dashboardVM.NoOfFinalisedQuotes);
+        //    Assert.AreEqual(1050, dashboardVM.TotalAmountToPay);
+        //}
 
-        [TestMethod]
-        public void GetDashboardDataTest2()
-        {
-            var dashboardVM = reportingService.GetDashboardData(DateTime.Parse("14-10-2015", new CultureInfo("en-AU")), DateTime.Parse("17-10-2015", new CultureInfo("en-AU")));
+        //[TestMethod]
+        //public void GetDashboardDataTest2()
+        //{
+        //    var dashboardVM = reportingService.GetDashboardData(DateTime.Parse("14-10-2015", new CultureInfo("en-AU")), DateTime.Parse("17-10-2015", new CultureInfo("en-AU")));
 
-            Assert.AreEqual(2, dashboardVM.NoOfCreatedQuotes);
-            Assert.AreEqual(1, dashboardVM.NoOfFinalisedQuotes);
-            Assert.AreEqual(1050, dashboardVM.TotalAmountToPay);
-        }
+        //    Assert.AreEqual(2, dashboardVM.NoOfCreatedQuotes);
+        //    Assert.AreEqual(1, dashboardVM.NoOfFinalisedQuotes);
+        //    Assert.AreEqual(1050, dashboardVM.TotalAmountToPay);
+        //}
 
-        [TestMethod]
-        public void GetDashboardDataTest3()
-        {
-            var dashboardVM = reportingService.GetDashboardData(DateTime.Parse("17-10-2015", new CultureInfo("en-AU")), DateTime.Parse("17-10-2015", new CultureInfo("en-AU")));
+        //[TestMethod]
+        //public void GetDashboardDataTest3()
+        //{
+        //    var dashboardVM = reportingService.GetDashboardData(DateTime.Parse("17-10-2015", new CultureInfo("en-AU")), DateTime.Parse("17-10-2015", new CultureInfo("en-AU")));
 
-            Assert.AreEqual(1, dashboardVM.NoOfCreatedQuotes);
-            Assert.AreEqual(1, dashboardVM.NoOfFinalisedQuotes);
-            Assert.AreEqual(1050, dashboardVM.TotalAmountToPay);
-        }
+        //    Assert.AreEqual(1, dashboardVM.NoOfCreatedQuotes);
+        //    Assert.AreEqual(1, dashboardVM.NoOfFinalisedQuotes);
+        //    Assert.AreEqual(1050, dashboardVM.TotalAmountToPay);
+        //}
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TradeYourPhone.Core.DTO;
 
-namespace TradeYourPhone.Core.ViewModels
+namespace TradeYourPhone.Web.ViewModels
 {
     public class QuoteDetailsViewModel
     {

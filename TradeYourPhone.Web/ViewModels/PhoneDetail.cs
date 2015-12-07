@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TradeYourPhone.Core.Models.DomainModels
+namespace TradeYourPhone.Web.ViewModels
 {
     public class PhoneDetail
     {

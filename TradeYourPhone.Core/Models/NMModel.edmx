@@ -45,12 +45,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="AddressId" Type="int" Nullable="false" />
           <Property Name="PaymentDetailsId" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="PaymentDetails">
           <Key>
@@ -155,6 +154,7 @@
           <Property Name="QuoteReferenceId" Type="nvarchar" MaxLength="8" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="Notes" Type="varchar(max)" />
+          <Property Name="TrackingNumber" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="QuoteStatus">
           <Key>
@@ -582,8 +582,6 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="AddressId" Type="Int32" Nullable="false" />
@@ -591,6 +589,7 @@
           <NavigationProperty Name="Address" Relationship="Self.FK_Customer_0" FromRole="Customer" ToRole="Address" />
           <NavigationProperty Name="PaymentDetail" Relationship="Self.FK_Customer_1" FromRole="Customer" ToRole="PaymentDetails" />
           <NavigationProperty Name="Quotes" Relationship="Self.FK_Quote_0" FromRole="Customer" ToRole="Quote" />
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="PaymentDetail">
           <Key>
@@ -669,6 +668,7 @@
           <Property Name="AgreedToTerms" Type="Boolean" Nullable="false" />
           <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="QuoteStatusHistories" Relationship="NMModel.FK_QuoteStatusHistory_ToQuote" FromRole="Quote" ToRole="QuoteStatusHistory" />
+          <Property Name="TrackingNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="QuoteStatus">
           <Key>
@@ -1171,9 +1171,8 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="NMModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
@@ -1239,6 +1238,7 @@
           <EntitySetMapping Name="Quotes">
             <EntityTypeMapping TypeName="NMModel.Quote">
               <MappingFragment StoreEntitySet="Quote">
+                <ScalarProperty Name="TrackingNumber" ColumnName="TrackingNumber" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="AgreedToTerms" ColumnName="AgreedToTerms" />
                 <ScalarProperty Name="PostageMethodId" ColumnName="PostageMethodId" />

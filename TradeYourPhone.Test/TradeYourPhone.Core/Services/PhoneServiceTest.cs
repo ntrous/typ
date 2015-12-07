@@ -7,7 +7,7 @@ using TradeYourPhone.Test.DummyRepositories;
 using System.Linq;
 using System.Linq.Expressions;
 using TradeYourPhone.Test.SetupData;
-using TradeYourPhone.Core.ViewModels;
+using TradeYourPhone.Web.ViewModels;
 using TradeYourPhone.Test.Repositories;
 using TradeYourPhone.Core.Repositories.Implementation;
 using TradeYourPhone.Core.Models;
@@ -101,44 +101,34 @@ namespace TradeYourPhone.Test
 
             var Model = phoneModels.Select(x => x.ModelName).ElementAt(1);
             Assert.IsTrue(phoneModels.Count() == 12);
-            Assert.AreEqual("Galaxy S6", Model);
-        }
-
-        [TestMethod]
-        public void GetAllPhoneModelsForViewTest()
-        {
-            IList<PhoneViewModel> phoneModels = phoneService.GetAllPhoneModelsForView();
-
-            var Model = phoneModels.Select(x => x.name).ElementAt(1);
-            Assert.IsTrue(phoneModels.Count() == 12);
-            Assert.AreEqual("Sony Xperia Z2", Model);
+            Assert.AreEqual("Xperia Z2", Model);
         }
 
         [TestMethod]
         public void GetPhoneModelsForViewByMakeNameTest()
         {
-            IList<PhoneViewModel> phoneModels = phoneService.GetPhoneModelsForViewByMakeName("Samsung");
+            IList<PhoneModel> phoneModels = phoneService.GetPhoneModelsByMakeName("Samsung");
 
-            var Model = phoneModels.Select(x => x.name).ElementAt(1);
+            var Model = phoneModels.Select(x => x.ModelName).ElementAt(1);
             Assert.IsTrue(phoneModels.Count() == 2);
-            Assert.AreEqual("Samsung Galaxy S4", Model);
+            Assert.AreEqual("Galaxy S4", Model);
         }
 
         [TestMethod]
         public void GetMostPopularPhoneModelsTest()
         {
-            IList<PhoneViewModel> phoneModels = phoneService.GetMostPopularPhoneModels(5);
+            IList<PhoneModel> phoneModels = phoneService.GetMostPopularPhoneModels(5);
 
-            var Model = phoneModels.Select(x => x.name).ElementAt(0);
+            var Model = phoneModels.Select(x => x.ModelName).ElementAt(0);
             Assert.IsTrue(phoneModels.Count() == 2);
-            Assert.AreEqual("Apple iPhone 5", Model);
+            Assert.AreEqual("iPhone 5", Model);
         }
 
         [TestMethod]
         public void GetPhoneModelsForViewByMakeNameNullParamTest()
         {
-            IList<PhoneViewModel> phoneModels = phoneService.GetPhoneModelsForViewByMakeName(null);
-            Assert.IsTrue(phoneModels.Count() == 0);
+            IList<PhoneModel> phoneModels = phoneService.GetPhoneModelsByMakeName(null);
+            Assert.IsTrue(!phoneModels.Any());
         }
 
         [TestMethod]
@@ -156,67 +146,50 @@ namespace TradeYourPhone.Test
             Assert.AreEqual(3, phoneModels.ElementAt(0).PhoneMakeId);
         }
 
-        //[TestMethod]
-        //public void CreatePhoneModelTest()
-        //{
-        //    PhoneModelViewModel viewModel = new PhoneModelViewModel()
-        //    {
-        //        Model = new PhoneModelDTO
-        //        {
-        //            PhoneMakeId = 4,
-        //            Name = "m9",
-        //            PhoneConditionPrices = new List<PhoneConditionPriceDTO>()
-        //        {
-        //            new PhoneConditionPriceDTO(){
-        //                PhoneConditionId = 1,
-        //                PhoneModelId = 1,
-        //                OfferAmount = 100
-        //            },
-        //            new PhoneConditionPriceDTO(){
-        //                PhoneConditionId = 2,
-        //                PhoneModelId = 1,
-        //                OfferAmount = 50
-        //            },
-        //            new PhoneConditionPriceDTO(){
-        //                PhoneConditionId = 3,
-        //                PhoneModelId = 1,
-        //                OfferAmount = 10
-        //            }
-        //        }
-        //        },
-        //    };
+        [TestMethod]
+        public void CreatePhoneModelTest()
+        {
+            var model = new PhoneModel
+            {
+                PhoneMakeId = 4,
+                ModelName = "m99",
+                PhoneConditionPrices = new List<PhoneConditionPrice>()
+                {
+                    new PhoneConditionPrice()
+                    {
+                        PhoneConditionId = 1,
+                        PhoneModelId = 1,
+                        OfferAmount = 100
+                    },
+                    new PhoneConditionPrice()
+                    {
+                        PhoneConditionId = 2,
+                        PhoneModelId = 1,
+                        OfferAmount = 50
+                    },
+                    new PhoneConditionPrice()
+                    {
+                        PhoneConditionId = 3,
+                        PhoneModelId = 1,
+                        OfferAmount = 10
+                    }
+                },
+            };
 
-        //    phoneService.CreatePhoneModel(viewModel);
-        //    PhoneModel newModel = phoneService.GetAllPhoneModels().OrderByDescending(x => x.ID).FirstOrDefault();
-        //    Assert.AreEqual("m9", newModel.ModelName);
-        //}
+            bool result = phoneService.CreatePhoneModel(model);
+            Assert.IsTrue(result);
+        }
 
         [TestMethod]
         public void ModifyPhoneModelTest()
         {
-            PhoneModel model = phoneService.GetPhoneModelById(9);
-            PhoneModelDTO modelDTO = new PhoneModelDTO();
-            modelDTO.Map(model);
-            modelDTO.Name = "m7";
+            var model = phoneService.GetPhoneModelById(9);
+            model.ModelName = "m7";
 
-            PhoneModelViewModel viewModel = new PhoneModelViewModel()
-            {
-                Model = modelDTO
-            };
-
-            Assert.AreEqual(true, phoneService.ModifyPhoneModel(viewModel));
-            PhoneModel modifiedModel = phoneService.GetPhoneModelById(9);
+            Assert.AreEqual(true, phoneService.ModifyPhoneModel(model));
+            var modifiedModel = phoneService.GetPhoneModelById(9);
             Assert.AreEqual("m7", modifiedModel.ModelName);
         }
-
-        //[TestMethod]
-        //public void DeletePhoneModelByIdTest()
-        //{
-        //    Assert.AreEqual(3, phoneService.GetPhoneModelById(3).ID);
-        //    phoneService.DeletePhoneModelById(3);
-        //    PhoneModel model = phoneService.GetPhoneModelById(3);
-        //    Assert.AreEqual(null, model);
-        //}
 
         #endregion
 
@@ -481,138 +454,69 @@ namespace TradeYourPhone.Test
         [TestMethod]
         public void GetSortedPhonesTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = null
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, null);
             Assert.AreEqual("Samsung", phones.ElementAt(0).PhoneMake.MakeName);
             Assert.AreEqual("Sony", phones.ElementAt(1).PhoneMake.MakeName);
             Assert.AreEqual("Sony", phones.ElementAt(2).PhoneMake.MakeName);
-            Assert.AreEqual("phoneMake_desc", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesByMakeDescTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "phoneMake_desc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "phoneMake_desc");
             Assert.AreEqual("HTC", phones.ElementAt(0).PhoneMake.MakeName);
             Assert.AreEqual("Apple", phones.ElementAt(5).PhoneMake.MakeName);
             Assert.AreEqual("Sony", phones.ElementAt(6).PhoneMake.MakeName);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesByModelTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "phoneModel_asc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "phoneModel_asc");
             Assert.AreEqual("Galaxy S4", phones.ElementAt(0).PhoneModel.ModelName);
             Assert.AreEqual("Galaxy S6", phones.ElementAt(5).PhoneModel.ModelName);
             Assert.AreEqual("iPhone 5", phones.ElementAt(6).PhoneModel.ModelName);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_desc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
+
         }
 
         [TestMethod]
         public void GetSortedPhonesByModelDescTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "phoneModel_desc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "phoneModel_desc");
             Assert.AreEqual("iPhone 5", phones.ElementAt(0).PhoneModel.ModelName);
             Assert.AreEqual("iPhone 5", phones.ElementAt(1).PhoneModel.ModelName);
             Assert.AreEqual("iPhone 5", phones.ElementAt(2).PhoneModel.ModelName);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesByConditionTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "phoneCondition_asc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "phoneCondition_asc");
             Assert.AreEqual("New", phones.ElementAt(0).PhoneCondition.Condition);
             Assert.AreEqual("New", phones.ElementAt(5).PhoneCondition.Condition);
             Assert.AreEqual("New", phones.ElementAt(6).PhoneCondition.Condition);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_desc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesByConditionDescTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "phoneCondition_desc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "phoneCondition_desc");
             Assert.AreEqual("Faulty", phones.ElementAt(0).PhoneCondition.Condition);
             Assert.AreEqual("Good", phones.ElementAt(1).PhoneCondition.Condition);
             Assert.AreEqual("New", phones.ElementAt(3).PhoneCondition.Condition);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesByStatusTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "phoneStatus_asc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "phoneStatus_asc");
             Assert.AreEqual(1, phones.ElementAt(0).PhoneStatusId);
             Assert.AreEqual(1, phones.ElementAt(1).PhoneStatusId);
             Assert.AreEqual(1, phones.ElementAt(2).PhoneStatusId);
@@ -620,24 +524,13 @@ namespace TradeYourPhone.Test
             Assert.AreEqual(2, phones.ElementAt(4).PhoneStatusId);
             Assert.AreEqual(2, phones.ElementAt(5).PhoneStatusId);
             Assert.AreEqual(2, phones.ElementAt(6).PhoneStatusId);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_desc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesByStatusDescTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "phoneStatus_desc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "phoneStatus_desc");
             Assert.AreEqual(9, phones.ElementAt(0).PhoneStatusId);
             Assert.AreEqual(8, phones.ElementAt(1).PhoneStatusId);
             Assert.AreEqual(8, phones.ElementAt(2).PhoneStatusId);
@@ -645,24 +538,13 @@ namespace TradeYourPhone.Test
             Assert.AreEqual(2, phones.ElementAt(4).PhoneStatusId);
             Assert.AreEqual(2, phones.ElementAt(5).PhoneStatusId);
             Assert.AreEqual(1, phones.ElementAt(6).PhoneStatusId);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesByPurchaseAmountTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "purchaseAmount_asc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "purchaseAmount_asc");
             Assert.AreEqual(100, phones.ElementAt(0).PurchaseAmount);
             Assert.AreEqual(120, phones.ElementAt(1).PurchaseAmount);
             Assert.AreEqual(120, phones.ElementAt(2).PurchaseAmount);
@@ -670,24 +552,13 @@ namespace TradeYourPhone.Test
             Assert.AreEqual(180, phones.ElementAt(4).PurchaseAmount);
             Assert.AreEqual(180, phones.ElementAt(5).PurchaseAmount);
             Assert.AreEqual(180, phones.ElementAt(6).PurchaseAmount);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_desc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesByPurchaseAmountDescTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "purchaseAmount_desc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "purchaseAmount_desc");
             Assert.AreEqual(150, phones.ElementAt(6).PurchaseAmount);
             Assert.AreEqual(180, phones.ElementAt(5).PurchaseAmount);
             Assert.AreEqual(180, phones.ElementAt(4).PurchaseAmount);
@@ -695,24 +566,13 @@ namespace TradeYourPhone.Test
             Assert.AreEqual(180, phones.ElementAt(2).PurchaseAmount);
             Assert.AreEqual(180, phones.ElementAt(1).PurchaseAmount);
             Assert.AreEqual(270, phones.ElementAt(0).PurchaseAmount);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesBySaleAmountTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "saleAmount_asc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "saleAmount_asc");
             Assert.AreEqual(null, phones.ElementAt(0).SaleAmount);
             Assert.AreEqual(100, phones.ElementAt(1).SaleAmount);
             Assert.AreEqual(120, phones.ElementAt(2).SaleAmount);
@@ -720,24 +580,13 @@ namespace TradeYourPhone.Test
             Assert.AreEqual(150, phones.ElementAt(4).SaleAmount);
             Assert.AreEqual(180, phones.ElementAt(5).SaleAmount);
             Assert.AreEqual(180, phones.ElementAt(6).SaleAmount);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_desc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesBySaleAmountDescTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "saleAmount_desc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "saleAmount_desc");
             Assert.AreEqual(270, phones.ElementAt(0).SaleAmount);
             Assert.AreEqual(180, phones.ElementAt(1).SaleAmount);
             Assert.AreEqual(180, phones.ElementAt(2).SaleAmount);
@@ -745,24 +594,13 @@ namespace TradeYourPhone.Test
             Assert.AreEqual(180, phones.ElementAt(4).SaleAmount);
             Assert.AreEqual(150, phones.ElementAt(5).SaleAmount);
             Assert.AreEqual(120, phones.ElementAt(6).SaleAmount);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesByPhoneIdTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "phoneId_asc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "phoneId_asc");
             Assert.AreEqual(100, phones.ElementAt(0).SaleAmount);
             Assert.AreEqual(150, phones.ElementAt(1).SaleAmount);
             Assert.AreEqual(120, phones.ElementAt(2).SaleAmount);
@@ -770,24 +608,13 @@ namespace TradeYourPhone.Test
             Assert.AreEqual(null, phones.ElementAt(4).SaleAmount);
             Assert.AreEqual(180, phones.ElementAt(5).SaleAmount);
             Assert.AreEqual(180, phones.ElementAt(6).SaleAmount);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_desc", viewModel.PhoneIdParm);
         }
 
         [TestMethod]
         public void GetSortedPhonesByPhoneIdDescTest()
         {
-            PhoneIndexViewModel viewModel = new PhoneIndexViewModel
-            {
-                SortOrder = "phoneId_desc"
-            };
             var phones = phoneService.GetAllPhones().ToList();
-            phones = phoneService.GetSortedPhones(phones, viewModel);
+            phones = phoneService.GetSortedPhones(phones, "phoneId_desc");
             Assert.AreEqual(270, phones.ElementAt(0).SaleAmount);
             Assert.AreEqual(180, phones.ElementAt(1).SaleAmount);
             Assert.AreEqual(180, phones.ElementAt(2).SaleAmount);
@@ -795,13 +622,6 @@ namespace TradeYourPhone.Test
             Assert.AreEqual(180, phones.ElementAt(4).SaleAmount);
             Assert.AreEqual(null, phones.ElementAt(5).SaleAmount);
             Assert.AreEqual(120, phones.ElementAt(6).SaleAmount);
-            Assert.AreEqual("", viewModel.PhoneMakeParm);
-            Assert.AreEqual("phoneModel_asc", viewModel.PhoneModelParm);
-            Assert.AreEqual("phoneCondition_asc", viewModel.PhoneConditionParm);
-            Assert.AreEqual("phoneStatus_asc", viewModel.PhoneStatusParm);
-            Assert.AreEqual("purchaseAmount_asc", viewModel.PurchaseAmountParm);
-            Assert.AreEqual("saleAmount_asc", viewModel.SaleAmountParm);
-            Assert.AreEqual("phoneId_asc", viewModel.PhoneIdParm);
         }
 
         #endregion

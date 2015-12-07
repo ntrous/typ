@@ -258,5 +258,28 @@ namespace TradeYourPhone.Core.Services.Implementation
                 Log.LogError("SendAlertEmailAndLogBody Failed!", e);
             }
         }
+
+        /// <summary>
+        /// Sends an email and also logs the exception to the log file
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="ex"></param>
+        public void SendAlertEmailAndLogException(string subject, Exception ex)
+        {
+            try
+            {
+                string msg = "exception= " + ex.Message;
+                msg += "Stack Trace= " + ex.StackTrace;
+
+                Log.LogError(msg);
+                string to = ConfigurationManager.AppSettings["AlertSendToEmail"];
+                string from = ConfigurationManager.AppSettings["AlertSendFromEmail"];
+                SendEmail(to, from, subject, msg);
+            }
+            catch (Exception e)
+            {
+                Log.LogError("SendAlertEmailAndLogBody Failed!", e);
+            }
+        }
     }
 }

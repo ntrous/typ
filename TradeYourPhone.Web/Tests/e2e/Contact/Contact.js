@@ -52,7 +52,7 @@ describe('Contact Page', function () {
             expect(contactPage.facebook.getText()).toEqual('Trade Your Phone');
             expect(contactPage.email.getText()).toEqual('support@tradeyourphone.com.au');
             expect(contactPage.phone.getText()).toEqual('0484 591 716');
-            expect(contactPage.address.getText()).toContain('604/1 Lygon Street');
+            expect(contactPage.address.getText()).toContain('25 Wills Street');
         });
 
         it('Contact Details links should be correct', function () {

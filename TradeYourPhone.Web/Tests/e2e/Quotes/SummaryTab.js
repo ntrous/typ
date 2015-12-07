@@ -83,11 +83,9 @@ describe('SummaryTab', function () {
         it('it should display the Summary Conditions and Buttons', function () {
             expect(quotePage.cleariCloudCheck.isDisplayed()).toEqual(false);
             expect(quotePage.agreeTCLabel.isDisplayed()).toEqual(true);
-            expect(quotePage.agreeTCLabel.getText()).toContain('I agree to the');
-            expect(quotePage.agreeTCLabel.getText()).toContain('Terms and Conditions');
-            expect(quotePage.agreeTCCheckbox.isDisplayed()).toEqual(true);
+            expect(quotePage.agreeTCLabel.getText()).toContain('By clicking Submit you agree to the Terms and Conditions');
             expect(quotePage.summarySubmit.isDisplayed()).toEqual(true);
-            expect(quotePage.summarySubmit.getAttribute('disabled')).toEqual('true');
+            expect(quotePage.summarySubmit.getAttribute('disabled')).toEqual(null);
             expect(quotePage.backToDetailsBtn.isDisplayed()).toEqual(true);
             expect(quotePage.backToDetailsBtn.getText()).toContain('Go Back');
         });
@@ -104,17 +102,6 @@ describe('SummaryTab', function () {
             });
         });
 
-
-
-        describe('When checking the Terms and Condition', function () {
-
-            beforeEach(function () {
-                quotePage.agreeTCCheckbox.click();
-            });
-
-            it('the submit button should be enabled', function () {
-                expect(quotePage.summarySubmit.getAttribute('disabled')).toEqual(null);
-            });
 
             describe('When submitting the Quote', function () {
 
@@ -161,7 +148,6 @@ describe('SummaryTab', function () {
                 });
             });
         });
-    });
 
     describe('When selecting an iphone', function () {
 

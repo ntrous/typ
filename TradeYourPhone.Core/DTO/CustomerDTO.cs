@@ -10,8 +10,7 @@ namespace TradeYourPhone.Core.DTO
     public class CustomerDTO
     {
         public int ID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string FullName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public int AddressId { get; set; }
@@ -25,8 +24,7 @@ namespace TradeYourPhone.Core.DTO
             if (customer != null)
             {
                 ID = customer.ID;
-                FirstName = customer.FirstName;
-                LastName = customer.LastName;
+                FullName = customer.FullName;
                 Email = customer.Email;
                 PhoneNumber = customer.PhoneNumber;
                 AddressId = customer.AddressId;

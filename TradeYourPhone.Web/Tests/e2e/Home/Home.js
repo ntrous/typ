@@ -1,8 +1,8 @@
-﻿var HomePage = require('./HomePage.js');
+﻿var HomePage = require("./HomePage.js");
 var homePage;
 
 
-describe('Home Page', function () {
+describe("Home Page", function () {
 
     beforeEach(function () {
         browser.driver.manage().deleteAllCookies();
@@ -19,7 +19,7 @@ describe('Home Page', function () {
         it('Navigation Should Display', function () {
             expect(homePage.navContainer.isDisplayed()).toEqual(true);
             expect(homePage.navItems.count()).toEqual(5);
-            expect(homePage.navItems.getText()).toEqual(['Home', 'What We Do', 'Support', 'Contact', 'Blog']);
+            expect(homePage.navItems.getText()).toEqual(["Home", "What We Do", "Support", "Contact", "Blog"]);
         });
 
         it('Phone Selection Area Should Be Displayed', function () {
@@ -35,7 +35,7 @@ describe('Home Page', function () {
         it('TYP Info Divs Should Be Displayed', function () {
             expect(homePage.aboutDivs.isDisplayed()).toEqual([true, true, true, true, true, true]);
             expect(homePage.aboutDivs.count()).toEqual(6);
-            expect(homePage.aboutDivsTitles.getText()).toEqual(['Payment Your Way', 'Free Postage', 'Prompt Payment', 'Support', 'Who Are We', 'How It\'s Done']);
+            expect(homePage.aboutDivsTitles.getText()).toEqual(["Payment Your Way", "Free Postage", "Prompt Payment", "Support", "Who Are We", "How It's Done"]);
         });
 
         it('Sticker Img is Displayed', function () {
