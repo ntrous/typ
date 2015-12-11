@@ -154,7 +154,7 @@ namespace TradeYourPhone.Web.Controllers
             var phoneModels = phoneService.GetMostPopularPhoneModels(limit);
             viewModel.MapPhoneModels(phoneModels.ToList());
 
-            return Json(phoneModels, JsonRequestBehavior.AllowGet);
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

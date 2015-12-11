@@ -1,10 +1,10 @@
-﻿<div class="col-md-12">
-    <h1 class="col-md-12 col-mobile">
+﻿<div class="col-md-12 col-mobile">
+    <h1 class="col-md-12">
         <span class="col-md-offset-1">Quotes</span>
         <hr />
     </h1>
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-2 col-mobile">
             <b>Reference Id</b>
             <input type="text"
                    id="referenceId"
@@ -12,7 +12,7 @@
                    class="form-control"
                    ng-enter="updatePage(quoteViewModel)" />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-mobile">
             <b>Email</b>
             <input type="text"
                    id="email"
@@ -20,7 +20,7 @@
                    class="form-control"
                    ng-enter="updatePage(quoteViewModel)" />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-mobile">
             <b>Customer Name</b>
             <input type="text"
                    id="fullName"
@@ -28,7 +28,7 @@
                    class="form-control"
                    ng-enter="updatePage(quoteViewModel)" />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-mobile">
             <b>Status</b>
             <select ng-model="quoteViewModel.statusId"
                     id="status"
@@ -37,7 +37,7 @@
                     class="form-control">
             </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-mobile">
             <br />
             <input type="submit"
                    value="Search"
@@ -48,8 +48,8 @@
     <br />
     <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
     <div ng-class="{'content-loading':spinner}">
-        <div>
-            <table class="table quoteTable table-hover">
+        <div class="col-mobile row centre">
+            <table class="table quoteTable table-striped table-hover col-mobile">
                 <thead>
                     <tr>
                         <th>
@@ -61,13 +61,13 @@
                         <th>
                             <p>Email</p>
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             <p>Created Date</p>
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             <p>Finalised Date</p>
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             <p>Expiry Date</p>
                         </th>
                     </tr>
@@ -83,13 +83,13 @@
                         <td>
                             <p>{{quote.CustomerEmail}}</p>
                         </td>
-                        <td>
+                        <td class="hidden-xs">
                             <p>{{quote.QuoteCreatedDate}}</p>
                         </td>
-                        <td>
+                        <td class="hidden-xs">
                             <p>{{quote.QuoteFinalisedDate}}</p>
                         </td>
-                        <td>
+                        <td class="hidden-xs">
                             <p>{{quote.QuoteExpiryDate}}</p>
                         </td>
                     </tr>
@@ -101,7 +101,11 @@
                         items-per-page="quoteViewModel.PageSize"
                         direction-links="true"
                         boundary-links="true"
-                        max-size="10">
+                        previous-text="&lsaquo;"
+                        next-text="&rsaquo;"
+                        first-text="&laquo;" 
+                        last-text="&raquo;"
+                        max-size="4">
             </pagination>
         </div>
     </div>

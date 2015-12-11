@@ -146,6 +146,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBConfiguration\EFConfiguration.cs" />
     <Compile Include="DTO\CustomerDTO.cs" />
     <Compile Include="DTO\PhoneConditionDTO.cs" />
     <Compile Include="DTO\PhoneConditionPriceDTO.cs" />

@@ -1,4 +1,4 @@
-﻿tradeYourPhoneControllers.controller('loginController', ['$scope', '$location', 'authService', function ($scope, $location, authService) {
+﻿tradeYourPhoneControllers.controller('loginController', ['$scope', '$location', 'authService', 'localStorageService', function ($scope, $location, authService, localStorageService) {
 
     $scope.loginData = {
         userName: "",
@@ -11,7 +11,8 @@
         $scope.spinner = true;
         authService.login($scope.loginData).then(function (response) {
             $scope.spinner = false;
-            $location.path('/');
+            var urltogoto = localStorageService.get('urltogoto');
+            $location.path(urltogoto);
         },
          function (err) {
              $scope.spinner = false;

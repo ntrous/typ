@@ -1,5 +1,5 @@
-﻿<div class="col-md-12">
-    <h1 class="col-md-12 col-mobile">
+﻿<div class="col-md-12 col-mobile">
+    <h1 class="col-md-12">
         <span class="col-md-offset-1">Phones</span>
         <hr />
     </h1>
@@ -9,7 +9,7 @@
     </p>
 
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-2 col-mobile">
             <b>Phone Id</b>
             <input type="text"
                    id="PhoneId"
@@ -17,7 +17,7 @@
                    class="form-control"
                    ng-enter="updatePage(phoneIndexViewModel)" />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-mobile">
             <b>Phone Make</b>
             <select ng-model="phoneIndexViewModel.PhoneMakeId"
                     id="PhoneMakeId"
@@ -25,7 +25,7 @@
                     ng-options="item.ID as item.Name for item in phoneIndexViewModel.PhoneMakes"
                     class="form-control"></select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-mobile">
             <b>Phone Model</b>
             <select ng-model="phoneIndexViewModel.PhoneModelId"
                     id="PhoneModelId"
@@ -33,7 +33,7 @@
                     ng-options="item.ID as item.Name for item in phoneIndexViewModel.PhoneModels"
                     class="form-control"></select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-mobile">
             <b>Phone Status</b>
             <select ng-model="phoneIndexViewModel.PhoneStatusId"
                     id="PhoneStatusId"
@@ -41,7 +41,7 @@
                     ng-options="item.ID as item.Name for item in phoneIndexViewModel.PhoneStatuses"
                     class="form-control"></select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-mobile">
             <br />
             <input type="submit"
                    value="Search"
@@ -52,7 +52,7 @@
     <br />
     <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
     <div ng-class="{'content-loading':spinner}">
-        <div>
+        <div class="col-mobile row centre">
             <table class="table quoteTable table-striped table-hover">
                 <thead>
                     <tr>
@@ -115,8 +115,7 @@
                         next-text="&rsaquo;"
                         first-text="&laquo;" 
                         last-text="&raquo;"
-                        max-size="5"
-                        class="centre">
+                        max-size="4">
             </pagination>
         </div>
     </div>

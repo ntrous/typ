@@ -390,6 +390,52 @@ namespace TradeYourPhone.Test
         }
 
         [TestMethod]
+        public void SaveQuoteWithOnlyFirstNameTest()
+        {
+            SaveQuoteViewModel viewModel = new SaveQuoteViewModel()
+            {
+                PostageMethodId = 1,
+                AgreedToTerms = false,
+                Customer = new Customer()
+                {
+                    FullName = "TestFirstName",
+                    Email = "test@test.com",
+                    PhoneNumber = "0449651096",
+                    Address = new Address()
+                    {
+                        AddressLine1 = "TestAddressLine1",
+                        AddressLine2 = "TestAddressLine2",
+                        CountryId = 1,
+                        PostCode = "3000",
+                        StateId = 1
+                    },
+                    PaymentDetail = new PaymentDetail()
+                    {
+                        PaymentTypeId = 1,
+                        BSB = "013365",
+                        AccountNumber = "123456789"
+                    }
+                }
+            };
+
+            Quote quote = quoteService.GetQuoteByReferenceId("asd");
+            quote.PostageMethodId = viewModel.PostageMethodId;
+            quote.AgreedToTerms = viewModel.AgreedToTerms;
+            quote.Customer = viewModel.Customer;
+
+            Quote result = quoteService.SaveQuote(quote);
+            Assert.AreEqual("asd", result.QuoteReferenceId);
+            Assert.AreEqual("New", result.QuoteStatus.QuoteStatusName);
+            Assert.AreEqual(false, result.AgreedToTerms);
+            Assert.AreEqual("Free Satchel", result.PostageMethod.PostageMethodName);
+            Assert.AreEqual(3, result.Phones.Count());
+            Assert.IsNull(quote.QuoteFinalisedDate);
+            Assert.AreEqual((int)QuoteStatusEnum.New, quote.QuoteStatusId);
+            Assert.AreEqual("Free Satchel", quote.PostageMethod.PostageMethodName);
+            Assert.AreEqual(false, quote.AgreedToTerms);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException),
             "quoteToSave parameter is null/empty")]
         public void SaveQuoteWithNullKeyTest()

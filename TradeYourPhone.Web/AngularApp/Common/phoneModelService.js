@@ -41,21 +41,7 @@
         return $http.get('/service/PhoneModels/GetMostPopularPhoneModels?limit=' + limit, { cache: true })
             .then(
                 function (response) {
-                    return response.data;
-                },
-                function (httpError) {
-                    // translate the error
-                    throw httpError.status + " : " +
-                        httpError.data;
-                }
-             );
-    }
-
-    this.GetMostPopularPhoneModels = function (limit) {
-        return $http.get('/PhoneModels/GetMostPopularPhoneModels?limit=' + limit, { cache: true })
-            .then(
-                function (response) {
-                    return response.data;
+                    return response.data.PhoneModels;
                 },
                 function (httpError) {
                     // translate the error

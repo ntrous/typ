@@ -60,9 +60,9 @@
             <div ng-repeat="phone in phoneModels">
                 <div class="col-md-12 phone-tile">
                     <div>
-                        <img data-ng-src="data:image/png;base64,{{phone.image}}" /><br />
-                        <p class="phone-name">{{phone.name}}</p>
-                        <div class="phone-price">{{phone.conditionPrices[1].OfferAmount | currency}}</div>
+                        <img data-ng-src="data:image/png;base64,{{phone.Image}}" /><br />
+                        <p class="phone-name">{{phone.Name}}</p>
+                        <div class="phone-price">{{phone.ConditionPrices[1].OfferAmount | currency}}</div>
                         <div class="sell-now">
                             <button type="button" class="sell-btn btn btn-default" ng-click="goToQuote(phoneModels[$index])">Sell Now!</button>
                         </div>
