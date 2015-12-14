@@ -112,6 +112,7 @@
     <Build Include="dbo\Tables\PhoneStatus.sql" />
     <Build Include="dbo\Tables\QuoteStatusHistory.sql" />
     <Build Include="dbo\Tables\PhoneStatusHistory.sql" />
+    <Build Include="dbo\Tables\Configuration.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TradeYourPhone.Database.publish.xml" />

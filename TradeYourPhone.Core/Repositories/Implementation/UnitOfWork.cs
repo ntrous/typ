@@ -137,7 +137,7 @@ namespace TradeYourPhone.Core.Repositories.Implementation
             {
                 if (this.quoteRepository == null)
                 {
-                    this.quoteRepository = new QuoteRepository(context);
+                    this.quoteRepository = new QuoteRepository(context, PhoneRepository);
                 }
                 return quoteRepository;
             }

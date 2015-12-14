@@ -10,7 +10,12 @@ namespace TradeYourPhone.Core.Repositories.Implementation
 {
     public class QuoteRepository : GenericRepository<Quote>, IQuoteRepository
     {
-        public QuoteRepository(DbContext context) : base(context) { }
+        private IPhoneRepository phoneRepository;
+
+        public QuoteRepository(DbContext context, IPhoneRepository phoneRepository) : base(context)
+        {
+            this.phoneRepository = phoneRepository;
+        }
 
         public void Insert(Quote entity, string userId)
         {
@@ -30,9 +35,9 @@ namespace TradeYourPhone.Core.Repositories.Implementation
         public void Update(Quote entityToUpdate, string userId)
         {
             var quoteEntry = context.Entry(entityToUpdate);
-            var QuoteStatusProp = quoteEntry.Property("QuoteStatusId");
+            var quoteStatusProp = quoteEntry.Property("QuoteStatusId");
 
-            if(QuoteStatusProp.IsModified)
+            if(quoteStatusProp.IsModified)
             {
                 var dbSet = context.Set<QuoteStatusHistory>();
                 QuoteStatusHistory record = dbSet.Create();
@@ -42,6 +47,24 @@ namespace TradeYourPhone.Core.Repositories.Implementation
                 record.CreatedBy = userId ?? User.SystemUser.Value;
 
                 dbSet.Add(record);
+            }
+
+            // Update all phone audit logs
+            foreach (var phone in entityToUpdate.Phones)
+            {
+                var phoneEntry = context.Entry(phone);
+                var phoneStatusProp = phoneEntry.Property("PhoneStatusId");
+                if (phoneStatusProp.IsModified || phone.Id == 0)
+                {
+                    var dbSet = context.Set<PhoneStatusHistory>();
+                    PhoneStatusHistory record = dbSet.Create();
+                    record.PhoneId = phone.Id;
+                    record.PhoneStatusId = phone.PhoneStatusId;
+                    record.StatusDate = Util.GetAEST(DateTime.Now);
+                    record.CreatedBy = userId ?? User.SystemUser.Value;
+
+                    dbSet.Add(record);
+                }
             }
 
             quoteEntry.State = EntityState.Modified;

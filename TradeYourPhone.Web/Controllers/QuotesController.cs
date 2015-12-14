@@ -144,8 +144,7 @@ namespace TradeYourPhone.Web.Controllers
                     Quote quote = quoteService.GetQuoteByReferenceId(key);
                     quote.AgreedToTerms = viewModel.AgreedToTerms;
                     quote.PostageMethodId = viewModel.PostageMethodId;
-                    quote.Customer = quote.Customer ?? viewModel.Customer;
-                    quote.Customer.UpdateFromCustomerObj(viewModel.Customer);
+                    quote.Customer = viewModel.Customer;
                     quote = quoteService.SaveQuote(quote);
 
                     result.QuoteDetails = new QuoteDetails();
@@ -183,7 +182,7 @@ namespace TradeYourPhone.Web.Controllers
                     Quote quote = quoteService.GetQuoteByReferenceId(key);
                     quote.AgreedToTerms = viewModel.AgreedToTerms;
                     quote.PostageMethodId = viewModel.PostageMethodId;
-                    quote.Customer = quote.Customer ?? viewModel.Customer;
+                    quote.Customer = viewModel.Customer;
                     quote = quoteService.FinaliseQuote(quote);
 
                     result.QuoteDetails = new QuoteDetails();

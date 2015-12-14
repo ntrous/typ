@@ -47,6 +47,19 @@ namespace TradeYourPhone.Core.Services.Implementation
         }
 
         /// <summary>
+        /// Sends a SendGridMessage
+        /// </summary>
+        /// <param name="message"></param>
+        public void SendEmail(SendGridMessage message)
+        {
+            var username = ConfigurationManager.AppSettings["SendGridUsername"].ToString();
+            var pswd = ConfigurationManager.AppSettings["SendGridPassword"].ToString();
+            var credentials = new NetworkCredential(username, pswd);
+            var transportWeb = new Web(credentials);
+            transportWeb.Deliver(message);
+        }
+
+        /// <summary>
         /// Sends an email to the general query email address
         /// </summary>
         /// <param name="name"></param>
@@ -84,34 +97,9 @@ namespace TradeYourPhone.Core.Services.Implementation
                 myMessage.Html = " "; // Gets replaced by template
                 myMessage.EnableTemplate("<% body %>"); // Gets replaced by template
 
-                // Sort out template here
-                if (template == EmailTemplate.QuoteConfirmationSatchel)
-                {
-                    myMessage = SetupQuoteSubmittedSatchelEmail(myMessage, quote);
-                }
-                else if(template == EmailTemplate.QuoteConfirmationSelfPost)
-                {
-                    myMessage = SetupQuoteSubmittedSelfPostEmail(myMessage, quote);
-                }
-                else if(template == EmailTemplate.SatchelSent)
-                {
-                    myMessage = SetupSatchelSentEmail(myMessage, quote);
-                }
-                else if(template == EmailTemplate.Paid)
-                {
-                    myMessage = SetupPaidEmail(myMessage, quote);
-                }
-                else if(template == EmailTemplate.Assessing)
-                {
-                    myMessage = SetupAssessingEmail(myMessage, quote);
-                }
-
-                myMessage.EnableTemplateEngine(template.Value);
-                var username = ConfigurationManager.AppSettings["SendGridUsername"].ToString();
-                var pswd = ConfigurationManager.AppSettings["SendGridPassword"].ToString();
-                var credentials = new NetworkCredential(username, pswd);
-                var transportWeb = new Web(credentials);
-                transportWeb.Deliver(myMessage);
+                myMessage = BuildTemplateMessage(myMessage, template, quote);
+                
+                SendEmail(myMessage);
             }
             catch (Exception ex)
             {
@@ -119,6 +107,33 @@ namespace TradeYourPhone.Core.Services.Implementation
                 Log.LogError(error, ex);
                 SendAlertEmail(error, ex.Message);
             }
+        }
+
+        public SendGridMessage BuildTemplateMessage(SendGridMessage message, EmailTemplate template, Quote quote)
+        {
+            if (template == EmailTemplate.QuoteConfirmationSatchel)
+            {
+                message = SetupQuoteSubmittedSatchelEmail(message, quote);
+            }
+            else if (template == EmailTemplate.QuoteConfirmationSelfPost)
+            {
+                message = SetupQuoteSubmittedSelfPostEmail(message, quote);
+            }
+            else if (template == EmailTemplate.SatchelSent)
+            {
+                message = SetupSatchelSentEmail(message, quote);
+            }
+            else if (template == EmailTemplate.Paid)
+            {
+                message = SetupPaidEmail(message, quote);
+            }
+            else if (template == EmailTemplate.Assessing)
+            {
+                message = SetupAssessingEmail(message, quote);
+            }
+
+            message.EnableTemplateEngine(template.Value);
+            return message;
         }
 
         /// <summary>
@@ -160,7 +175,7 @@ namespace TradeYourPhone.Core.Services.Implementation
 
             // Establish total amount
             decimal? total = quote.Phones.Where(x => x.PhoneStatusId == (int)PhoneStatusEnum.Paid).Sum(t => t.PurchaseAmount);
-            message.AddSubstitution(":TotalAmount", new List<string> { total.Value.ToString() });
+            if (total != null) message.AddSubstitution(":TotalAmount", new List<string> { total.Value.ToString("F") });
             message.AddSubstitution(":QuoteRef", new List<string> { quote.QuoteReferenceId });
 
             return message;

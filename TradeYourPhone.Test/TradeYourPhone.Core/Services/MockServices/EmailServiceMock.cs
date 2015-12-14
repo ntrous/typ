@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using SendGrid;
 using TradeYourPhone.Core.Enums;
 
 namespace TradeYourPhone.Test.TradeYourPhone.Core.Services.MockServices
@@ -24,6 +25,11 @@ namespace TradeYourPhone.Test.TradeYourPhone.Core.Services.MockServices
 
         }
 
+        public void SendEmail(SendGridMessage message)
+        {
+            
+        }
+
         /// <summary>
         /// Sends an email to the general query email address
         /// </summary>
@@ -39,6 +45,11 @@ namespace TradeYourPhone.Test.TradeYourPhone.Core.Services.MockServices
         public void SendEmailTemplate(EmailTemplate template, Quote quote)
         {
 
+        }
+
+        public SendGridMessage BuildTemplateMessage(SendGridMessage message, EmailTemplate template, Quote quote)
+        {
+            return null;
         }
 
         /// <summary>

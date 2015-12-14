@@ -187,17 +187,17 @@
                     AddressLine2: customerValue.postageSuburb,
                     PostCode: customerValue.postagePostcode,
                     CountryId: '1', // Australia
-                    StateId: customerValue.postageState.id
+                    StateId: customerValue.postageState.ID
                 },
                 PaymentDetail: {
                     BSB: customerValue.bsb,
                     AccountNumber: customerValue.accountNum,
                     PaypalEmail: customerValue.paypalEmail,
-                    PaymentTypeId: customerValue.paymentType.id
+                    PaymentTypeId: customerValue.paymentType.ID
                 }
             },
             PostageMethodId: quote.PostageMethod.Id,
-            AgreedToTerms: quote.AgreedToTerms
+            AgreedToTerms: true
         };
 
         QuoteService.FinaliseQuote($scope.quoteKey, viewModel).then(function (response) {

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using TradeYourPhone.Core.Enums;
+using SendGrid;
 
 namespace TradeYourPhone.Core.Services.Interface
 {
@@ -19,6 +20,12 @@ namespace TradeYourPhone.Core.Services.Interface
         /// <param name="subject"></param>
         /// <param name="body"></param>
         void SendEmail(string to, string from, string subject, string body);
+
+        /// <summary>
+        /// Send a SendGridMessage Message
+        /// </summary>
+        /// <param name="message"></param>
+        void SendEmail(SendGridMessage message);
 
         /// <summary>
         /// Sends an email to the general query email address
@@ -35,6 +42,15 @@ namespace TradeYourPhone.Core.Services.Interface
         /// <param name="template">Template Guid</param>
         /// <param name="quote">Quote the email is for</param>
         void SendEmailTemplate(EmailTemplate template, Quote quote);
+
+        /// <summary>
+        /// Build a SendGridMessage by providing the template to use and the Quote to get values from
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="template"></param>
+        /// <param name="quote"></param>
+        /// <returns></returns>
+        SendGridMessage BuildTemplateMessage(SendGridMessage message, EmailTemplate template, Quote quote);
 
         /// <summary>
         /// Sends an email to the Alerts email address

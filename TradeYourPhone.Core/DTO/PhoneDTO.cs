@@ -20,7 +20,7 @@ namespace TradeYourPhone.Core.DTO
         public string PhoneCondition { get; set; }
         public string PrimaryImageString { get; set; }
         public string IMEI { get; set; }
-        public Nullable<decimal> SaleAmount { get; set; }
+        public string SaleAmount { get; set; }
         public string PurchaseAmount { get; set; }
         public List<PhoneStatusHistoryDTO> PhoneStatusHistories { get; set; }
 
@@ -37,8 +37,8 @@ namespace TradeYourPhone.Core.DTO
             PhoneCondition = phone.PhoneCondition.Condition;
             PrimaryImageString = phone.PhoneModel.PrimaryImageString;
             IMEI = phone.IMEI;
-            SaleAmount = phone.SaleAmount;
-            PurchaseAmount = phone.PurchaseAmount.ToString();
+            SaleAmount = phone.SaleAmount.HasValue ? phone.SaleAmount.Value.ToString("F") : string.Empty;
+            PurchaseAmount = phone.PurchaseAmount.Value.ToString("F");
 
             PhoneStatusHistories = new List<PhoneStatusHistoryDTO>();
             foreach (var statusHistory in phone.PhoneStatusHistories.OrderBy(psh => psh.StatusDate))

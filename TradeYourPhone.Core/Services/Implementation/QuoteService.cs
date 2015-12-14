@@ -232,7 +232,7 @@ namespace TradeYourPhone.Core.Services.Implementation
                 {
                     throw new ArgumentException("Quote cannot be null");
                 }
-                if (quote.QuoteStatusId != (int) QuoteStatusEnum.New) return quote;
+                if (quote.QuoteStatusId != (int)QuoteStatusEnum.New) return quote;
                 foreach (var phone in quote.Phones)
                 {
                     decimal offer =
@@ -283,7 +283,7 @@ namespace TradeYourPhone.Core.Services.Implementation
                 Phone phone = unitOfWork.PhoneRepository.GetNewPhoneObject();
                 phone.PhoneModelId = modelId;
                 phone.PhoneConditionId = conditionId;
-                phone.PhoneStatusId = (int) PhoneStatusEnum.New;
+                phone.PhoneStatusId = (int)PhoneStatusEnum.New;
                 phone.PurchaseAmount = conditionPrice.OfferAmount;
                 phone.PhoneMakeId = phoneService.GetPhoneMakeIdByModelId(modelId);
 
@@ -436,18 +436,13 @@ namespace TradeYourPhone.Core.Services.Implementation
                     // Update every phone to status Waiting on Delivery and then add a status history record
                     foreach (var phone in quoteToSave.Phones)
                     {
-                        int existingStatusId = phone.PhoneStatusId;
                         phone.PhoneStatusId = (int)PhoneStatusEnum.WaitingForDelivery;
-                        phoneService.UpdatePhoneStatusHistory(phone.Id, existingStatusId, phone.PhoneStatusId, User.SystemUser.Value);
                     }
                 }
 
                 quoteToSave.QuoteStatusId = (int)status;
 
                 unitOfWork.QuoteRepository.Update(quoteToSave, null);
-
-                // Save the customer associated with this quote
-                //SaveCustomer(quote, viewModel.Customer);
 
                 // Commit all changes for Quote and Child entities
                 unitOfWork.Save();
@@ -458,10 +453,10 @@ namespace TradeYourPhone.Core.Services.Implementation
                     var template = EmailTemplate.QuoteConfirmationSatchel;
                     switch (quoteToSave.PostageMethodId)
                     {
-                        case (int) PostageMethodEnum.Satchel:
+                        case (int)PostageMethodEnum.Satchel:
                             template = EmailTemplate.QuoteConfirmationSatchel;
                             break;
-                        case (int) PostageMethodEnum.SelfPost:
+                        case (int)PostageMethodEnum.SelfPost:
                             template = EmailTemplate.QuoteConfirmationSelfPost;
                             break;
                     }
