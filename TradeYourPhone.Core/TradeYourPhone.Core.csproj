@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBConfiguration\EFConfiguration.cs" />
+    <Compile Include="DTO\ConfigurationDTO.cs" />
     <Compile Include="DTO\CustomerDTO.cs" />
     <Compile Include="DTO\PhoneConditionDTO.cs" />
     <Compile Include="DTO\PhoneConditionPriceDTO.cs" />
@@ -178,6 +179,9 @@
     <Compile Include="Models\Buddy Classes\PhoneMakeMD.cs" />
     <Compile Include="Models\Buddy Classes\PhoneModelMD.cs" />
     <Compile Include="Models\Buddy Classes\QuoteMD.cs" />
+    <Compile Include="Models\Configuration.cs">
+      <DependentUpon>NMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Country.cs">
       <DependentUpon>NMModel.tt</DependentUpon>
     </Compile>
@@ -240,10 +244,12 @@
       <DependentUpon>NMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\Implementation\AuthRepository.cs" />
+    <Compile Include="Repositories\Implementation\ConfigurationRepository.cs" />
     <Compile Include="Repositories\Implementation\GenericRepository.cs" />
     <Compile Include="Repositories\Implementation\PhoneRepository.cs" />
     <Compile Include="Repositories\Implementation\QuoteRepository.cs" />
     <Compile Include="Repositories\Implementation\UnitOfWork.cs" />
+    <Compile Include="Repositories\Interface\IConfigurationRepository.cs" />
     <Compile Include="Repositories\Interface\IGenericRepository.cs" />
     <Compile Include="Repositories\Interface\IPhoneRepository.cs" />
     <Compile Include="Repositories\Interface\IQuoteRepository.cs" />
@@ -251,10 +257,12 @@
     <Compile Include="Models\State.cs">
       <DependentUpon>NMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\Implementation\ConfigurationService.cs" />
     <Compile Include="Services\Implementation\EmailService.cs" />
     <Compile Include="Services\Implementation\PhoneService.cs" />
     <Compile Include="Services\Implementation\QuoteService.cs" />
     <Compile Include="Services\Implementation\ReportingService.cs" />
+    <Compile Include="Services\Interface\IConfigurationService.cs" />
     <Compile Include="Services\Interface\IEmailService.cs" />
     <Compile Include="Services\Interface\IPhoneService.cs" />
     <Compile Include="Services\Interface\IQuoteService.cs" />

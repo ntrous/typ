@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SendGrid;
@@ -18,9 +19,11 @@ namespace TradeYourPhone.Test
     {
         IEmailService emailService;
 
-        public EmailServiceTest()
+        [TestInitialize()]
+        public void Init()
         {
-            emailService = new EmailService();
+            var configServiceMoq = new Mock<IConfigurationService>();
+            emailService = new EmailService(configServiceMoq.Object);
         }
 
         [TestMethod]
@@ -39,9 +42,11 @@ namespace TradeYourPhone.Test
             JObject json = JObject.Parse(msg.Header.JsonString());
             var firstName = json["sub"][":FirstName"][0].Value<string>();
             var quoteRef = json["sub"][":QuoteRef"][0].Value<string>();
+            var templateId = json["filters"]["templates"]["settings"]["template_id"].Value<string>();
 
             Assert.AreEqual("NavTest", firstName);
             Assert.AreEqual("BFF8MGD3", quoteRef);
+            Assert.AreEqual(EmailTemplate.QuoteConfirmationSatchel.Value, templateId);
         }
 
         [TestMethod]
@@ -61,9 +66,11 @@ namespace TradeYourPhone.Test
             JObject json = JObject.Parse(msg.Header.JsonString());
             var firstName = json["sub"][":FirstName"][0].Value<string>();
             var quoteRef = json["sub"][":QuoteRef"][0].Value<string>();
+            var templateId = json["filters"]["templates"]["settings"]["template_id"].Value<string>();
 
             Assert.AreEqual("NavTest", firstName);
             Assert.AreEqual("BFF8MGD3", quoteRef);
+            Assert.AreEqual(EmailTemplate.QuoteConfirmationSelfPost.Value, templateId);
         }
 
         [TestMethod]
@@ -83,9 +90,11 @@ namespace TradeYourPhone.Test
             JObject json = JObject.Parse(msg.Header.JsonString());
             var firstName = json["sub"][":FirstName"][0].Value<string>();
             var quoteRef = json["sub"][":QuoteRef"][0].Value<string>();
+            var templateId = json["filters"]["templates"]["settings"]["template_id"].Value<string>();
 
             Assert.AreEqual("NavTest", firstName);
             Assert.AreEqual("AA88MGD3", quoteRef);
+            Assert.AreEqual(EmailTemplate.SatchelSent.Value, templateId);
         }
 
         [TestMethod]
@@ -119,11 +128,13 @@ namespace TradeYourPhone.Test
             var firstName = json["sub"][":FirstName"][0].Value<string>();
             var totalAmount = json["sub"][":TotalAmount"][0].Value<decimal>();
             var quoteRef = json["sub"][":QuoteRef"][0].Value<string>();
+            var templateId = json["filters"]["templates"]["settings"]["template_id"].Value<string>();
 
             Assert.AreEqual("NavTest", firstName);
             Assert.AreEqual("AA88MGD3", quoteRef);
             Assert.AreEqual((decimal)145.00, totalAmount);
             Assert.AreEqual("145.00", totalAmount.ToString());
+            Assert.AreEqual(EmailTemplate.Paid.Value, templateId);
         }
 
         [TestMethod]
@@ -157,11 +168,13 @@ namespace TradeYourPhone.Test
             var firstName = json["sub"][":FirstName"][0].Value<string>();
             var totalAmount = json["sub"][":TotalAmount"][0].Value<decimal>();
             var quoteRef = json["sub"][":QuoteRef"][0].Value<string>();
+            var templateId = json["filters"]["templates"]["settings"]["template_id"].Value<string>();
 
             Assert.AreEqual("NavTest", firstName);
             Assert.AreEqual("AA88MGD3", quoteRef);
             Assert.AreEqual((decimal)0.00, totalAmount);
             Assert.AreEqual("0.00", totalAmount.ToString());
+            Assert.AreEqual(EmailTemplate.Paid.Value, templateId);
         }
 
         [TestMethod]
@@ -195,11 +208,13 @@ namespace TradeYourPhone.Test
             var firstName = json["sub"][":FirstName"][0].Value<string>();
             var totalAmount = json["sub"][":TotalAmount"][0].Value<decimal>();
             var quoteRef = json["sub"][":QuoteRef"][0].Value<string>();
+            var templateId = json["filters"]["templates"]["settings"]["template_id"].Value<string>();
 
             Assert.AreEqual("NavTest", firstName);
             Assert.AreEqual("AA88MGD3", quoteRef);
             Assert.AreEqual((decimal)100.00, totalAmount);
             Assert.AreEqual("100.00", totalAmount.ToString());
+            Assert.AreEqual(EmailTemplate.Paid.Value, templateId);
         }
 
         [TestMethod]
@@ -219,9 +234,11 @@ namespace TradeYourPhone.Test
             JObject json = JObject.Parse(msg.Header.JsonString());
             var firstName = json["sub"][":FirstName"][0].Value<string>();
             var quoteRef = json["sub"][":QuoteRef"][0].Value<string>();
+            var templateId = json["filters"]["templates"]["settings"]["template_id"].Value<string>();
 
             Assert.AreEqual("NavTest", firstName);
             Assert.AreEqual("AA88MGD3", quoteRef);
+            Assert.AreEqual(EmailTemplate.Assessing.Value, templateId);
         }
     }
 }

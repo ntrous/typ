@@ -1,12 +1,8 @@
-﻿using System.Data;
-using System.Linq;
-using System.Net;
+﻿using System.Linq;
 using System.Web.Mvc;
 using TradeYourPhone.Core.DTO;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Services.Interface;
-using TradeYourPhone.Core.Utilities;
-using TradeYourPhone.Web.ViewModels;
 
 namespace TradeYourPhone.Web.Controllers
 {
@@ -24,6 +20,7 @@ namespace TradeYourPhone.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetPhoneMakes()
         {
@@ -38,6 +35,7 @@ namespace TradeYourPhone.Web.Controllers
         }
 
         [Authorize]
+        
         public ActionResult GetPhoneMake(int id)
         {
             var phoneMake = phoneService.GetPhoneMakeById(id);
@@ -53,6 +51,7 @@ namespace TradeYourPhone.Web.Controllers
         /// <param name="phoneModelViewModel"></param>
         /// <returns></returns>
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult SavePhoneMake(PhoneMakeDTO phoneMake)
         {

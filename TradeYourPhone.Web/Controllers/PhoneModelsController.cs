@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TradeYourPhone.Core.DTO;
 using TradeYourPhone.Core.Enums;
@@ -115,8 +111,9 @@ namespace TradeYourPhone.Web.Controllers
         /// Get all Phone Models
         /// </summary>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Get)]
-        //[OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
+        [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPhoneModels()
         {
             var viewModel = new PhoneModelsViewModel();
@@ -130,6 +127,7 @@ namespace TradeYourPhone.Web.Controllers
         /// Get all Phone Models by Make Name
         /// </summary>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Get)]
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPhoneModelsByMakeName(string makeName)
@@ -146,6 +144,7 @@ namespace TradeYourPhone.Web.Controllers
         /// Get all Phone Models by Make Name
         /// </summary>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Get)]
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetMostPopularPhoneModels(int limit)
@@ -162,6 +161,7 @@ namespace TradeYourPhone.Web.Controllers
         /// </summary>
         /// <param name="phoneMakeId"></param>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Get)]
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPhoneModelsByMakeId(int phoneMakeId)

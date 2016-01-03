@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Services.Interface;
@@ -27,6 +22,7 @@ namespace TradeYourPhone.Web.Controllers
 
         // GET: Phones
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult GetPhones(PhoneIndexViewModel viewModel)
         {
@@ -59,6 +55,7 @@ namespace TradeYourPhone.Web.Controllers
 
         // GET: Phones/Details/5
         [Authorize]
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -75,6 +72,7 @@ namespace TradeYourPhone.Web.Controllers
 
         // POST: Phones/CreatePhone
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CreatePhone(PhoneDTO phoneDto)
         {
@@ -86,6 +84,7 @@ namespace TradeYourPhone.Web.Controllers
 
         // GET: Phones/Edit/5
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetPhone(int? id)
         {
@@ -112,6 +111,7 @@ namespace TradeYourPhone.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult SavePhoneDetails(PhoneDTO phoneDTO)
         {
@@ -125,6 +125,7 @@ namespace TradeYourPhone.Web.Controllers
 
         // GET: Phones/Edit/5
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetPhoneReferenceData()
         {
@@ -138,6 +139,7 @@ namespace TradeYourPhone.Web.Controllers
         }
 
         // GET: Phones/Delete/5
+        
         public ActionResult Delete(int? id)
         {
             if (id == null)

@@ -20,7 +20,7 @@ describe('Blog', function () {
 
         it('should display Heading', function () {
             expect(blogPage.heading.isDisplayed()).toEqual(true);
-            expect(blogPage.heading.getText()).toEqual('Trade Your Phone Blog');
+            expect(blogPage.heading.getText()).toEqual('TYP Blog');
         });
     });
 });

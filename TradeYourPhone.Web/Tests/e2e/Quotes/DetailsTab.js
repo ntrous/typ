@@ -90,7 +90,7 @@ describe('DetailsTab', function () {
             it('Free Satchel option should be active', function () {
                 // freesatchel is active and correct text is shown
                 expect(quotePage.freeSatchelBtn.getAttribute('class')).toContain('active');
-                expect(quotePage.postageText.getText()).toEqual('A free reply-paid AusPost satchel will be sent to you. Simply put your phone inside and send it back to us. All for free!');
+                expect(quotePage.postageText.getText()).toEqual('A free reply-paid Tracked AusPost satchel will be sent to you. Simply put your phone inside and send it back to us. All for free!');
             });
         });
 

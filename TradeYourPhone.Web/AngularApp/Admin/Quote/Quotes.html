@@ -1,10 +1,10 @@
 ﻿<div class="col-md-12 col-mobile">
-    <h1 class="col-md-12">
-        <span class="col-md-offset-1">Quotes</span>
+    <h1 class="col-md-12 admin-heading">
+        <span class="col-md-offset-1"><i class="fa fa-pencil-square-o"></i>   Quotes</span>
         <hr />
     </h1>
     <div class="row">
-        <div class="col-md-2 col-mobile">
+        <div class="col-md-2">
             <b>Reference Id</b>
             <input type="text"
                    id="referenceId"
@@ -12,7 +12,7 @@
                    class="form-control"
                    ng-enter="updatePage(quoteViewModel)" />
         </div>
-        <div class="col-md-2 col-mobile">
+        <div class="col-md-2">
             <b>Email</b>
             <input type="text"
                    id="email"
@@ -20,7 +20,7 @@
                    class="form-control"
                    ng-enter="updatePage(quoteViewModel)" />
         </div>
-        <div class="col-md-2 col-mobile">
+        <div class="col-md-2">
             <b>Customer Name</b>
             <input type="text"
                    id="fullName"
@@ -28,7 +28,7 @@
                    class="form-control"
                    ng-enter="updatePage(quoteViewModel)" />
         </div>
-        <div class="col-md-2 col-mobile">
+        <div class="col-md-2">
             <b>Status</b>
             <select ng-model="quoteViewModel.statusId"
                     id="status"
@@ -37,12 +37,12 @@
                     class="form-control">
             </select>
         </div>
-        <div class="col-md-2 col-mobile">
+        <div class="col-md-2">
             <br />
-            <input type="submit"
+            <button type="submit"
                    value="Search"
-                   class="btn btn-default"
-                   ng-click="updatePage(quoteViewModel)" />
+                   class="btn btn-default btn-admin"
+                   ng-click="updatePage(quoteViewModel)"><i class="fa fa-search"></i> Search </button>
         </div>
     </div>
     <br />

@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TradeYourPhone.Core.Models;
 using System.Collections.Generic;
 using TradeYourPhone.Core.Services.Interface;
 using System.Linq;
@@ -9,7 +8,20 @@ using TradeYourPhone.Test.SetupData;
 using TradeYourPhone.Core.Enums;
 using System.Transactions;
 using System.Globalization;
+using Moq;
+using TradeYourPhone.Core.Repositories.Implementation;
+using TradeYourPhone.Core.Repositories.Interface;
 using TradeYourPhone.Core.Services.Implementation;
+using TradeYourPhone.Test.Models;
+using Address = TradeYourPhone.Core.Models.Address;
+using Country = TradeYourPhone.Core.Models.Country;
+using Customer = TradeYourPhone.Core.Models.Customer;
+using PaymentDetail = TradeYourPhone.Core.Models.PaymentDetail;
+using PaymentType = TradeYourPhone.Core.Models.PaymentType;
+using Phone = TradeYourPhone.Core.Models.Phone;
+using Quote = TradeYourPhone.Core.Models.Quote;
+using QuoteStatus = TradeYourPhone.Core.Models.QuoteStatus;
+using State = TradeYourPhone.Core.Models.State;
 
 namespace TradeYourPhone.Test
 {
@@ -18,6 +30,7 @@ namespace TradeYourPhone.Test
     {
         IQuoteService quoteService;
         IPhoneService phoneService;
+        IUnitOfWork unitOfWork;
         CreateMockData cmd;
         TransactionScope _trans;
 
@@ -29,7 +42,8 @@ namespace TradeYourPhone.Test
         [TestInitialize()]
         public void Init()
         {
-            phoneService = cmd.GetPhoneService();
+            unitOfWork = new UnitOfWork(new NavexaMobile_UnitTestEntities());
+            phoneService = new PhoneService(unitOfWork);
             quoteService = cmd.GetQuoteService();
             _trans = new TransactionScope();
         }
@@ -206,6 +220,7 @@ namespace TradeYourPhone.Test
 
             Assert.AreEqual(4, quote.Phones.Count);
             Assert.AreEqual("New", quote.QuoteStatus.QuoteStatusName);
+            Assert.IsNotNull(quote.Phones.FirstOrDefault(p => p.PhoneModelId == 5 && p.PhoneConditionId == 1));
         }
 
         [TestMethod]
@@ -331,6 +346,7 @@ namespace TradeYourPhone.Test
         {
             string quoteId = quoteService.CreateQuote();
             Quote newQuote = quoteService.GetAllQuotes().OrderByDescending(x => x.ID).FirstOrDefault();
+            Assert.IsTrue(quoteId.Length == 8);
             Assert.AreEqual(quoteId, newQuote.QuoteReferenceId);
             Assert.AreEqual(1, newQuote.QuoteStatusId);
         }
@@ -378,15 +394,17 @@ namespace TradeYourPhone.Test
             quote.Customer = viewModel.Customer;
 
             Quote result = quoteService.SaveQuote(quote);
+
             Assert.AreEqual("asd", result.QuoteReferenceId);
             Assert.AreEqual("New", result.QuoteStatus.QuoteStatusName);
             Assert.AreEqual(false, result.AgreedToTerms);
             Assert.AreEqual("Free Satchel", result.PostageMethod.PostageMethodName);
             Assert.AreEqual(3, result.Phones.Count());
-            Assert.IsNull(quote.QuoteFinalisedDate);
-            Assert.AreEqual((int)QuoteStatusEnum.New, quote.QuoteStatusId);
-            Assert.AreEqual("Free Satchel", quote.PostageMethod.PostageMethodName);
-            Assert.AreEqual(false, quote.AgreedToTerms);
+            Assert.IsNull(result.QuoteFinalisedDate);
+            Assert.IsNull(result.QuoteExpiryDate);
+            Assert.AreEqual((int)QuoteStatusEnum.New, result.QuoteStatusId);
+            Assert.AreEqual("Free Satchel", result.PostageMethod.PostageMethodName);
+            Assert.AreEqual(false, result.AgreedToTerms);
         }
 
         [TestMethod]
@@ -429,10 +447,11 @@ namespace TradeYourPhone.Test
             Assert.AreEqual(false, result.AgreedToTerms);
             Assert.AreEqual("Free Satchel", result.PostageMethod.PostageMethodName);
             Assert.AreEqual(3, result.Phones.Count());
-            Assert.IsNull(quote.QuoteFinalisedDate);
-            Assert.AreEqual((int)QuoteStatusEnum.New, quote.QuoteStatusId);
-            Assert.AreEqual("Free Satchel", quote.PostageMethod.PostageMethodName);
-            Assert.AreEqual(false, quote.AgreedToTerms);
+            Assert.IsNull(result.QuoteFinalisedDate);
+            Assert.IsNull(result.QuoteExpiryDate);
+            Assert.AreEqual((int)QuoteStatusEnum.New, result.QuoteStatusId);
+            Assert.AreEqual("Free Satchel", result.PostageMethod.PostageMethodName);
+            Assert.AreEqual(false, result.AgreedToTerms);
         }
 
         [TestMethod]
@@ -480,21 +499,25 @@ namespace TradeYourPhone.Test
                 }
             };
 
-            Quote quote = quoteService.GetQuoteByReferenceId("asd");
+            Mock<IEmailService> emailServiceMock = new Mock<IEmailService>();
+            QuoteService qs = new QuoteService(unitOfWork, phoneService, emailServiceMock.Object);
+            Quote quote = qs.GetQuoteByReferenceId("asd");
             quote.PostageMethodId = viewModel.PostageMethodId;
             quote.AgreedToTerms = viewModel.AgreedToTerms;
             quote.Customer = viewModel.Customer;
 
-            Quote result = quoteService.FinaliseQuote(quote);
+            Quote result = qs.FinaliseQuote(quote);
+            emailServiceMock.Verify(m => m.SendEmailTemplate(EmailTemplate.QuoteConfirmationSelfPost, result));
+
             Assert.AreEqual("asd", result.QuoteReferenceId);
             Assert.AreEqual("Waiting For Delivery", result.QuoteStatus.QuoteStatusName);
             Assert.AreEqual(true, result.AgreedToTerms);
             Assert.AreEqual("Post Yourself", result.PostageMethod.PostageMethodName);
             Assert.AreEqual(3, result.Phones.Count());
-            Assert.IsNotNull(quote.QuoteFinalisedDate);
-            Assert.AreEqual((int)QuoteStatusEnum.WaitingForDelivery, quote.QuoteStatusId);
-            Assert.AreEqual("Post Yourself", quote.PostageMethod.PostageMethodName);
-            Assert.AreEqual(true, quote.AgreedToTerms);
+            Assert.IsNotNull(result.QuoteFinalisedDate);
+            Assert.IsNotNull(result.QuoteExpiryDate);
+            Assert.AreEqual((int)QuoteStatusEnum.WaitingForDelivery, result.QuoteStatusId);
+            Assert.IsFalse(result.Phones.Any(p => p.PhoneStatusId != (int)PhoneStatusEnum.WaitingForDelivery));
         }
 
         [TestMethod]
@@ -526,20 +549,25 @@ namespace TradeYourPhone.Test
                 }
             };
 
-            Quote quote = quoteService.GetQuoteByReferenceId("asd");
+            Mock<IEmailService> emailServiceMock = new Mock<IEmailService>();
+            QuoteService qs = new QuoteService(unitOfWork, phoneService, emailServiceMock.Object);
+            Quote quote = qs.GetQuoteByReferenceId("asd");
             quote.PostageMethodId = viewModel.PostageMethodId;
             quote.AgreedToTerms = viewModel.AgreedToTerms;
             quote.Customer = viewModel.Customer;
 
-            Quote result = quoteService.FinaliseQuote(quote);
+            Quote result = qs.FinaliseQuote(quote);
+            emailServiceMock.Verify(m => m.SendEmailTemplate(EmailTemplate.QuoteConfirmationSatchel, result));
+
             Assert.AreEqual("asd", result.QuoteReferenceId);
             Assert.AreEqual("Requires Satchel", result.QuoteStatus.QuoteStatusName);
             Assert.AreEqual(true, result.AgreedToTerms);
             Assert.AreEqual("Free Satchel", result.PostageMethod.PostageMethodName);
-            Assert.AreEqual(3, result.Phones.Count());
-            Assert.IsNotNull(quote.QuoteFinalisedDate);
-            Assert.AreEqual((int)QuoteStatusEnum.RequiresSatchel, quote.QuoteStatusId);
-            Assert.AreEqual(true, quote.AgreedToTerms);
+            Assert.AreEqual(3, result.Phones.Count);
+            Assert.IsNotNull(result.QuoteFinalisedDate);
+            Assert.IsNotNull(result.QuoteExpiryDate);
+            Assert.AreEqual((int)QuoteStatusEnum.RequiresSatchel, result.QuoteStatusId);
+            Assert.IsFalse(result.Phones.Any(p => p.PhoneStatusId != (int)PhoneStatusEnum.WaitingForDelivery));
         }
 
         [TestMethod]

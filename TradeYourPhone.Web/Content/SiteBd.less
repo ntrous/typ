@@ -1,0 +1,1514 @@
+﻿//////////////////////         TRADE YOUR PHONE CSS       //////////////////////
+
+
+//////////////////////          GENERAL                //////////////////////
+
+html,
+body {
+    height: 100%;
+}
+
+.title {
+    margin: 20px 20px 20px 0;
+    background-size: contain;
+}
+
+.title img {
+    height: 80px;
+}
+
+#main {
+    min-height: 100%;
+    overflow: auto;
+    padding-bottom: 100px; /* this needs to be bigger than footer height*/
+}
+
+.pageHeading {
+    font-weight: 500;
+    text-align: center;
+
+    h2 {
+        display: inline-block;
+        margin-top: 20px;
+    }
+}
+
+.centre {
+    text-align: center !important;
+}
+
+h1 {
+    font-family: 'Marcellus SC', serif !important;
+    padding-bottom: 15px;
+}
+
+h1, h3, h4, p, li {
+    font-family: 'Roboto Slab', serif !important;
+    line-height: 24px;
+}
+
+h5 {
+    font-family: 'Roboto Slab', serif !important;
+}
+
+[ng-cloak] {
+    display: none !important;
+}
+
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    font-size: 70px !important;
+    opacity: 0.8;
+    margin-left: -30px;
+    margin-top: -35px;
+    z-index: 1;
+}
+
+.loading-mask {
+    opacity: 0.2;
+}
+
+.content-loading {
+    opacity: 0.5;
+}
+
+.spinner {
+    text-align: center;
+    line-height: inherit;
+
+    div {
+        text-align: left;
+        opacity: 0.5;
+    }
+
+    .fa-spin {
+        font-size: 70px;
+        position: absolute;
+        top: 20%;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 1;
+        opacity: 0.8;
+    }
+}
+
+.initSpinner {
+    text-align: center;
+    line-height: inherit;
+
+    div {
+        opacity: 0.2;
+    }
+
+    .fa-spin {
+        font-size: 70px;
+        position: absolute;
+        top: 120px;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 1;
+        opacity: 0.8;
+    }
+}
+
+a {
+    cursor: pointer !important;
+}
+
+.love > a:hover {
+    color: rgba(74, 177, 108, 0.91);
+}
+
+.love > a {
+    color: black;
+}
+
+table, tbody, tr {
+    border: 1px solid #dddddd !important;
+}
+
+.quoteSection .nav-tabs > li.active > a,
+.quoteSection .nav-tabs > li.active > a:hover,
+.quoteSection .nav-tabs > li.active > a:focus {
+    border: none !important;
+    background-color: none !important;
+}
+
+.nav-tabs.nav-justified > li > a {
+    border: none !important;
+}
+
+@media screen and (min-width: 320px) {
+
+    .smaller-title img {
+        height: 30px;
+    }
+
+    .smaller-title {
+        margin: 20px 0;
+    }
+}
+
+@media screen and (min-width: 440px) {
+    .smaller-title img {
+        height: 40px;
+    }
+
+    .smaller-title {
+        margin: 10px 0;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    .smaller-title img {
+        height: 50px;
+    }
+
+    .smaller-title {
+        margin: 10px 0;
+    }
+}
+
+
+
+@media screen and (max-width: 320px) {
+    .smaller-title img {
+        height: 25px;
+    }
+
+    .smaller-title {
+        margin: 20px 0;
+    }
+}
+
+
+
+//////////////////////              LOGO & NAVBAR                 //////////////////////
+
+.mainLogo {
+    float: left;
+}
+
+.navLogo {
+    img {
+        margin-top: -31% !important;
+    }
+}
+
+.top-banner {
+    padding: 4px;
+    background-color: rgba(74, 177, 108, 0.91);
+    color: #fff;
+
+    i {
+        padding: 0 8px;
+    }
+
+    a {
+        color: #fff;
+        text-decoration: none !important;
+    }
+
+    a:hover {
+        color: #ccc;
+    }
+
+    a:visited {
+        color: #fff;
+    }
+}
+
+.navbar-nav {
+    li a {
+        margin: 0px;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+h4.brand-title {
+    padding: 15px 0 !important;
+}
+
+//////////////////////              HOME PAGE                 //////////////////////
+
+.info-box {
+    padding: 20px;
+    text-align: center;
+
+    div {
+        padding: 0 40px;
+    }
+
+    h3 {
+        color: rgba(74, 177, 108, 0.91);
+    }
+}
+
+.introText {
+    padding-top: 10px;
+}
+
+.sticker {
+    background: url('Images/typSticker.jpg') bottom no-repeat;
+    background-size: 100%;
+    margin-top: 40px;
+
+    div {
+        padding: 180px;
+    }
+
+    @media screen and (max-width: 770px) {
+        background-size: 200%;
+        margin-top: 0px;
+
+        div {
+            padding: 80px;
+        }
+    }
+}
+
+//////////////////////              QUOTE SECTION             //////////////////////
+
+.quoteSection {
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:hover,
+    .nav-tabs > li.active > a:focus {
+        font-weight: 500;
+        background-color: none !important;
+        border: none;
+        color: rgba(74, 177, 108, 0.91) !important;
+    }
+
+    .nav-tabs > li > a:hover,
+    .nav-tabs > li > a:focus {
+        background-color: none !important;
+    }
+
+    .nav-tabs > li > a {
+        color: rgba(34,34,34, 0.5) !important;
+        border-radius: 0 !important;
+        margin-bottom: 0 !important;
+        font-size: 16px;
+    }
+
+    .nav-tabs > li > a::after {
+        position: absolute;
+        font-family: FontAwesome;
+        right: 1px;
+        content: "\f101";
+    }
+
+    .nav-tabs > li:last-of-type > a::after {
+        content: none;
+    }
+
+    .nav-justified {
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    @media screen and (max-width: 770px) {
+        .nav-tabs > li > a {
+            display: none;
+        }
+    }
+
+    hr {
+        margin: 0 !important;
+    }
+}
+
+
+.quote-tabs {
+    min-height: 190px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.phoneImageBackground {
+    background: url('Images/Smartphone.jpg') bottom;
+    background-size: 100%;
+    color: #fff !important;
+
+    .phoneSelectionOverlay {
+        background: rgba(62, 56, 56, 0.68);
+        padding: 40px;
+    }
+
+    .mainheading {
+        color: #fff !important;
+    }
+}
+
+.quoteTable {
+    cursor: pointer;
+}
+
+.quoteHeading {
+    padding-left: 10px;
+    padding: 10px;
+    margin-bottom: 0;
+    color: rgba(74, 177, 108, 0.91);
+    border-bottom: none;
+    font-size: 28px !important;
+
+    @media screen and (max-width: 480px) {
+        font-size: 26px !important;
+    }
+}
+
+.tab-content > .active {
+    background-color: #fff;
+    padding: 0 10px;
+}
+
+.tabset {
+    // border: 2px solid #222;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.removeIcon {
+    text-decoration: none;
+    list-style: none;
+
+    .glyphicon {
+        margin: 2px;
+    }
+}
+
+.tab-padding {
+    padding: 0 15px 15px 15px;
+}
+
+.next-btn {
+    background-color: rgba(20, 125, 222, 0.83) !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    margin: 15px 0;
+    width: 100%;
+    font-size: 17px!important;
+}
+
+.sell-btn {
+    background-color: rgba(20, 125, 222, 0.83) !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    width: 100%;
+    font-size: 17px!important;
+}
+
+.back-btn {
+    font-weight: bold !important;
+    margin: 15px 0;
+    width: 100%;
+    font-size: 17px!important;
+}
+
+.next-btn:hover {
+    background-color: #fff !important;
+    color: rgba(20, 125, 222, 0.83) !important;
+    font-weight: bold !important;
+}
+
+.sell-btn:hover {
+    background-color: #fff !important;
+    color: rgba(20, 125, 222, 0.83) !important;
+    font-weight: bold !important;
+}
+
+.mainheading {
+    color: #222222;
+    text-align: center;
+
+    span.glyphicon {
+        color: rgba(74, 177, 108, 0.91);
+    }
+
+    @media screen and (max-width: 480px) {
+        font-size: 14px !important;
+    }
+}
+
+// quote Nav
+
+.quote-nav {
+    margin-top: 20px;
+    position: absolute;
+  
+    ul {
+        list-style: none;
+         position: page;
+       
+    }
+
+    li {
+        padding: 8px 3px;
+       
+    }
+}
+
+// PHONE SECTION
+
+.phoneDiv {
+    margin-top: 15px;
+
+    table, th, td {
+        text-align: center;
+    }
+
+    .table-bordered > tbody > tr > td,
+    .table-bordered > thead > tr > th,
+    .table-bordered > tfoot > tr > th {
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    @media screen and (max-width: 480px) {
+        li {
+            font-size: 12px !important;
+        }
+
+        ul {
+            padding: 0 !important;
+        }
+    }
+}
+
+.conditionTypes {
+    margin: 10px 15px;
+}
+
+.selectPhone {
+    margin: 20px;
+    padding: 20px; 
+}
+
+ .phoneHeading {
+      padding: 25px 0 5px 15px;
+     h3 {
+   font-size: 22px!important;
+     > span.glyphicon  {
+        color: rgba(74, 177, 108, 0.91) !important;
+        font-size: 22px;
+    }
+
+     }
+ }
+
+ .postageSection {
+    button {
+        padding: 7px;
+        font-weight: 600;
+    }
+
+    .active {
+        background-color: rgba(74, 177, 108, 0.91) !important;
+        color: #fff!important;
+    }
+ }
+
+ h4 {
+        font-size: 16px!important;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+.phoneSection {
+    //margin: 20px;
+
+    input {
+        //padding: 20px;
+        height: 45px;
+    }
+
+    @media screen and (max-width: 480px) {
+
+        input {
+            height: 35px;
+            //padding: 3px;
+            font-size: 11px;
+        }
+
+        margin: 0px;
+    }
+
+    button {
+        padding: 7px;
+        font-weight: 600;
+    }
+
+    .active {
+        background-color: rgba(74, 177, 108, 0.91) !important;
+        color: #fff!important;
+    }
+
+    h2 {
+        color: rgb(94, 239, 142);
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    h3 {
+       
+        font-size: 22px;
+    }
+
+     h3 > span.glyphicon  {
+        color: rgba(74, 177, 108, 0.91) !important;
+        font-size: 22px;
+    }
+
+    .input-group-addon {
+        background-color: rgba(74, 177, 108, 0.91);
+        color: #fff;
+    }
+
+    li > i {
+        color: rgba(74, 177, 108, 0.91) !important;
+    }
+
+    .dropdown-menu {
+        overflow: scroll;
+        max-height: 400px;
+    }
+
+    .dropdown-menu > li > a {
+        padding: 12px 40px !important;
+        width: 100%;
+
+        @media screen and (max-width: 480px) {
+            padding: 12px 20px !important;
+        }
+    }
+
+    > .btn-group {
+        padding: 15px 15px 0 15px;
+    }
+}
+
+.moneyGreen {
+    color: rgba(74, 177, 108, 0.91);
+    font-weight: 700;
+}
+
+.phone-image {
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.phone-summary-image {
+    height: 40px;
+}
+
+.fadeIn {
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    -o-animation: fadein 2s; /* Opera */
+}
+
+.PhoneOffer {
+    padding: 20px 0;
+}
+
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+// DETAILS SECTION
+
+.details-text {
+    padding: 10px;
+}
+
+.help-block {
+    a {
+        color: #a94442;
+    }
+}
+
+.postageOptionsText {
+    display: inline-block;
+    padding: 5px 0 0 0;
+    color: #333333;
+    text-align: center;
+    //background-color: rgba(47,79,79, 0.2);
+  //  margin-top: 15px;
+}
+
+.btn-radio {
+    display: block !important;
+    min-height: 30px;
+
+    .postage-btn {
+        width: 50%;
+    }
+
+    .condition-btn {
+        width: 33.3%;
+    }
+}
+
+.details {
+    h3 {
+        color: rgba(74, 177, 108, 1);
+    }
+}
+
+// SUMMARY SECTION
+
+.border-left {
+    @media screen and (max-width: 1000px) {
+        border-left: none !important;
+    }
+
+    border-left: 1px solid #ccc;
+}
+
+.summarySection {
+    p {
+        padding-left: 25px;
+        color: #555;
+    }
+
+    div {
+        padding: 5px 20px 5px 0;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+   
+}
+
+.green {  
+        color: rgba(74, 177, 108, 1);
+}
+
+.summary-btn {
+    margin-top: 20px;
+}
+
+.tc {
+     font-size: 13px;
+     text-align: center;
+     color: #999;
+     a {
+        color: #81A5C5;
+     }
+
+}
+
+.fixErrors {
+   cursor: pointer;
+}
+
+
+//////////////////////              ABOUT PAGE                 //////////////////////
+
+.phoneProcess {
+    margin: 10px 0 20px 0;
+    z-index: -1;
+    position: relative;
+}
+
+.phoneProcess img {
+    width: 100%;
+}
+
+.phone-for-the-ladies {
+    background-image: url('../Content/Images/whatwedo.jpg');
+    padding: 60px 0;
+    background-position: bottom;
+    margin: 20px 0;
+}
+
+.phone-saying {
+    color: #fff;
+    background-color: rgba(74, 177, 108, 0.91);
+    border-radius: 15px;
+
+    h3 {
+        font-size: 25px;
+
+        .fa-long-arrow-right {
+            font-size: 40px;
+        }
+    }
+
+    .large {
+        padding: 1% 2%;
+    }
+
+    padding: 15px !important;
+}
+
+@media screen and (max-width: 480px) {
+    .phone-saying {
+        padding: 15px !important;
+
+        h3 {
+            font-size: 18px;
+        }
+    }
+
+    .tab-padding {
+        padding: 0 !important;
+    }
+}
+
+//////////////////////              FAQ PAGE                 //////////////////////
+
+.faq-text {
+    p {
+        padding: 10px 0;
+    }
+
+    b {
+        color: rgba(74, 177, 108, 0.91);
+    }
+
+    .panel-default > .panel-heading {
+        background-color: rgba(74, 177, 108, 0.22) !important;
+    }
+}
+
+
+
+
+//////////////////////             CONTACT PAGE               //////////////////////
+
+.contactForm div {
+    margin: 15px 0;
+}
+
+.contact-details {
+    padding: 45px 0 10px 0;
+
+    .fa {
+        color: rgba(74, 177, 108, 0.91);
+        font-size: large;
+    }
+
+    > div {
+        margin-bottom: 30px;
+    }
+}
+
+.contact-details {
+    a:visited, a {
+        color: #333;
+    }
+}
+
+.mail-sent {
+    color: green;
+    margin-top: 35px !important;
+    font-size: 20px;
+}
+
+
+//////////////////////              FOOTER                //////////////////////
+
+footer {
+    color: #fff;
+    background-color: rgba(74, 177, 108, 0.91);
+    border-top: 2px solid rgba(47,79,79, 0.4) !important;
+    position: relative;
+    margin-top: -50px; /* negative value of footer height */
+    clear: both;
+    padding: 20px 0;
+
+    a:visited {
+        color: #fff !important;
+    }
+
+    @media screen and (max-width: 1000px) {
+        p {
+            text-align: center !important;
+        }
+
+        .pull-right {
+            float: none !important;
+        }
+    }
+}
+
+.footer-text {
+    padding: 5px;
+
+    a {
+        color: #fff;
+        text-decoration: none !important;
+    }
+
+    a:hover {
+        color: #ccc;
+    }
+}
+
+.fb-footer {
+    padding-bottom: 5px;
+}
+
+//////////////////////            VALIDATION           //////////////////////
+
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+
+//////////////////////            BOOTSTRAP MODIFICATIONS           //////////////////////
+
+
+@media screen and (max-width: 480px) {
+    .col-mobile {
+        padding: 0 !important;
+    }
+
+    .col-phone-mobile {
+        padding: 15px !important;
+    }
+}
+
+@media screen and (max-width: 1520px) {
+    .phoneImageBackground {
+        background-size: unset;
+    }
+}
+
+.visible-xxs {
+    @media screen and (min-width: 335px) {
+        display: none;
+    }
+}
+
+
+//////////////////////            ICONS           //////////////////////
+
+.icons {
+    padding: 0 60px;
+}
+
+.btn-glyphicon {
+    top: 2px !important;
+}
+
+//////////////////////            BLOG REEL           //////////////////////
+
+.blog-heading {
+    font-size: 35px;
+    margin-bottom: 20px!important;
+
+    @media screen and (max-width: 480px) {
+        padding: 10px 0!important;
+    }
+}
+
+.blog-post-preview {
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
+}
+
+.blog-reel-content {
+    color: #fff;
+    background: rgba(14, 13, 13, 0.59);
+    padding: 100px 60px; 
+
+    h2 {
+        padding-bottom: 0!important;
+        font-size: 35px!important;
+    }
+
+    @media screen and (max-width: 480px) {
+        padding: 20px 20px!important; 
+        color: #333;
+        background: rgba(239, 226, 226, 0.71);
+        font-weight: 500;
+        a {
+            color: #333!important;
+            font-weight: 700;
+        }
+    }
+}
+
+.blog-reel-content:hover {
+    color: #333;
+    background: rgba(239, 226, 226, 0.61);
+    font-weight: 500;
+    cursor: pointer;
+    a {
+        color: #333!important;
+        font-weight: 700;
+        }
+    }
+
+.blog-author {
+    padding: 0;
+
+    p {
+        font-size: 15px;
+        margin: 10px !important;
+    }
+}
+
+.blog-post-excerpt {
+    font-size: 16px;
+    margin-top: 30px;
+    line-height: 25px;
+}
+
+.blog-post-preview-title {
+    padding: 0 !important;
+
+    h2 {
+        margin-bottom: 0px;
+        margin-top: 0px;
+
+        a {
+            color: #fff;
+            font-family: 'Noto Serif', serif !important;  
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+         h2 > a {
+            font-size: 28px;
+            line-height: 10px;
+        }
+          
+        .col-mobile .blog-post-excerpt p {
+            font-size: 14px!important;
+        }
+    }
+}
+
+//////////////////////       BLOG POST           //////////////////////
+
+.blog-post {
+    padding: 0 !important;
+}
+
+.blog-post-date {
+    font-size: 23px!important;
+}
+
+.blog-post-title {
+   background: rgba(14, 13, 13, 0.43);
+   padding: 100px 60px; 
+   color: #fff;
+
+    h1 {
+        padding-bottom: 0!important;
+        font-size: 35px!important;
+    }
+
+    hr {
+        display: none;
+    }
+
+    .author {
+        font-size: 16px;
+    }
+
+    @media screen and (max-width: 770px) {
+        color: rgba(74, 177, 108, 0.91);
+        background-color: white;
+        padding: 0!important;
+
+        h1 {
+            font-size: 18px;
+            padding: 0px;
+        }
+
+        hr {
+            color: rgba(74, 177, 108, 0.91);
+            display: block;
+            margin: 0!important
+        }
+
+    }
+
+    @media screen and (max-width: 480px) {
+         padding: 0!important;
+        h1 {
+            font-size: 17px;
+            padding: 0px;
+        }
+
+        .author {
+            font-size: 10px;
+        }
+    }
+}
+
+.blog-post-feature-image {
+  background-position: center;
+  background-size: cover;
+    width: 100%;
+  background-repeat: no-repeat;
+}
+
+.blog-post-content {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 20px;
+    font-family: 'Noto Serif', serif !important;
+
+    img.size-medium {
+        max-width: 100%;
+        max-height: 230px;
+        padding: 5px 0 30px 0;
+    }
+}
+
+.blog-post-content p {
+    font-size: 16px;
+    line-height: 27px;
+    margin-bottom: 28px;
+}
+
+@media screen and (max-width: 770px) {
+    .blog-post-content p {
+        font-size: 15px!important;
+    }
+}
+
+.blog-post-content h2 {
+    margin: 54px 0 28px;
+    font-size: 29px;
+}
+
+.blog-post-content h2:nth-of-type(1) {
+    margin: 10px 0 28px;
+    font-size: 29px;
+}
+
+
+.blog-post-content h3 {
+    font-size: 24px;
+    margin: 54px 0 28px;
+}
+
+.phone-ads {
+    max-width: 350px;
+    overflow: hidden;
+
+    > div {
+        text-align: center;
+
+        > div {
+            padding: 18px 0;
+
+            p {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+        }
+    }
+
+    h3 {
+        text-align: center;
+        color: rgba(74, 177, 108, 0.91);
+    }
+}
+
+.blog {
+    h1 {
+        margin: 0;
+    }
+
+    h3 {
+        margin-top: 0;
+    }
+}
+
+.other-titles {
+    a {
+        color: #333;
+        font-size: 15px;
+    }
+
+    > div {
+        padding: 10px 0;
+    }
+
+    a:hover {
+        color: rgba(74, 177, 108, 0.91);
+    }
+
+    h3 {
+        color: rgba(74, 177, 108, 0.91);
+    }
+}
+
+.sell-now {
+    width: 90px;
+    text-align: center !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ @media screen and (min-width: 1380px) {
+        .blog-sell-btn {
+            width: 100%;
+        }
+    }
+
+ .blog-sell-btn {
+      background-color: rgba(20, 125, 222, 0.83) !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    font-size: 17px!important;
+ }
+
+.share-buttons {
+    padding-top: 20px;
+}
+
+
+//////////////////////     Customer Review          //////////////////////
+
+.google-plus-review {
+    width: 150px;
+}
+
+.trustpilot-review {
+    width: 150px;
+}
+
+.heading-review {
+    color: white;
+    background-color: rgba(74, 177, 108, 0.80);
+
+    h2 {
+        padding: 15px;
+        font-size: 22px;
+    }
+}
+
+.review-padding {
+    padding: 20px;
+}
+
+.thankYouReview {
+    p {
+        padding: 5px;
+    }
+
+    text-align: center;
+
+    .review-star {
+        margin-top: 40px;
+        font-size: 40px !important;
+        color: rgba(74, 177, 108, 0.80);
+    }
+
+    .review-thank {
+        font-size: 25px;
+    }
+
+    .review-text {
+        font-size: 15px;
+    }
+}
+
+a.google {
+    background-color: #d73d32;
+}
+
+a.facebook {
+    background-color: #3b5998;
+}
+
+a.twitter {
+    background-color: #4099FF;
+}
+
+a.yelp {
+    background-color: #af0606;
+}
+
+a.phone {
+    background-color: rgba(74, 177, 108, 0.91);
+}
+
+a.envelope {
+    background-color: #eeaf00;
+}
+
+a.google:hover {
+    color: #d73d32;
+    background-color: white;
+}
+
+a.facebook:hover {
+    color: #3b5998;
+    background-color: white;
+}
+
+a.twitter:hover {
+    color: #4099FF;
+    background-color: white;
+}
+
+a.yelp:hover {
+    color: #af0606;
+    background-color: white;
+}
+
+a.phone:hover {
+    color: rgba(74, 177, 108, 0.91);
+    background-color: white;
+}
+
+a.envelope:hover {
+    color: #eeaf00;
+    background-color: white;
+}
+
+
+.review-padding a {
+    padding: 8px;
+    margin: 5px;
+    font-size: 23px;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    height: 50px;
+    width: 50px;
+}
+
+@media screen and (max-width: 400px) {
+    .home-icons a {
+        padding: 6px;
+        height: 40px;
+        width: 40px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .home-icons h2 {
+        text-align: center !important;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .home-icons .love {
+        text-align: right;
+    }
+}
+
+
+
+//////////////////////     Shipping Options          //////////////////////
+
+.shipping-options {
+
+    h1 {
+        padding: 15px;
+        font-size: 22px;
+        color: white;
+        background-color: rgba(74, 177, 108, 0.80);
+    }
+
+    p {
+        padding: 10px;
+    }
+
+    .shipping-panel {
+        margin-top: 30px;
+        text-align: center;
+
+        h2 {
+            text-align: center;
+        }
+
+        i {
+            color: rgba(20, 125, 222, 0.83);
+        }
+    }
+}
+
+
+.best-price {
+    h1 {
+        padding: 15px;
+        font-size: 22px;
+        color: white;
+        background-color: rgba(74, 177, 108, 0.80);
+    }
+
+    h2 {
+        color: rgba(74, 177, 108, 0.80);
+        padding-top: 20px;
+        font-weight: 300;
+    }
+
+    p {
+        line-height: 24px;
+        padding: 5px;
+    }
+
+    .bold {
+        font-weight: 600;
+        color: rgba(20, 125, 222, 0.83);
+    }
+
+    .phone-saying {
+        margin-top: 60px;
+    }
+}
+
+/////////////////////      Phone Landing Page       ///////////////////////
+
+.phone-tile {
+    padding-bottom: 20px;
+    //text-align: center;
+}
+
+.phone-price {
+    display: inline;
+    font-size: 20px;
+    color: #000;
+    color: rgba(74, 177, 108, 0.91);
+    font-weight: bold;
+}
+
+.phone-name {
+    color: #000;
+    font-weight: 500;
+    padding: 10px;
+    font-size: 16px;
+}
+
+
+a {
+    text-decoration: none !important;
+}
+
+.banner-iphone {
+    padding: 20px;
+    text-align: center;
+    background-color: rgba(74, 177, 108, 0.91);
+    border-radius: 15px;
+    margin: 0 0 40px 0;
+    font-size: 25px;
+    border: 1px solid #888;
+
+    h1 {
+        font-size: 33px;
+        color: #fff;
+        padding-bottom: 0px;
+    }
+
+    h2 {
+        color: #fff;
+    }
+
+    .text {
+        text-align: center;
+    }
+
+    span {
+        margin: 0 20px;
+    }
+}
+
+.iphone-spinner {
+    text-align: center;
+    line-height: inherit;
+
+    div {
+        opacity: 0.5;
+    }
+
+    .fa-spin {
+        font-size: 70px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 1;
+        opacity: 0.8;
+    }
+}
+
+
+@media screen and (min-width: 768px) {
+
+body { padding-top: 30px; }
+}

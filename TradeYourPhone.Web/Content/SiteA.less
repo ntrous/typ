@@ -1,0 +1,83 @@
+﻿// Stylesheet for SiteA
+
+.phoneSection {
+    margin: 20px;
+    padding: 20px;
+
+    input {
+        //padding: 20px;
+        height: 45px;
+    }
+
+    @media screen and (max-width: 480px) {
+
+        input {
+            height: 35px;
+            //padding: 3px;
+            font-size: 11px;
+        }
+
+        margin: 0px;
+    }
+
+    button {
+        padding: 7px;
+    }
+
+    .active {
+        background-color: rgba(74, 177, 108, 0.91) !important;
+    }
+
+    h2 {
+        color: rgb(94, 239, 142);
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    .input-group-addon {
+        background-color: rgba(74, 177, 108, 0.91);
+        color: #fff;
+    }
+
+    li > i {
+        color: rgba(74, 177, 108, 0.91) !important;
+    }
+
+    .dropdown-menu {
+        overflow: scroll;
+        max-height: 400px;
+    }
+
+    .dropdown-menu > li > a {
+        padding: 12px 40px !important;
+        width: 100%;
+
+        @media screen and (max-width: 480px) {
+            padding: 12px 20px !important;
+        }
+    }
+}
+
+.postageOptionsText {
+    display: inline-block;
+    padding: 15px;
+    color: #333333;
+    background-color: rgba(47,79,79, 0.2);
+    margin-top: 15px;
+}
+
+.summarySection {
+    p {
+        padding-left: 25px;
+        color: #555;
+    }
+    h3 {
+        color: rgba(74, 177, 108, 1);
+    }
+
+    padding: 15px;
+}

@@ -15,6 +15,8 @@ namespace TradeYourPhone.Web.ViewModels
         public int NoOfCreatedQuotes { get; set; }
         public int NoOfFinalisedQuotes { get; set; }
         public int NoOfCompletedQuotes { get; set; }
+        public decimal PercentageOfCompletedQuotes { get; set; }
+        public decimal PercentageOfCompletedSatchelQuotes { get; set; }
 
         public decimal TotalAmountToPay { get; set; }
         public decimal TotalAmountPaid { get; set; }

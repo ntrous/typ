@@ -3,6 +3,6 @@
     $scope.phoneModelsViewModel = phoneModelsViewModel;
 
     $scope.showPhoneModel = function (id) {
-        $location.path('/PhoneModel/' + id);
+        $location.path('/Admin/PhoneModel/' + id);
     }
 });

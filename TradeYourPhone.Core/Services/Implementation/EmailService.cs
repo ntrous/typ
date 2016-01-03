@@ -17,6 +17,13 @@ namespace TradeYourPhone.Core.Services.Implementation
 {
     public class EmailService : IEmailService
     {
+        private IConfigurationService configService;
+
+        public EmailService(IConfigurationService configurationService)
+        {
+            configService = configurationService;
+        }
+
         /// <summary>
         /// Sends an email
         /// </summary>
@@ -34,11 +41,11 @@ namespace TradeYourPhone.Core.Services.Implementation
                 myMessage.Subject = subject;
                 myMessage.Text = body;
 
-                var username = ConfigurationManager.AppSettings["SendGridUsername"].ToString();
-                var pswd = ConfigurationManager.AppSettings["SendGridPassword"].ToString();
+                var username = configService.GetValue("SendGridUsername");
+                var pswd = configService.GetValue("SendGridPassword");
                 var credentials = new NetworkCredential(username, pswd);
                 var transportWeb = new Web(credentials);
-                transportWeb.Deliver(myMessage);
+                transportWeb.DeliverAsync(myMessage);
             }
             catch (Exception ex)
             {
@@ -52,11 +59,11 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <param name="message"></param>
         public void SendEmail(SendGridMessage message)
         {
-            var username = ConfigurationManager.AppSettings["SendGridUsername"].ToString();
-            var pswd = ConfigurationManager.AppSettings["SendGridPassword"].ToString();
+            var username = configService.GetValue("SendGridUsername");
+            var pswd = configService.GetValue("SendGridPassword");
             var credentials = new NetworkCredential(username, pswd);
             var transportWeb = new Web(credentials);
-            transportWeb.Deliver(message);
+            transportWeb.DeliverAsync(message);
         }
 
         /// <summary>
@@ -70,7 +77,7 @@ namespace TradeYourPhone.Core.Services.Implementation
         {
             try
             {
-                string to = ConfigurationManager.AppSettings["QuerySendToEmail"];
+                string to = configService.GetValue("QuerySendToEmail");
                 string body = string.Format("Message from: {0}{1}{2}", name, Environment.NewLine, message);
                 SendEmail(to, from, subject, body);
             }
@@ -90,7 +97,7 @@ namespace TradeYourPhone.Core.Services.Implementation
             try
             {
                 var myMessage = new SendGridMessage();
-                myMessage.From = new MailAddress(ConfigurationManager.AppSettings["SalesEmail"], "Trade Your Phone");
+                myMessage.From = new MailAddress(configService.GetValue("SalesEmail"), "Trade Your Phone");
                 myMessage.AddTo(quote.Customer.Email);
                 myMessage.Subject = " "; // Gets replaced by template
                 myMessage.Text = " "; // Gets replaced by template
@@ -98,7 +105,7 @@ namespace TradeYourPhone.Core.Services.Implementation
                 myMessage.EnableTemplate("<% body %>"); // Gets replaced by template
 
                 myMessage = BuildTemplateMessage(myMessage, template, quote);
-                
+
                 SendEmail(myMessage);
             }
             catch (Exception ex)
@@ -198,8 +205,8 @@ namespace TradeYourPhone.Core.Services.Implementation
         {
             try
             {
-                string to = ConfigurationManager.AppSettings["AlertSendToEmail"];
-                string from = ConfigurationManager.AppSettings["AlertSendFromEmail"];
+                string to = configService.GetValue("AlertSendToEmail");
+                string from = configService.GetValue("AlertSendFromEmail");
                 SendEmail(to, from, subject, body);
             }
             catch (Exception ex)
@@ -217,8 +224,8 @@ namespace TradeYourPhone.Core.Services.Implementation
         {
             try
             {
-                string to = ConfigurationManager.AppSettings["SalesEmail"];
-                string from = ConfigurationManager.AppSettings["SalesEmail"];
+                string to = configService.GetValue("SalesEmail");
+                string from = configService.GetValue("SalesEmail");
                 string subject = string.Format("New Quote Submitted: {0}", quote.QuoteReferenceId);
                 string body = string.Format("New quote id: {0} | First name: {1} | Last name: {2}\r\n \r\n", quote.QuoteReferenceId, quote.Customer.FirstName, quote.Customer.LastName);
                 if (quote.PostageMethodId == (int)PostageMethodEnum.Satchel)
@@ -226,9 +233,9 @@ namespace TradeYourPhone.Core.Services.Implementation
                     body += "Satchel Required \r\n \r\n";
                 }
 
-                foreach(var phone in quote.Phones)
+                foreach (var phone in quote.Phones)
                 {
-                    body += string.Format("Phone: {0} for {1}\r\n", phone.PhoneMake.MakeName +" "+ phone.PhoneModel.ModelName, phone.PurchaseAmount.Value.ToString("C"));
+                    body += string.Format("Phone: {0} for {1}\r\n", phone.PhoneMake.MakeName + " " + phone.PhoneModel.ModelName, phone.PurchaseAmount.Value.ToString("C"));
                 }
 
                 body += string.Format("{0}Total: {1}", Environment.NewLine, quote.Phones.Sum(p => p.PurchaseAmount).Value.ToString("C"));
@@ -264,8 +271,8 @@ namespace TradeYourPhone.Core.Services.Implementation
 
                 string body = string.Format(msg, namevalues);
                 Log.LogError(body);
-                string to = ConfigurationManager.AppSettings["AlertSendToEmail"];
-                string from = ConfigurationManager.AppSettings["AlertSendFromEmail"];
+                string to = configService.GetValue("AlertSendToEmail");
+                string from = configService.GetValue("AlertSendFromEmail");
                 SendEmail(to, from, subject, body);
             }
             catch (Exception e)
@@ -287,8 +294,8 @@ namespace TradeYourPhone.Core.Services.Implementation
                 msg += "Stack Trace= " + ex.StackTrace;
 
                 Log.LogError(msg);
-                string to = ConfigurationManager.AppSettings["AlertSendToEmail"];
-                string from = ConfigurationManager.AppSettings["AlertSendFromEmail"];
+                string to = configService.GetValue("AlertSendToEmail");
+                string from = configService.GetValue("AlertSendFromEmail");
                 SendEmail(to, from, subject, msg);
             }
             catch (Exception e)

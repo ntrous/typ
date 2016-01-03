@@ -391,6 +391,7 @@ h4.brand-title {
     font-weight: bold !important;
     margin: 15px 0;
     width: 100%;
+    font-size: 17px!important;
 }
 
 .sell-btn {
@@ -398,12 +399,14 @@ h4.brand-title {
     color: #ffffff !important;
     font-weight: bold !important;
     width: 100%;
+    font-size: 17px!important;
 }
 
 .back-btn {
     font-weight: bold !important;
     margin: 15px 0;
     width: 100%;
+    font-size: 17px!important;
 }
 
 .next-btn:hover {
@@ -460,68 +463,6 @@ h4.brand-title {
 
 .conditionTypes {
     margin: 10px 15px;
-}
-
-.phoneSection {
-    margin: 20px;
-    padding: 20px;
-
-    input {
-        //padding: 20px;
-        height: 45px;
-    }
-
-    @media screen and (max-width: 480px) {
-
-        input {
-            height: 35px;
-            //padding: 3px;
-            font-size: 11px;
-        }
-
-        margin: 0px;
-    }
-
-    button {
-        padding: 7px;
-    }
-
-    .active {
-        background-color: rgba(74, 177, 108, 0.91) !important;
-    }
-
-    h2 {
-        color: rgb(94, 239, 142);
-        font-weight: bold;
-        font-size: 30px;
-    }
-
-    h3 {
-        font-size: 22px;
-    }
-
-    .input-group-addon {
-        background-color: rgba(74, 177, 108, 0.91);
-        color: #fff;
-    }
-
-    li > i {
-        color: rgba(74, 177, 108, 0.91) !important;
-    }
-
-    .dropdown-menu {
-        overflow: scroll;
-        max-height: 400px;
-    }
-
-    .dropdown-menu > li > a {
-        padding: 12px 40px !important;
-        width: 100%;
-
-        @media screen and (max-width: 480px) {
-            padding: 12px 20px !important;
-        }
-    }
 }
 
 .moneyGreen {
@@ -597,14 +538,6 @@ h4.brand-title {
     padding: 10px;
 }
 
-.postageOptionsText {
-    display: inline-block;
-    padding: 15px;
-    color: #333333;
-    background-color: rgba(47,79,79, 0.2);
-    margin-top: 15px;
-}
-
 .btn-radio {
     display: block !important;
     min-height: 30px;
@@ -632,18 +565,6 @@ h4.brand-title {
     }
 
     border-left: 1px solid #ccc;
-}
-
-.summarySection {
-    p {
-        padding-left: 25px;
-        color: #555;
-    }
-    h3 {
-        color: rgba(74, 177, 108, 1);
-    }
-
-    padding: 15px;
 }
 
 .summary-btn {
@@ -873,25 +794,69 @@ input[type="checkbox"].input-validation-error {
 
 //////////////////////            BLOG REEL           //////////////////////
 
-.blog-post-preview {
-    padding-bottom: 20px;
+.blog-heading {
+    font-size: 35px;
+    margin-bottom: 20px!important;
 
-    img {
-        max-width: 100%;
+    @media screen and (max-width: 480px) {
+        padding: 10px 0!important;
     }
 }
 
-.blog-post-preview-image {
-    text-align: center;
+.blog-post-preview {
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
 }
+
+.blog-reel-content {
+    color: #fff;
+    background: rgba(14, 13, 13, 0.59);
+    padding: 100px 60px; 
+
+    h2 {
+        padding-bottom: 0!important;
+        font-size: 35px!important;
+    }
+
+    @media screen and (max-width: 480px) {
+        padding: 20px 20px!important; 
+        color: #333;
+        background: rgba(239, 226, 226, 0.71);
+        font-weight: 500;
+        a {
+            color: #333!important;
+            font-weight: 700;
+        }
+    }
+}
+
+.blog-reel-content:hover {
+    color: #333;
+    background: rgba(239, 226, 226, 0.61);
+    font-weight: 500;
+    cursor: pointer;
+    a {
+        color: #333!important;
+        font-weight: 700;
+        }
+    }
 
 .blog-author {
     padding: 0;
 
     p {
-        font-size: 11px;
-        margin: 0 !important;
+        font-size: 15px;
+        margin: 10px !important;
     }
+}
+
+.blog-post-excerpt {
+    font-size: 16px;
+    margin-top: 30px;
+    line-height: 25px;
 }
 
 .blog-post-preview-title {
@@ -900,90 +865,23 @@ input[type="checkbox"].input-validation-error {
     h2 {
         margin-bottom: 0px;
         margin-top: 0px;
-        font-family: 'Noto Serif', serif !important;
 
         a {
-            color: rgba(74, 177, 108, 0.91);
-            font-family: 'Noto Serif', serif !important;
+            color: #fff;
+            font-family: 'Noto Serif', serif !important;  
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+         h2 > a {
             font-size: 28px;
-            line-height: 25px;
+            line-height: 10px;
+        }
+          
+        .col-mobile .blog-post-excerpt p {
+            font-size: 14px!important;
         }
     }
-
-    @media screen and (max-width: 1080px) {
-        h2 > a {
-            font-size: 22px;
-        }
-    }
-
-    @media screen and (max-width: 480px) {
-        color: rgba(74, 177, 108, 0.91);
-        background-color: white;
-
-        h2 {
-            margin-bottom: 0px;
-            margin-top: 0px;
-            font-family: 'Noto Serif', serif !important;
-
-            a {
-                color: rgba(74, 177, 108, 0.91);
-                font-family: 'Noto Serif', serif !important;
-                font-size: 15px;
-                line-height: 13px;
-            }
-        }
-    }
-}
-
-.blog-post-preview .blog-post-date {
-    margin-top: 0px;
-
-    .day {
-        font-size: 20px;
-        margin: 0;
-        line-height: 20px;
-    }
-
-    .month {
-        font-size: 16px;
-        margin: 0;
-        line-height: 16px;
-    }
-
-    .year {
-        font-size: 14px;
-        margin: 0;
-        line-height: 14px;
-    }
-
-    @media screen and (max-width: 480px) {
-        border: 0px solid;
-        padding-top: 0;
-        width: 40px;
-
-        .day {
-            padding-top: 0px;
-            font-size: 22px;
-            margin: 0;
-            line-height: 26px;
-        }
-
-        .month {
-            font-size: 20px;
-            margin: 0;
-            line-height: 24px;
-        }
-
-        .year {
-            font-size: 18px;
-            margin: 0;
-            line-height: 22px;
-        }
-    }
-}
-
-.blog-post-excerpt {
-    padding-top: 10px;
 }
 
 //////////////////////       BLOG POST           //////////////////////
@@ -992,15 +890,18 @@ input[type="checkbox"].input-validation-error {
     padding: 0 !important;
 }
 
+.blog-post-date {
+    font-size: 23px!important;
+}
+
 .blog-post-title {
-    padding: 0 !important;
-    //padding: 20px;
-    background-color: rgba(74, 177, 108, 0.91);
-    color: white;
-    margin: 10px 0;
+   background: rgba(14, 13, 13, 0.43);
+   padding: 100px 60px; 
+   color: #fff;
 
     h1 {
-        padding-bottom: 0 !important;
+        padding-bottom: 0!important;
+        font-size: 35px!important;
     }
 
     hr {
@@ -1008,16 +909,13 @@ input[type="checkbox"].input-validation-error {
     }
 
     .author {
-        font-size: 12px;
-    }
-
-    .author {
-        font-size: 12px;
+        font-size: 16px;
     }
 
     @media screen and (max-width: 770px) {
         color: rgba(74, 177, 108, 0.91);
         background-color: white;
+        padding: 0!important;
 
         h1 {
             font-size: 18px;
@@ -1027,10 +925,13 @@ input[type="checkbox"].input-validation-error {
         hr {
             color: rgba(74, 177, 108, 0.91);
             display: block;
+            margin: 0!important
         }
+
     }
 
     @media screen and (max-width: 480px) {
+         padding: 0!important;
         h1 {
             font-size: 17px;
             padding: 0px;
@@ -1038,71 +939,15 @@ input[type="checkbox"].input-validation-error {
 
         .author {
             font-size: 10px;
-            padding-left: 65px;
-        }
-    }
-}
-
-.blog-post-date {
-    padding-top: 5px;
-    padding-bottom: 3px;
-    background-color: white;
-    color: rgba(74, 177, 108, 0.91);
-    border: 5px solid;
-    border-right: 0;
-    border-bottom: 0;
-    margin-right: 10px;
-    float: left;
-    width: 85px;
-    text-align: center;
-
-    .day {
-        font-size: 30px;
-        margin: 0;
-    }
-
-    .month {
-        font-size: 20px;
-        margin: 0;
-    }
-
-    .year {
-        font-size: 16px;
-        margin: 0;
-    }
-
-    @media screen and (max-width: 480px) {
-        border: 0px solid;
-        padding-top: 0;
-        width: 55px;
-
-        .day {
-            padding-top: 22px;
-            font-size: 22px;
-            margin: 0;
-            line-height: 20px;
-        }
-
-        .month {
-            font-size: 18px;
-            margin: 0;
-            line-height: 20px;
-        }
-
-        .year {
-            font-size: 15px;
-            margin: 0;
-            line-height: 18px;
         }
     }
 }
 
 .blog-post-feature-image {
-    padding: 0 !important;
-}
-
-.blog-post-feature-image img {
+  background-position: center;
+  background-size: cover;
     width: 100%;
+  background-repeat: no-repeat;
 }
 
 .blog-post-content {
@@ -1122,6 +967,12 @@ input[type="checkbox"].input-validation-error {
     font-size: 16px;
     line-height: 27px;
     margin-bottom: 28px;
+}
+
+@media screen and (max-width: 770px) {
+    .blog-post-content p {
+        font-size: 15px!important;
+    }
 }
 
 .blog-post-content h2 {
@@ -1198,6 +1049,19 @@ input[type="checkbox"].input-validation-error {
     margin-left: auto;
     margin-right: auto;
 }
+
+ @media screen and (min-width: 1380px) {
+        .blog-sell-btn {
+            width: 100%;
+        }
+    }
+
+ .blog-sell-btn {
+      background-color: rgba(20, 125, 222, 0.83) !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    font-size: 17px!important;
+ }
 
 .share-buttons {
     padding-top: 20px;
@@ -1472,4 +1336,7 @@ a {
         z-index: 1;
         opacity: 0.8;
     }
+}
+body {
+   padding-top: 30px;
 }

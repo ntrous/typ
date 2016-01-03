@@ -1,15 +1,15 @@
 ﻿<div class="col-md-12 col-mobile">
-    <h1 class="col-md-12">
-        <span class="col-md-offset-1">Phones</span>
+    <h1 class="col-md-12 admin-heading">
+        <span class="col-md-offset-1"><i class="fa fa-mobile"></i>   Phones</span>
         <hr />
     </h1>
 
-    <p>
-        <a href="/CreatePhone">Create New</a>
+    <p class="create">
+        <a href="/Admin/CreatePhone"><i class="fa fa-plus"></i> Create New</a>
     </p>
 
     <div class="row">
-        <div class="col-md-2 col-mobile">
+        <div class="col-md-2">
             <b>Phone Id</b>
             <input type="text"
                    id="PhoneId"
@@ -17,7 +17,7 @@
                    class="form-control"
                    ng-enter="updatePage(phoneIndexViewModel)" />
         </div>
-        <div class="col-md-2 col-mobile">
+        <div class="col-md-2">
             <b>Phone Make</b>
             <select ng-model="phoneIndexViewModel.PhoneMakeId"
                     id="PhoneMakeId"
@@ -25,7 +25,7 @@
                     ng-options="item.ID as item.Name for item in phoneIndexViewModel.PhoneMakes"
                     class="form-control"></select>
         </div>
-        <div class="col-md-2 col-mobile">
+        <div class="col-md-2">
             <b>Phone Model</b>
             <select ng-model="phoneIndexViewModel.PhoneModelId"
                     id="PhoneModelId"
@@ -33,7 +33,7 @@
                     ng-options="item.ID as item.Name for item in phoneIndexViewModel.PhoneModels"
                     class="form-control"></select>
         </div>
-        <div class="col-md-2 col-mobile">
+        <div class="col-md-2">
             <b>Phone Status</b>
             <select ng-model="phoneIndexViewModel.PhoneStatusId"
                     id="PhoneStatusId"
@@ -41,18 +41,18 @@
                     ng-options="item.ID as item.Name for item in phoneIndexViewModel.PhoneStatuses"
                     class="form-control"></select>
         </div>
-        <div class="col-md-2 col-mobile">
+        <div class="col-md-2">
             <br />
-            <input type="submit"
+            <button type="submit"
                    value="Search"
-                   class="btn btn-default"
-                   ng-click="updatePage(phoneIndexViewModel)" />
+                   class="btn btn-default btn-admin"
+                   ng-click="updatePage(phoneIndexViewModel)"><i class="fa fa-search"></i>   Search</button>
         </div>
     </div>
     <br />
     <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
     <div ng-class="{'content-loading':spinner}">
-        <div class="col-mobile row centre">
+        <div class="row centre">
             <table class="table quoteTable table-striped table-hover">
                 <thead>
                     <tr>

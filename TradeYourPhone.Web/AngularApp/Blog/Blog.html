@@ -1,24 +1,19 @@
 ﻿<div class="col-md-12 blog">
-    <h1 class="col-md-12">
-        <span class="col-md-offset-1">Trade Your Phone Blog</span>
-        <hr />
+    <h1 class="col-md-12 blog-heading">
+        <span class="col-md-offset-1"><i class="fa fa-terminal"></i>    TYP Blog</span>
     </h1>
 </div>
-<div class="col-md-12">
-    <div class="blog-post-preview col-md-8 col-md-offset-2 row" ng-repeat="post in blogPosts">
-        <div class="blog-post-date">
-            <p class="day">{{post.date | date : 'dd'}}</p>
-            <p class="month">{{post.date | date : 'MMM'}}</p>
-            <p class="year">{{post.date | date : 'yyyy'}}</p>
+<div class="row">
+    <div class="blog-post-preview col-md-10 col-md-offset-1" ng-repeat="post in blogPosts" ng-click="showBlog(post.slug)">
+        <div class="col-md-12 blog-post-preview" style="background-image: url({{post.featured_image.source}})">
+            <div class="blog-reel-content row">
+                <div class="blog-author visible-xs"><p>{{post.date | date : 'dd'}} {{post.date | date : 'MMM'}} {{post.date | date : 'yyyy'}}</p></div>
+                <div class="blog-post-preview-title">
+                    <h2>{{post.title}}</h2>
+                </div>
+                <div class="blog-author hidden-xs"><p>Written By {{post.author.name}} on the {{post.date | date : 'dd'}} {{post.date | date : 'MMM'}} {{post.date | date : 'yyyy'}}</p></div>
+                <div class="blog-post-excerpt" ng-bind-html="post.excerpt | html"></div>
+            </div>
         </div>
-        <div class="blog-post-preview-title">
-            <h2><a href="/Blog/{{post.slug}}">{{post.title}}</a></h2>
-        </div>
-        <div class="blog-author col-md-12"><p>Author: {{post.author.name}}</p></div>
-        <div class="blog-post-preview-image">
-            <div ng-if="post.featured_image.source"><img ng-src="{{post.featured_image.source}}" /></div>
-        </div>
-        <div class="blog-post-excerpt" ng-bind-html="post.excerpt | html"></div>
-        <hr />
     </div>
 </div>

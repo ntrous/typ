@@ -33,6 +33,19 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Key" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Value" Type="varchar(max)" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="nvarchar" MaxLength="128" />
+        </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="ID" />
@@ -203,6 +216,30 @@
             </Principal>
             <Dependent Role="Address">
               <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConfigurationCreatedBy_ToAspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Configuration" Type="Self.Configuration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Configuration">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConfigurationLastModifiedBy_ToAspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Configuration" Type="Self.Configuration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Configuration">
+              <PropertyRef Name="LastModifiedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -455,6 +492,7 @@
         <EntityContainer Name="NMModelStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Configuration" EntityType="Self.Configuration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentDetails" EntityType="Self.PaymentDetails" Schema="dbo" store:Type="Tables" />
@@ -478,6 +516,14 @@
           <AssociationSet Name="FK_Address_1" Association="Self.FK_Address_1">
             <End Role="State" EntitySet="State" />
             <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConfigurationCreatedBy_ToAspNetUsers" Association="Self.FK_ConfigurationCreatedBy_ToAspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Configuration" EntitySet="Configuration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConfigurationLastModifiedBy_ToAspNetUsers" Association="Self.FK_ConfigurationLastModifiedBy_ToAspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Configuration" EntitySet="Configuration" />
           </AssociationSet>
           <AssociationSet Name="FK_Customer_0" Association="Self.FK_Customer_0">
             <End Role="Address" EntitySet="Address" />
@@ -883,6 +929,15 @@
             <End Role="QuoteStatus" EntitySet="QuoteStatus1" />
             <End Role="QuoteStatusHistory" EntitySet="QuoteStatusHistories" />
           </AssociationSet>
+          <EntitySet Name="Configurations" EntityType="NMModel.Configuration" />
+          <AssociationSet Name="FK_ConfigurationCreatedBy_ToAspNetUsers" Association="NMModel.FK_ConfigurationCreatedBy_ToAspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Configuration" EntitySet="Configurations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConfigurationLastModifiedBy_ToAspNetUsers" Association="NMModel.FK_ConfigurationLastModifiedBy_ToAspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Configuration" EntitySet="Configurations" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Country">
           <Key>
@@ -1049,8 +1104,6 @@
           <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PhoneStatusHistories" Relationship="NMModel.FK_PhoneStatusHistory_ToUser" FromRole="AspNetUser" ToRole="PhoneStatusHistory" />
-          <NavigationProperty Name="QuoteStatusHistories" Relationship="NMModel.FK_QuoteStatusHistory_ToUser" FromRole="AspNetUser" ToRole="QuoteStatusHistory" />
         </EntityType>
         <EntityType Name="PhoneStatusHistory">
           <Key>
@@ -1147,6 +1200,45 @@
             </Principal>
             <Dependent Role="QuoteStatusHistory">
               <PropertyRef Name="QuoteStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LastModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CreatedByUser" Relationship="NMModel.FK_ConfigurationCreatedBy_ToAspNetUsers" FromRole="Configuration" ToRole="AspNetUser" />
+          <NavigationProperty Name="LastModifiedByUser" Relationship="NMModel.FK_ConfigurationLastModifiedBy_ToAspNetUsers" FromRole="Configuration" ToRole="AspNetUser" />
+        </EntityType>
+        <Association Name="FK_ConfigurationCreatedBy_ToAspNetUsers">
+          <End Type="NMModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="NMModel.Configuration" Role="Configuration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Configuration">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConfigurationLastModifiedBy_ToAspNetUsers">
+          <End Type="NMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="NMModel.Configuration" Role="Configuration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Configuration">
+              <PropertyRef Name="LastModifiedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1347,6 +1439,20 @@
                 <ScalarProperty Name="StatusDate" ColumnName="StatusDate" />
                 <ScalarProperty Name="QuoteStatusId" ColumnName="QuoteStatusId" />
                 <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configurations">
+            <EntityTypeMapping TypeName="NMModel.Configuration">
+              <MappingFragment StoreEntitySet="Configuration">
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

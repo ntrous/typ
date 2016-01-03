@@ -46,6 +46,9 @@
         <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToPhoneStatus" />
         <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToQuote" />
         <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_QuoteStatusHistory_ToQuoteStatus" />
+        <EntityTypeShape EntityType="NavexaMobile_UnitTestModel.Configuration" Width="1.5" PointX="10.25" PointY="8" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_ConfigurationCreatedBy_ToAspNetUsers" />
+        <AssociationConnector Association="NavexaMobile_UnitTestModel.FK_ConfigurationLastModifiedBy_ToAspNetUsers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

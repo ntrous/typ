@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TradeYourPhone.Core.Enums;
+using TradeYourPhone.Core.Models;
 using TradeYourPhone.Core.Repositories.Interface;
 using TradeYourPhone.Core.Services.Interface;
 
@@ -141,6 +143,44 @@ namespace TradeYourPhone.Core.Services.Implementation
                 total = totalSoldAmount.Value - totalPurchaseAmount.Value;
             }
             return total;
+        }
+
+        /// <summary>
+        /// Returns the percentage of Quotes marked as paid.
+        /// Uses the noOfQuotes param as the amount of quotes to include in the calculation.
+        /// Calculation ignores recent quotes that are still in progress and are still inside expiry period.
+        /// </summary>
+        /// <param name="noOfQuotes">No of the most recent quotes to use in the calculation</param>
+        /// <returns></returns>
+        public decimal GetPercentageOfQuotesCompleted(int noOfQuotes)
+        {
+            IEnumerable<Quote> quotes = unitOfWork.QuoteRepository.Get(q => q.QuoteFinalisedDate != null, quote => quote.OrderByDescending(q => q.QuoteFinalisedDate)).Take(noOfQuotes);
+
+            int totalCompleted = quotes.Count(q => q.QuoteStatusHistories.Any(qsh => qsh.QuoteStatusId == (int)QuoteStatusEnum.Paid));
+            int totalExpired = quotes.Count(q => q.QuoteExpiryDate <= DateTime.Now);
+
+            int adjustedTotal = totalExpired + totalCompleted;
+            decimal result = decimal.Divide(totalCompleted, adjustedTotal) * 100;
+            return result;
+        }
+
+        /// <summary>
+        /// Returns the percentage of Quotes marked as paid that were satchel quotes.
+        /// Uses the noOfQuotes param as the amount of quotes to include in the calculation.
+        /// Calculation ignores recent quotes that are still in progress and are still inside expiry period. 
+        /// </summary>
+        /// <param name="noOfQuotes"></param>
+        /// <returns></returns>
+        public decimal GetPercentageOfSatchelQuotesCompleted(int noOfQuotes)
+        {
+            IEnumerable<Quote> quotes = unitOfWork.QuoteRepository.Get(q => q.QuoteFinalisedDate != null && q.PostageMethodId == (int)PostageMethodEnum.Satchel, quote => quote.OrderByDescending(q => q.QuoteFinalisedDate)).Take(noOfQuotes);
+
+            int totalCompleted = quotes.Count(q => q.QuoteStatusHistories.Any(qsh => qsh.QuoteStatusId == (int)QuoteStatusEnum.Paid));
+            int totalExpired = quotes.Count(q => q.QuoteExpiryDate <= DateTime.Now);
+
+            int adjustedTotal = totalExpired + totalCompleted;
+            decimal result = decimal.Divide(totalCompleted, adjustedTotal) * 100;
+            return result;
         }
 
         #endregion

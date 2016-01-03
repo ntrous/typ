@@ -396,7 +396,16 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <returns></returns>
         public Quote SaveQuote(Quote quote)
         {
-            return SaveQuote(quote, false);
+            if (quote == null || quote.ID == 0)
+            {
+                throw new ArgumentException("quoteToSave parameter is null/empty");
+            }
+
+            quote.QuoteStatusId = (int)QuoteStatusEnum.New;
+            unitOfWork.QuoteRepository.Update(quote, null);
+            unitOfWork.Save();
+
+            return quote;
         }
 
         /// <summary>
@@ -408,67 +417,47 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <returns>QuoteDetailResult</returns>
         public Quote FinaliseQuote(Quote quote)
         {
-            return SaveQuote(quote, true);
-        }
-
-        /// <summary>
-        /// Saves the Quote by creating/updating the customer and updating Quote Status
-        /// </summary>
-        /// <param name="key">Unique Quote Key</param>
-        /// <param name="customer">Customer object</param>
-        /// <returns>QuoteDetailResult</returns>
-        private Quote SaveQuote(Quote quoteToSave, bool finalised)
-        {
             try
             {
-                if (quoteToSave == null || quoteToSave.ID == 0)
+                if (quote == null || quote.ID == 0)
                 {
                     throw new ArgumentException("quoteToSave parameter is null/empty");
                 }
+
                 // Save all quote related properties
-                QuoteStatusEnum status = QuoteStatusEnum.New;
-                if (finalised)
+                quote.QuoteFinalisedDate = Util.GetAEST(DateTime.Now);
+                quote.QuoteExpiryDate = Util.GetAEST(DateTime.Now.AddDays(14));
+                quote.QuoteStatusId = (int)GetQuoteStatusByPostageMethod((int)quote.PostageMethodId);
+
+                // Update every phone to status Waiting on Delivery
+                foreach (var phone in quote.Phones)
                 {
-                    status = GetQuoteStatusByPostageMethod((int)quoteToSave.PostageMethodId);
-                    quoteToSave.QuoteFinalisedDate = Util.GetAEST(DateTime.Now);
-                    quoteToSave.QuoteExpiryDate = Util.GetAEST(DateTime.Now.AddDays(14));
-
-                    // Update every phone to status Waiting on Delivery and then add a status history record
-                    foreach (var phone in quoteToSave.Phones)
-                    {
-                        phone.PhoneStatusId = (int)PhoneStatusEnum.WaitingForDelivery;
-                    }
+                    phone.PhoneStatusId = (int)PhoneStatusEnum.WaitingForDelivery;
                 }
-
-                quoteToSave.QuoteStatusId = (int)status;
-
-                unitOfWork.QuoteRepository.Update(quoteToSave, null);
 
                 // Commit all changes for Quote and Child entities
+                unitOfWork.QuoteRepository.Update(quote, null);
                 unitOfWork.Save();
 
-                if (finalised)
+                // Send customer a confirmation email
+                var template = EmailTemplate.QuoteConfirmationSatchel;
+                switch (quote.PostageMethodId)
                 {
-                    // Send customer a confirmation email
-                    var template = EmailTemplate.QuoteConfirmationSatchel;
-                    switch (quoteToSave.PostageMethodId)
-                    {
-                        case (int)PostageMethodEnum.Satchel:
-                            template = EmailTemplate.QuoteConfirmationSatchel;
-                            break;
-                        case (int)PostageMethodEnum.SelfPost:
-                            template = EmailTemplate.QuoteConfirmationSelfPost;
-                            break;
-                    }
-
-                    emailService.SendEmailTemplate(template, quoteToSave);
+                    case (int)PostageMethodEnum.Satchel:
+                        template = EmailTemplate.QuoteConfirmationSatchel;
+                        break;
+                    case (int)PostageMethodEnum.SelfPost:
+                        template = EmailTemplate.QuoteConfirmationSelfPost;
+                        break;
                 }
 
-                return quoteToSave;
+                emailService.SendEmailTemplate(template, quote);
+
+                return quote;
             }
             catch (Exception ex)
             {
-                emailService.SendAlertEmailAndLogException("SaveQuote Failed!", MethodBase.GetCurrentMethod(), ex, quoteToSave, finalised);
+                emailService.SendAlertEmailAndLogException("FinaliseQuote Failed!", MethodBase.GetCurrentMethod(), ex, quote);
                 throw ex;
             }
         }

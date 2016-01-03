@@ -11,6 +11,6 @@
     };
 
     $scope.showQuote = function (id) {
-        $location.path('/Quote/' + id);
+        $location.path('/Admin/Quote/' + id);
     };
 });

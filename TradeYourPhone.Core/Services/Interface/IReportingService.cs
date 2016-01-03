@@ -13,5 +13,7 @@ namespace TradeYourPhone.Core.Services.Interface
         decimal GetTotalIncomeAmount(DateTime from, DateTime to);
         decimal GetTotalAssetWorth();
         decimal GetTotalProfit(DateTime from, DateTime to);
+        decimal GetPercentageOfQuotesCompleted(int noOfQuotes);
+        decimal GetPercentageOfSatchelQuotesCompleted(int noOfQuotes);
     }
 }

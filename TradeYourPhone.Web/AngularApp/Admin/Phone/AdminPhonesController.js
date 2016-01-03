@@ -13,6 +13,6 @@
     };
 
     $scope.showPhone = function (id) {
-        $location.path('/Phone/' + id);
+        $location.path('/Admin/Phone/' + id);
     };
 });

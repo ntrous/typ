@@ -7,6 +7,10 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>https://tradeyourphone.com.au/Home</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>https://tradeyourphone.com.au/FreeShipping</loc>
     <changefreq>daily</changefreq>
   </url>
@@ -62,4 +66,8 @@
     <loc>https://tradeyourphone.com.au/Blog/the-confusing-concept-of-mobiles-and-recycling</loc>
     <changefreq>daily</changefreq>
   </url>
+  <url>
+    <loc>https://tradeyourphone.com.au/Blog/november-top-used-android-apps</loc>
+    <changefreq>daily</changefreq>
+  </url> 
 </urlset>

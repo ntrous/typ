@@ -47,7 +47,7 @@ describe('Support', function () {
             expect(supportPage.postageSection.isDisplayed()).toEqual(true);
             expect(supportPage.postageSectionHeading.isDisplayed()).toEqual(true);
             expect(supportPage.postageSectionHeading.getText()).toEqual('Postage');
-            expect(supportPage.postageSectionPanels.count()).toEqual(3);
+            expect(supportPage.postageSectionPanels.count()).toEqual(4);
         });
 
         describe('When opening and closing a panel in General Section', function () {

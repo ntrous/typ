@@ -44,5 +44,6 @@ namespace TradeYourPhone.Test.Models
         public virtual DbSet<PostageMethod> PostageMethods { get; set; }
         public virtual DbSet<PhoneStatusHistory> PhoneStatusHistories { get; set; }
         public virtual DbSet<QuoteStatusHistory> QuoteStatusHistories { get; set; }
+        public virtual DbSet<Configuration> Configurations { get; set; }
     }
 }

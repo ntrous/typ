@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TradeYourPhone.Core.Enums;
 using TradeYourPhone.Core.Models;
@@ -140,6 +135,7 @@ namespace TradeYourPhone.Web.Controllers
         /// Get all Phone Conditions
         /// </summary>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Get)]
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPhoneConditions()

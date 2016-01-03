@@ -29,6 +29,7 @@ namespace TradeYourPhone.Core.Repositories.Implementation
         private IGenericRepository<PostageMethod> postageMethodRepository;
         private IGenericRepository<QuoteStatusHistory> quoteStatusHistoryRepository;
         private IGenericRepository<PhoneStatusHistory> phoneStatusHistoryRepository;
+        private IConfigurationRepository configurationRepository;
 
         public UnitOfWork(DbContext context)
         {
@@ -304,6 +305,22 @@ namespace TradeYourPhone.Core.Repositories.Implementation
             set
             {
                 this.phoneStatusHistoryRepository = value;
+            }
+        }
+
+        public IConfigurationRepository ConfigurationRepository
+        {
+            get
+            {
+                if (this.configurationRepository == null)
+                {
+                    this.configurationRepository = new ConfigurationRepository(context);
+                }
+                return configurationRepository;
+            }
+            set
+            {
+                this.configurationRepository = value;
             }
         }
 

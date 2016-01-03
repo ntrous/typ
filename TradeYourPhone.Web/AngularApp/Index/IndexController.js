@@ -1,5 +1,12 @@
 ﻿tradeYourPhoneControllers.controller('IndexCtrl', function ($route, $scope, PhoneModelService, authService, $location, $cookies, $q) {
 
+    $scope.variation = cxApi.getChosenVariation();
+    if ($scope.variation <= 0) {
+        $scope.cssFile = "SiteA";
+    } else {
+        $scope.cssFile = "SiteB";
+    }
+
     $scope.GoToQuote = function () {
         $location.path('/');
         PhoneModelService.StoreCurrentPhoneModel($scope.index.model);

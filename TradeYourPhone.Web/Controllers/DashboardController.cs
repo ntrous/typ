@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TradeYourPhone.Core.Services.Interface;
 using TradeYourPhone.Core.Utilities;
@@ -39,7 +36,9 @@ namespace TradeYourPhone.Web.Controllers
                 TotalDevicesSold = reportingService.GetTotalDevicesSold(dateFrom, dateTo),
                 TotalIncomeAmount = reportingService.GetTotalIncomeAmount(dateFrom, dateTo),
                 TotalAssetWorth = reportingService.GetTotalAssetWorth(),
-                TotalProfit = reportingService.GetTotalProfit(dateFrom, dateTo)
+                TotalProfit = reportingService.GetTotalProfit(dateFrom, dateTo),
+                PercentageOfCompletedQuotes = reportingService.GetPercentageOfQuotesCompleted(50),
+                PercentageOfCompletedSatchelQuotes = reportingService.GetPercentageOfSatchelQuotesCompleted(50)
             };
 
             var result = new JsonNetResult

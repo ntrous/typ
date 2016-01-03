@@ -27,5 +27,6 @@ namespace TradeYourPhone.Core.Repositories.Interface
         IGenericRepository<PostageMethod> PostageMethodRepository { get; set; }
         IGenericRepository<QuoteStatusHistory> QuoteStatusHistoryRepository { get; set; }
         IGenericRepository<PhoneStatusHistory> PhoneStatusHistoryRepository { get; set; }
+        IConfigurationRepository ConfigurationRepository { get; set; }
     }
 }

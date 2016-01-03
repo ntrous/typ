@@ -1,13 +1,12 @@
-﻿<h2>Details</h2>
-<p>
-    <a href="/Quotes">Back To List</a>
+﻿<h2 class="admin-heading">Quote {{quoteDetailsViewModel.Quote.QuoteReferenceId}} Details</h2>
+<p class="admin-back">
+    <a href="/Admin/Quotes"><i class="fa fa-hand-o-left"></i>   Back To Quotes</a>
 </p>
 <span ng-show="spinner"><i class="loading fa fa-cog fa-spin"></i></span>
 <div ng-class="{'content-loading':spinner}">
     <div class="row">
         <div class="col-md-3">
-            <h4>Quote</h4>
-            <hr />
+            <h2 class="admin-heading">Quote</h2>
             <div class="form-group">
                 <label class="control-label">Quote Status</label>
                 <select ng-model="quoteDetailsViewModel.Quote.QuoteStatusId"
@@ -55,8 +54,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <h4>Customer</h4>
-            <hr />
+            <h3 class="admin-heading">Customer</h3>
             <div class="form-group">
                 <label class="control-label">Full Name</label>
                 <input type="text"
@@ -85,8 +83,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <h4>Address</h4>
-            <hr />
+            <h3 class="admin-heading">Address</h3>
             <div class="form-group">
                 <label class="control-label">Address Line 1</label>
                 <input type="text"
@@ -143,8 +140,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <h4>Payment Details</h4>
-            <hr />
+            <h3 class="admin-heading">Payment Details</h3>
             <div class="form-group">
                 <label class="control-label">Payment Type</label>
                 <select ng-model="quoteDetailsViewModel.Quote.Customer.PaymentDetail.PaymentTypeId"
@@ -196,104 +192,299 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row">
+    <div class="row">
             <div class="col-md-12">
-                <h4>Phones</h4>
+                <h2 class="admin-heading">Phones</h2>
                 <hr />
-                <div class="row">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th><label class="control-label">ID</label></th>
-                                <th><label class="control-label">Status</label></th>
-                                <th><label class="control-label">Phone Make</label></th>
-                                <th><label class="control-label">Phone Model</label></th>
-                                <th><label class="control-label">Condition</label></th>
-                                <th><label class="control-label">IMEI</label></th>
-                                <th><label class="control-label">Purchase Price</label></th>
-                                <th><label class="control-label">Sale Price</label></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="phone in quoteDetailsViewModel.Quote.Phones">
-                                <td>
-                                    <a ng-href="/Phone/{{phone.Id}}">{{phone.Id}}</a>
-                                </td>
-                                <td>
-                                    <select ng-model="phone.PhoneStatusId"
-                                            id="PhoneStatusId"
-                                            name="PhoneStatusId"
-                                            ng-options="item.ID as item.Name for item in quoteDetailsViewModel.PhoneStatuses"
-                                            class="form-control"></select>
-                                </td>
-                                <td>
-                                    <select ng-model="phone.PhoneMakeId"
-                                            id="PhoneMakeId"
-                                            name="PhoneMakeId"
-                                            ng-options="item.ID as item.Name for item in quoteDetailsViewModel.PhoneMakes"
-                                            class="form-control"></select>
-                                </td>
+                <div ng-repeat="phone in quoteDetailsViewModel.Quote.Phones">
+                    <h3 class="admin-heading">Phone {{$index+1}}</h3>
+                    <div class="row">
 
-                                <td>
-                                    <select ng-model="phone.PhoneModelId"
-                                            id="PhoneModelId"
-                                            name="PhoneModelId"
-                                            ng-options="item.ID as item.Name for item in quoteDetailsViewModel.PhoneModels"
-                                            class="form-control"></select>
-                                </td>
+                    <div class="form-group col-md-1">
+                        <label class="control-label">ID</label>
+                        <p class="col-md-12">
+                            <a ng-href="/Admin/Phone/{{phone.Id}}">{{phone.Id}}</a>
+                        </p>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label class="control-label">Status</label>
+                        <select ng-model="phone.PhoneStatusId"
+                                id="PhoneStatusId"
+                                name="PhoneStatusId"
+                                ng-options="item.ID as item.Name for item in quoteDetailsViewModel.PhoneStatuses"
+                                class="form-control"></select>
+                    </div>
+                          
+                    <div class="form-group col-md-2">
+                        <label class="control-label">Phone Model</label>
+                        <select ng-model="phone.PhoneModelId"
+                                id="PhoneModelId"
+                                name="PhoneModelId"
+                                ng-options="item.ID as item.Name for item in quoteDetailsViewModel.PhoneModels"
+                                class="form-control"></select>
+                    </div>
 
-                                <td>
-                                    <select ng-model="phone.PhoneConditionId"
-                                            id="PhoneConditionId"
-                                            name="PhoneConditionId"
-                                            ng-options="item.ID as item.Name for item in quoteDetailsViewModel.Conditions"
-                                            class="form-control"></select>
-                                </td>
+                    <div class="form-group col-md-1">
+                        <label class="control-label">Condition</label>
+                        <select ng-model="phone.PhoneConditionId"
+                                id="PhoneConditionId"
+                                name="PhoneConditionId"
+                                ng-options="item.ID as item.Name for item in quoteDetailsViewModel.Conditions"
+                                class="form-control"></select>
+                    </div>
 
-                                <td>
-                                    <input type="text"
-                                           id="IMEI"
-                                           ng-model="phone.IMEI"
-                                           name="IMEI"
-                                           class="form-control" />
-                                </td>
+                    <div class="form-group col-md-2">
+                        <label class="control-label">IMEI</label>
+                        <input type="text"
+                                id="IMEI"
+                                ng-model="phone.IMEI"
+                                name="IMEI"
+                                   class="form-control" />
+                    </div>
 
-                                <td>
-                                    <input type="text"
-                                           id="PurchaseAmount"
-                                           ng-model="phone.PurchaseAmount"
-                                           name="PurchaseAmount"
-                                           class="form-control" />
-                                </td>
+                    <div class="form-group col-md-2">
+                        <label class="control-label">Purchase Price</label>
+                        <input type="text"
+                                id="PurchaseAmount"
+                                ng-model="phone.PurchaseAmount"
+                                name="PurchaseAmount"
+                                   class="form-control" />
+                    </div>
 
-                                <td>
-                                    <input type="text"
-                                           id="SaleAmount"
-                                           ng-model="phone.SaleAmount"
-                                           name="SaleAmount"
-                                           class="form-control" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <div class="form-group col-md-2">
+                        <label class="control-label">Sale Price</label>
+                        <input type="text"
+                                id="SaleAmount"
+                                ng-model="phone.SaleAmount"
+                                name="SaleAmount"
+                                   class="form-control" />
+                        </div>
+
+                    </div>
+                    <div class="row checklist">
+                        <accordion>
+                        <accordion-group is-open="checklist.open">
+                            <accordion-heading>
+                                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': checklist.open, 'glyphicon-chevron-right': !checklist.open}"></i>
+                                <i class="fa fa-check-square-o"></i>   Phone Checklist
+                            </accordion-heading>
+
+                            <div class="form-group col-md-2">
+                                <label class="control-label">Phone Reset?</label>
+
+                                <div class="btn-group btn-radio">
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Reset"
+                                            btn-radio="'Yes'">
+                                        Yes
+                                    </button>
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Reset"
+                                            btn-radio="'No'">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label class="control-label">Phone Unblocked?</label>
+
+                                <div class="btn-group btn-radio">
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Unblocked"
+                                            btn-radio="'Yes'">
+                                        Yes
+                                    </button>
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Unblocked"
+                                            btn-radio="'No'">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label class="control-label">Correct Capacity?</label>
+
+                                <div class="btn-group btn-radio">
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Capacity"
+                                            btn-radio="'Yes'">
+                                        Yes
+                                    </button>
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Capacity"
+                                            btn-radio="'No'">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label class="control-label">All Buttons Work?</label>
+
+                                <div class="btn-group btn-radio">
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Buttons"
+                                            btn-radio="'Yes'">
+                                        Yes
+                                    </button>
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Buttons"
+                                            btn-radio="'No'">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label class="control-label">Wifi Connects?</label>
+
+                                <div class="btn-group btn-radio">
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Wifi"
+                                            btn-radio="'Yes'">
+                                        Yes
+                                    </button>
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Wifi"
+                                            btn-radio="'No'">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label class="control-label">All Cameras Work?</label>
+
+                                <div class="btn-group btn-radio">
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Camera"
+                                            btn-radio="'Yes'">
+                                        Yes
+                                    </button>
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Camera"
+                                            btn-radio="'No'">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label class="control-label">Sound?</label>
+
+                                <div class="btn-group btn-radio">
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Sound"
+                                            btn-radio="'Yes'">
+                                        Yes
+                                    </button>
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Sound"
+                                            btn-radio="'No'">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-md-2">
+                                <label class="control-label">Headphones?</label>
+
+                                <div class="btn-group btn-radio">
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Headphones"
+                                            btn-radio="'Yes'">
+                                        Yes
+                                    </button>
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Headphones"
+                                            btn-radio="'No'">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-md-2">
+                                <label class="control-label">Charges?</label>
+
+                                <div class="btn-group btn-radio">
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Charges"
+                                            btn-radio="'Yes'">
+                                        Yes
+                                    </button>
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Charges"
+                                            btn-radio="'No'">
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label class="control-label">Correct Condition?</label>
+
+                                <div class="btn-group btn-radio">
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Condition"
+                                            btn-radio="'Yes'">
+                                        Yes
+                                    </button>
+                                    <button class="btn btn-default checklist-btn"
+                                            type="button"
+                                            ng-model="QuotePhone.Condition"
+                                            btn-radio="'No'">
+                                        No
+                                    </button>
+                    </div>
             </div>
+                   
+
+                        </accordion-group>
+                    </accordion>
+
         </div>
     </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-2">
             <div class="form-group">
-                <br />
-                <input type="submit" value="Save" class="btn btn-default" ng-click="SaveQuoteDetails(quoteDetailsViewModel.Quote)" />
+                <br/>
+                <input type="submit" value="Save" class="btn btn-default btn-admin" ng-click="SaveQuoteDetails(quoteDetailsViewModel.Quote)"/>
                 <span ng-show="result">{{result}}</span>
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12">
-            <h4>Quote Status History</h4>
-            <hr />
+            <h2 class="admin-heading">Quote Status History</h2>
             <table class="table">
                 <thead>
                     <tr>

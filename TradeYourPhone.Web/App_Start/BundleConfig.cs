@@ -21,6 +21,12 @@ namespace TradeYourPhone.Web
             cssBundle.Orderer = nullOrderer;
             bundles.Add(cssBundle);
 
+            var cssBundleB = new StyleBundle("~/bundles/cssB");
+            cssBundleB.Include("~/Content/SiteB.less", "~/Content/bootstrap/bootstrap.less");
+            cssBundleB.Transforms.Add(cssTransformer);
+            cssBundleB.Orderer = nullOrderer;
+            bundles.Add(cssBundleB);
+
             var adminCSSBundle = new StyleBundle("~/bundles/adminCss");
             adminCSSBundle.Include("~/Content/AdminSite.less", "~/Content/bootstrap/bootstrap.less");
             adminCSSBundle.Transforms.Add(cssTransformer);

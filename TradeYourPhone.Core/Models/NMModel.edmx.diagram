@@ -45,6 +45,9 @@
         <AssociationConnector Association="NMModel.FK_PhoneStatusHistory_ToPhoneStatus" />
         <AssociationConnector Association="NMModel.FK_QuoteStatusHistory_ToQuote" />
         <AssociationConnector Association="NMModel.FK_QuoteStatusHistory_ToQuoteStatus" />
+        <EntityTypeShape EntityType="NMModel.Configuration" Width="1.5" PointX="12.75" PointY="12.5" />
+        <AssociationConnector Association="NMModel.FK_ConfigurationCreatedBy_ToAspNetUsers" />
+        <AssociationConnector Association="NMModel.FK_ConfigurationLastModifiedBy_ToAspNetUsers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

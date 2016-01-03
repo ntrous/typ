@@ -18,20 +18,26 @@ var tradeYourPhoneCommon = angular.module('typ.common', []);
 
 tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {
+        var variation = cxApi.chooseVariation();
         $routeProvider
         .when('/', {
-            redirectTo: '/',
-            templateUrl: '../AngularApp/Quote/Home.html',
-            controller: 'QuoteCtrl',
+            templateUrl: function () {
+                if (variation === 0) {
+                    return '../AngularApp/Quote/Home.html';
+                } else {
+                    return '../AngularApp/Quote2/Home.html';
+                }
+            },
+            controller: 'QuoteCtrl' + variation,
             reloadOnSearch: false,
             caseInsensitiveMatch: true,
             title: 'Trade Your Phone - Sell Your Old Phone For Cash',
             description: 'Sell your mobile phone for cash today. Get the guaranteed best price and free shipping. Fill out a quote now!',
             resolve: {
-                phoneModels: function (PhoneModelService, $route) {
+                phoneModels: function (PhoneModelService) {
                     return PhoneModelService.GetPhoneModels();
                 },
-                phoneConditions: function (QuoteService, $route) {
+                phoneConditions: function (QuoteService) {
                     return QuoteService.GetPhoneConditions();
                 },
                 quote: function (QuoteService, $route, $cookies) {
@@ -107,7 +113,7 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
                 title: 'Sell Your iPhone | We buy all iPhones! - Trade Your Phone',
                 description: 'We buy all Apple iPhones for the best price guaranteed! Free shipping and no hidden costs. Sell your phone now!',
                 resolve: {
-                    phoneModels: function (PhoneModelService, $route) {
+                    phoneModels: function (PhoneModelService) {
                         return PhoneModelService.GetPhoneModelsByMakeName("Apple");
                     }
                 }
@@ -119,7 +125,7 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
               title: 'Blog - Trade Your Phone',
               description: 'Trade Your Phones Blog',
               resolve: {
-                  blogPosts: function (BlogService, $route) {
+                  blogPosts: function (BlogService) {
                       return BlogService.GetAllBlogPosts();
                   }
               }
@@ -134,10 +140,10 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
                   blogPost: function (BlogService, $route) {
                       return BlogService.GetBlogPostBySlug($route.current.params.slug);
                   },
-                  latestPosts: function (BlogService, $route) {
+                  latestPosts: function (BlogService) {
                       return BlogService.GetNLatestBlogPosts(5);
                   },
-                  phoneModels: function (PhoneModelService, $route) {
+                  phoneModels: function (PhoneModelService) {
                       return PhoneModelService.GetMostPopularPhoneModels(5);
                   }
               }
@@ -147,18 +153,18 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
                 controller: 'loginController',
                 caseInsensitiveMatch: true
             }).
-            when('/Quotes', {
+            when('/Admin/Quotes', {
                 templateUrl: '../AngularApp/Admin/Quote/Quotes.html',
                 controller: 'AdminQuotesCtrl',
                 title: 'Quotes - Trade Your Phone',
                 caseInsensitiveMatch: true,
                 resolve: {
-                    quoteViewModel: function (AdminQuoteService, $route) {
+                    quoteViewModel: function (AdminQuoteService) {
                         return AdminQuoteService.GetQuotes();
                     }
                 }
             }).
-            when('/Quote/:id', {
+            when('/Admin/Quote/:id', {
                 templateUrl: '../AngularApp/Admin/Quote/Quote.html',
                 controller: 'AdminQuoteCtrl',
                 title: 'Quote - Trade Your Phone',
@@ -169,18 +175,18 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
                     }
                 }
             }).
-            when('/Phones', {
+            when('/Admin/Phones', {
                 templateUrl: '../AngularApp/Admin/Phone/Phones.html',
                 controller: 'AdminPhonesCtrl',
                 title: 'Phones - Trade Your Phone',
                 caseInsensitiveMatch: true,
                 resolve: {
-                    phoneIndexViewModel: function (AdminPhoneService, $route) {
+                    phoneIndexViewModel: function (AdminPhoneService) {
                         return AdminPhoneService.GetPhones();
                     }
                 }
             }).
-            when('/Phone/:id', {
+            when('/Admin/Phone/:id', {
                 templateUrl: '../AngularApp/Admin/Phone/Phone.html',
                 controller: 'AdminPhoneCtrl',
                 title: 'Phone - Trade Your Phone',
@@ -191,29 +197,29 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
                     }
                 }
             }).
-            when('/CreatePhone', {
+            when('/Admin/CreatePhone', {
                 templateUrl: '../AngularApp/Admin/Phone/CreatePhone.html',
                 controller: 'AdminPhoneCtrl',
                 title: 'Create Phone - Trade Your Phone',
                 caseInsensitiveMatch: true,
                 resolve: {
-                    phoneDetailsViewModel: function (AdminPhoneService, $route) {
+                    phoneDetailsViewModel: function (AdminPhoneService) {
                         return AdminPhoneService.GetPhoneReferenceData();
                     }
                 }
             }).
-            when('/PhoneMakes', {
+            when('/Admin/PhoneMakes', {
                 templateUrl: '../AngularApp/Admin/PhoneMakes/PhoneMakes.html',
                 controller: 'AdminPhoneMakesCtrl',
                 title: 'Phone Makes - Trade Your Phone',
                 caseInsensitiveMatch: true,
                 resolve: {
-                    phoneMakesViewModel: function (AdminPhoneMakesService, $route) {
+                    phoneMakesViewModel: function (AdminPhoneMakesService) {
                         return AdminPhoneMakesService.GetPhoneMakes();
                     }
                 }
             }).
-            when('/CreatePhoneMake', {
+            when('/Admin/CreatePhoneMake', {
                 templateUrl: '../AngularApp/Admin/PhoneMakes/PhoneMake.html',
                 controller: 'AdminPhoneMakeCtrl',
                 title: 'Create Phone Make - Trade Your Phone',
@@ -224,7 +230,7 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
                     }
                 }
             }).
-            when('/PhoneMake/:id', {
+            when('/Admin/PhoneMake/:id', {
                 templateUrl: '../AngularApp/Admin/PhoneMakes/PhoneMake.html',
                 controller: 'AdminPhoneMakeCtrl',
                 title: 'Phone Make - Trade Your Phone',
@@ -235,29 +241,29 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
                     }
                 }
             }).
-            when('/PhoneModels', {
+            when('/Admin/PhoneModels', {
                 templateUrl: '../AngularApp/Admin/PhoneModels/PhoneModels.html',
                 controller: 'AdminPhoneModelsCtrl',
                 title: 'Phone Models - Trade Your Phone',
                 caseInsensitiveMatch: true,
                 resolve: {
-                    phoneModelsViewModel: function (AdminPhoneModelsService, $route) {
+                    phoneModelsViewModel: function (AdminPhoneModelsService) {
                         return AdminPhoneModelsService.GetPhoneModelsForView();
                     }
                 }
             }).
-            when('/CreatePhoneModel', {
+            when('/Admin/CreatePhoneModel', {
                 templateUrl: '../AngularApp/Admin/PhoneModels/PhoneModel.html',
                 controller: 'AdminPhoneModelCtrl',
                 title: 'Phone Models - Trade Your Phone',
                 caseInsensitiveMatch: true,
                 resolve: {
-                    phoneModelViewModel: function (AdminPhoneModelsService, $route) {
+                    phoneModelViewModel: function (AdminPhoneModelsService) {
                         return AdminPhoneModelsService.GetCreatePhoneModelViewModel();
                     }
                 }
             }).
-            when('/PhoneModel/:id', {
+            when('/Admin/PhoneModel/:id', {
                 templateUrl: '../AngularApp/Admin/PhoneModels/PhoneModel.html',
                 controller: 'AdminPhoneModelCtrl',
                 title: 'Phone Model - Trade Your Phone',
@@ -268,18 +274,29 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
                     }
                 }
             }).
-            when('/Dashboard', {
+            when('/Admin/Dashboard', {
                 templateUrl: '../AngularApp/Admin/Dashboard/Dashboard.html',
                 controller: 'AdminDashboardCtrl',
                 title: 'Dashboard - Trade Your Phone',
                 caseInsensitiveMatch: true,
                 resolve: {
-                    dashboardViewModel: function (AdminDashboardService, $route) {
+                    dashboardViewModel: function (AdminDashboardService) {
                         return AdminDashboardService.GetDashboardData();
                     }
                 }
             }).
-            when('/CacheManager', {
+            when('/Admin/Configuration', {
+                templateUrl: '../AngularApp/Admin/Configuration/Configuration.html',
+                controller: 'AdminConfigurationCtrl',
+                title: 'Configuration Data - Trade Your Phone',
+                caseInsensitiveMatch: true,
+                resolve: {
+                    ConfigurationData: function (AdminConfigurationService) {
+                        return AdminConfigurationService.GetConfigurationData();
+                    }
+                }
+            }).
+            when('/Admin/CacheManager', {
                 templateUrl: '../AngularApp/Admin/CacheManager/CacheManager.html',
                 controller: 'CacheManagerCtrl',
                 title: 'Cache Manager - Trade Your Phone',

@@ -25,6 +25,7 @@ namespace TradeYourPhone.Web.Controllers
 
         // GET: Quotes
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Index(QuoteIndexViewModel viewModel)
         {
@@ -53,6 +54,7 @@ namespace TradeYourPhone.Web.Controllers
 
         // GET: Quotes/Details/5
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetQuote(int? id)
         {
@@ -76,6 +78,7 @@ namespace TradeYourPhone.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult SaveQuoteDetails(QuoteDTO quote)
         {
@@ -92,6 +95,7 @@ namespace TradeYourPhone.Web.Controllers
         /// Creates a new Quote and returns the Quote Reference ID
         /// </summary>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult CreateQuote()
         {
@@ -106,6 +110,7 @@ namespace TradeYourPhone.Web.Controllers
         /// <param name="modelId">PhoneModelId of the Phone to add</param>
         /// <param name="conditionId">ConditionId of the condition the Phone is in</param>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AddPhoneToQuoteInSession(string key, string modelId, string conditionId)
         {
@@ -133,6 +138,7 @@ namespace TradeYourPhone.Web.Controllers
         /// <param name="key"></param>
         /// <param name="customer"></param>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult SaveQuote(string key, SaveQuoteViewModel viewModel)
         {
@@ -171,6 +177,7 @@ namespace TradeYourPhone.Web.Controllers
         /// <param name="key"></param>
         /// <param name="customer"></param>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult FinaliseQuote(string key, SaveQuoteViewModel viewModel)
         {
@@ -208,6 +215,7 @@ namespace TradeYourPhone.Web.Controllers
         /// <param name="key"></param>
         /// <param name="phoneId"></param>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult DeleteQuotePhone(string key, string phoneId)
         {
@@ -231,6 +239,7 @@ namespace TradeYourPhone.Web.Controllers
         }
 
         [Authorize]
+        
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetAllQuotes()
         {
@@ -244,6 +253,7 @@ namespace TradeYourPhone.Web.Controllers
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
+        
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetQuoteDetails(string key)
         {
@@ -266,6 +276,7 @@ namespace TradeYourPhone.Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        
         [AcceptVerbs(HttpVerbs.Get)]
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetStates()
@@ -274,6 +285,7 @@ namespace TradeYourPhone.Web.Controllers
             return Json(states, JsonRequestBehavior.AllowGet);
         }
 
+        
         [AcceptVerbs(HttpVerbs.Get)]
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetStateNames()
@@ -287,6 +299,7 @@ namespace TradeYourPhone.Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        
         [AcceptVerbs(HttpVerbs.Get)]
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPaymentTypes()
@@ -295,6 +308,7 @@ namespace TradeYourPhone.Web.Controllers
             return Json(paymentTypes, JsonRequestBehavior.AllowGet);
         }
 
+        
         [AcceptVerbs(HttpVerbs.Get)]
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPaymentTypeNames()
@@ -308,6 +322,7 @@ namespace TradeYourPhone.Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        
         [AcceptVerbs(HttpVerbs.Get)]
         [OutputCache(Duration = (int)TimeEnum.oneweek, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult GetPostageMethods()

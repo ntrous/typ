@@ -43,5 +43,6 @@ namespace TradeYourPhone.Core.Models
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<PhoneStatusHistory> PhoneStatusHistories { get; set; }
         public virtual DbSet<QuoteStatusHistory> QuoteStatusHistories { get; set; }
+        public virtual DbSet<Configuration> Configurations { get; set; }
     }
 }

@@ -14,12 +14,6 @@ namespace TradeYourPhone.Core.Models
     
     public partial class AspNetUser
     {
-        public AspNetUser()
-        {
-            this.PhoneStatusHistories = new HashSet<PhoneStatusHistory>();
-            this.QuoteStatusHistories = new HashSet<QuoteStatusHistory>();
-        }
-    
         public string Id { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
@@ -32,8 +26,5 @@ namespace TradeYourPhone.Core.Models
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
-    
-        public virtual ICollection<PhoneStatusHistory> PhoneStatusHistories { get; set; }
-        public virtual ICollection<QuoteStatusHistory> QuoteStatusHistories { get; set; }
     }
 }

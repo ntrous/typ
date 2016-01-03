@@ -1,4 +1,4 @@
-﻿tradeYourPhoneControllers.controller('QuoteCtrl', function ($scope, QuoteService, PhoneModelService, $location, $cookies, $q, $anchorScroll, $analytics, $timeout, phoneModels, phoneConditions, quote) {
+﻿tradeYourPhoneControllers.controller('QuoteCtrl0', function ($scope, QuoteService, PhoneModelService, $location, $cookies, $q, $anchorScroll, $analytics, $timeout, phoneModels, phoneConditions, quote) {
 
     $scope.isActive = function (viewLocation) {
         return viewLocation == $location.path();
@@ -85,8 +85,9 @@
     $scope.addPhoneToQuote = function (modelId, conditionId) {
         $scope.btnSpinner = true;
         $scope.addPhone(modelId, conditionId).then(function (response) {
+            var currentPostageMethod = $scope.quote.PostageMethod;
             $scope.quote = response;
-            $scope.quote.PostageMethod = $scope.postageMethods[1];
+            $scope.quote.PostageMethod = currentPostageMethod;
             $scope.resetInputs();
             $scope.btnSpinner = false;
             $scope.goToTab('Quote', 0);
@@ -138,7 +139,9 @@
         $scope.deleteSpinner = true;
         QuoteService.DeleteQuotePhone($scope.quoteKey, phoneId).then(function (response) {
             if (response.Status === "OK") {
+                var currentPostageMethod = $scope.quote.PostageMethod;
                 $scope.quote = response.QuoteDetails;
+                $scope.quote.PostageMethod = currentPostageMethod;
             }
 
             if ($scope.quote.Phones.length === 0) {

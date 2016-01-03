@@ -1,0 +1,48 @@
+﻿<div class="phoneSection">
+    <div class="col-md-12 phoneDiv phoneHeading">
+        <h3>
+            <span class="glyphicon glyphicon-list"></span> Phones To Sell
+        </h3>
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="hidden-xs"></th>
+                    <th></th>
+                    <th class="visible-xs">Phone</th>
+                    <th class="hidden-xs">Phone Type</th>
+                    <th class="hidden-xs">Phone Condition</th>
+                    <th class="hidden-xs">Offer</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="q in quote.Phones">
+                    <td class="hidden-xs">#{{$index+1}}</td>
+                    <td><img class="phone-summary-image" data-ng-src="data:image/png;base64,{{q.PrimaryImageString}}"/></td>
+                    <td class="visible-xs">{{q.PhoneMakeName}} {{q.PhoneModelName}}<br/>{{q.PhoneCondition}}<br/> {{q.OfferPrice | currency}}</td>
+                    <td class="hidden-xs">{{q.PhoneMakeName}} {{q.PhoneModelName}}</td>
+                    <td class="hidden-xs">{{q.PhoneCondition}}</td>
+                    <td class="hidden-xs">{{q.OfferPrice | currency}}</td>
+                    <td><button class="btn btn-default" ng-click="deletePhoneFromQuote(q.Id, $index)"><span ng-hide="deleteSpinner && $index == deleteIndex" class="glyphicon glyphicon-trash"></span><span ng-show="deleteSpinner && $index == deleteIndex" class="fa fa-cog fa-spin"></span></button></td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th class="hidden-xs"></th>
+                    <th class="hidden-xs"></th>
+                    <th class="hidden-xs"></th>
+                    <th class="hidden-xs"></th>
+                    <th class="hidden-xs">Total: {{quote.TotalAmount | currency}}</th>
+                    <th class="hidden-xs"></th>
+                    <th class="visible-xs" colspan="3">Total: {{quote.TotalAmount | currency}}</th>
+
+                </tr>
+                </tfoot>
+            </table>
+            <div>
+                <hr />
+            </div>
+        </div>
+    </div> 
+</div>

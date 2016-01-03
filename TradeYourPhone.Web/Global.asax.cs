@@ -35,7 +35,9 @@ namespace TradeYourPhone.Web
             container.RegisterType<IQuoteService, QuoteService>();
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IReportingService, ReportingService>();
+            container.RegisterType<IConfigurationService, ConfigurationService>();
 
+            container.RegisterType<IController, HomeController>("Home");
             container.RegisterType<IController, AccountController>("Account", new InjectionConstructor());
             container.RegisterType<IController, PhoneMakesController>("PhoneMakes");
             container.RegisterType<IController, PhoneModelsController>("PhoneModels");
@@ -47,6 +49,7 @@ namespace TradeYourPhone.Web
             container.RegisterType<IController, PhonesController>("Phones");
             container.RegisterType<IController, EmailController>("Email");
             container.RegisterType<IController, DashboardController>("Dashboard");
+            container.RegisterType<IController, ConfigurationController>("Configuration");
 
             var factory = new UnityControllerFactory(container);
             ControllerBuilder.Current.SetControllerFactory(factory);
@@ -54,11 +57,11 @@ namespace TradeYourPhone.Web
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
         }
 
-        protected void Application_Error(object sender, EventArgs e)
+        protected void Application_Error(object sender, EventArgs e, IEmailService emailService)
         {
             Exception exception = Server.GetLastError();
             Server.ClearError();
-            new EmailService().SendAlertEmailAndLogException("Error caught in global", exception);
+            emailService.SendAlertEmailAndLogException("Error caught in global", exception);
         }
     }
 }
