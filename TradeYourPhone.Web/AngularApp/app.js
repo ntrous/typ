@@ -18,7 +18,11 @@ var tradeYourPhoneCommon = angular.module('typ.common', []);
 
 tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {
-        var variation = cxApi.chooseVariation();
+        var variation = 0;
+        if (typeof cxApi != "undefined") {
+            variation = cxApi.chooseVariation();
+        }
+        
         $routeProvider
         .when('/', {
             templateUrl: function () {

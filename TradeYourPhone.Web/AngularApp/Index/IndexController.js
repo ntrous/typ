@@ -1,6 +1,9 @@
 ﻿tradeYourPhoneControllers.controller('IndexCtrl', function ($route, $scope, PhoneModelService, authService, $location, $cookies, $q) {
-
-    $scope.variation = cxApi.getChosenVariation();
+    $scope.variation = 0;
+    if (typeof cxApi != "undefined") {
+        $scope.variation = cxApi.getChosenVariation();
+    }
+    
     if ($scope.variation <= 0) {
         $scope.cssFile = "SiteA";
     } else {

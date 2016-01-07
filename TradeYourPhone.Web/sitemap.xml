@@ -7,10 +7,6 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>https://tradeyourphone.com.au/Home</loc>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
     <loc>https://tradeyourphone.com.au/FreeShipping</loc>
     <changefreq>daily</changefreq>
   </url>
@@ -69,5 +65,17 @@
   <url>
     <loc>https://tradeyourphone.com.au/Blog/november-top-used-android-apps</loc>
     <changefreq>daily</changefreq>
-  </url> 
+  </url>
+  <url>
+    <loc>https://tradeyourphone.com.au/blog/whats-it-like-wearing-a-smartwatch</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://tradeyourphone.com.au/blog/december-top-5-android-apps</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://tradeyourphone.com.au/blog/commbank-mobile-app-review</loc>
+    <changefreq>daily</changefreq>
+  </url>
 </urlset>

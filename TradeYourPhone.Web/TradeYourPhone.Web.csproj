@@ -488,6 +488,7 @@
     <Content Include="AngularApp\Quote\PhoneTab.html" />
     <Content Include="AngularApp\Quote\SummaryTab.html" />
     <Content Include="AngularApp\Common\tradeYourPhoneDirectives.js" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\angular-base64-upload.js" />
     <Content Include="Scripts\angular-local-storage.js" />
     <Content Include="Scripts\angular-local-storage.min.js" />
@@ -1386,7 +1387,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\Home\Main.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1404,9 +1404,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
