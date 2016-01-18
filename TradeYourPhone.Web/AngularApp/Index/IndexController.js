@@ -1,4 +1,4 @@
-﻿tradeYourPhoneControllers.controller('IndexCtrl', function ($route, $scope, PhoneModelService, authService, $location, $cookies, $q) {
+﻿tradeYourPhoneControllers.controller('IndexCtrl', function ($route, $scope, PhoneModelService, $location, $cookies, $q) {
     $scope.variation = 0;
     if (typeof cxApi != "undefined") {
         $scope.variation = cxApi.getChosenVariation();
@@ -17,16 +17,9 @@
         $route.reload();
     }
 
-    $scope.logOut = function () {
-        authService.logOut();
-        $location.path('/');
-    }
-
     $scope.toggleDropdown = function ($event) {
         $event.preventDefault();
         $event.stopPropagation();
         $scope.status.isopen = !$scope.status.isopen;
     };
-
-    $scope.authentication = authService.authentication;
 });

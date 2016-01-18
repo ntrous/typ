@@ -28,6 +28,9 @@ namespace TradeYourPhone.Test.Models
         public int PhoneStatusId { get; set; }
         public string IMEI { get; set; }
         public Nullable<decimal> SaleAmount { get; set; }
+        public string PhoneChecklist { get; set; }
+        public string PhoneNotes { get; set; }
+        public string PhoneDescription { get; set; }
     
         public virtual PhoneCondition PhoneCondition { get; set; }
         public virtual PhoneMake PhoneMake { get; set; }

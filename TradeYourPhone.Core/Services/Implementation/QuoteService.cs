@@ -558,11 +558,11 @@ namespace TradeYourPhone.Core.Services.Implementation
 
             if (!string.IsNullOrEmpty(referenceId) && referenceId.Trim().Length > 0)
             {
-                predicate = predicate.And(c => c.QuoteReferenceId.ToLower() == referenceId.ToLower());
+                predicate = predicate.And(c => c.QuoteReferenceId.ToLower().Contains(referenceId.ToLower()));
             }
             if (!string.IsNullOrEmpty(email) && email.Trim().Length > 0)
             {
-                predicate = predicate.And(c => c.Customer.Email.ToLower() == email.ToLower());
+                predicate = predicate.And(c => c.Customer.Email.ToLower().Contains(email.ToLower()));
             }
             if (!string.IsNullOrEmpty(fullName) && fullName.Trim().Length > 0)
             {

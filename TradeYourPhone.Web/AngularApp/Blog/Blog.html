@@ -4,15 +4,26 @@
     </h1>
 </div>
 <div class="row">
-    <div class="blog-post-preview col-md-10 col-md-offset-1" ng-repeat="post in blogPosts" ng-click="showBlog(post.slug)">
+    <div class="col-md-10 col-md-offset-1" ng-repeat="post in blogPosts" ng-click="showBlog(post.slug)">
         <div class="col-md-12 blog-post-preview" style="background-image: url({{post.featured_image.source}})">
-            <div class="blog-reel-content row">
+            <div class="blog-reel-content row col-md-6">
                 <div class="blog-author visible-xs"><p>{{post.date | date : 'dd'}} {{post.date | date : 'MMM'}} {{post.date | date : 'yyyy'}}</p></div>
                 <div class="blog-post-preview-title">
-                    <h2>{{post.title}}</h2>
+                    <h2><i class="fa fa-cube hidden-xs"></i>   {{post.title}}</h2>
                 </div>
                 <div class="blog-author hidden-xs"><p>Written By {{post.author.name}} on the {{post.date | date : 'dd'}} {{post.date | date : 'MMM'}} {{post.date | date : 'yyyy'}}</p></div>
                 <div class="blog-post-excerpt" ng-bind-html="post.excerpt | html"></div>
+                <div class="row centre">
+                    <div class="col-md-offset-2 col-md-2 col-xs-3 col-sm-offset-1 col-sm-2 centre">
+                        <div tweet="post.title" tweet-url="'https://tradeyourphone.com.au/blog/' + post.slug"></div>
+                    </div>
+                    <div class="col-md-4 col-xs-6 col-sm-5 centre">
+                        <div fb-like="'https://tradeyourphone.com.au/blog/' + post.slug" class="fb-social"></div>
+                    </div>
+                    <div class="col-md-2 col-xs-3 col-sm-3 centre">
+                        <div google-plus="'https://tradeyourphone.com.au/blog/' + post.slug"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

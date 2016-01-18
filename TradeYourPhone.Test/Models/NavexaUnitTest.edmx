@@ -104,6 +104,9 @@
           <Property Name="SaleAmount" Type="money" />
           <Property Name="PhoneStatusId" Type="int" Nullable="false" />
           <Property Name="IMEI" Type="varchar" MaxLength="20" />
+          <Property Name="PhoneChecklist" Type="varchar(max)" />
+          <Property Name="PhoneNotes" Type="varchar(max)" />
+          <Property Name="PhoneDescription" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="PhoneCondition">
           <Key>
@@ -719,6 +722,9 @@
           <Property Name="IMEI" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="SaleAmount" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="PhoneStatusHistories" Relationship="NavexaMobile_UnitTestModel.FK_PhoneStatusHistory_ToPhone" FromRole="Phone" ToRole="PhoneStatusHistory" />
+          <Property Name="PhoneChecklist" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="PhoneCondition">
           <Key>
@@ -1355,6 +1361,9 @@
           <EntitySetMapping Name="Phones">
             <EntityTypeMapping TypeName="NavexaMobile_UnitTestModel.Phone">
               <MappingFragment StoreEntitySet="Phone">
+                <ScalarProperty Name="PhoneDescription" ColumnName="PhoneDescription" />
+                <ScalarProperty Name="PhoneNotes" ColumnName="PhoneNotes" />
+                <ScalarProperty Name="PhoneChecklist" ColumnName="PhoneChecklist" />
                 <ScalarProperty Name="SaleAmount" ColumnName="SaleAmount" />
                 <ScalarProperty Name="IMEI" ColumnName="IMEI" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

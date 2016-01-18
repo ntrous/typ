@@ -600,6 +600,9 @@ namespace TradeYourPhone.Test
             Phone phone = quote.Phones.First();
             phone.PurchaseAmount = 10000;
             phone.PhoneConditionId = 2;
+            phone.PhoneChecklist = "The checklist will go here!";
+            phone.PhoneNotes = "The notes of the phone go here!";
+            phone.PhoneDescription = "The phone description";
 
             Assert.IsNotNull(quoteService.ModifyQuote(quote, User.SystemUser.Value));
             Quote modifiedQuote = quoteService.GetQuoteById(2);
@@ -611,6 +614,9 @@ namespace TradeYourPhone.Test
             Assert.AreEqual("This is a test note!", modifiedQuote.Notes);
             Assert.AreEqual(10000, modifiedQuote.Phones.First().PurchaseAmount);
             Assert.AreEqual(2, modifiedQuote.Phones.First().PhoneConditionId);
+            Assert.AreEqual("The checklist will go here!", modifiedQuote.Phones.First().PhoneChecklist);
+            Assert.AreEqual("The notes of the phone go here!", modifiedQuote.Phones.First().PhoneNotes);
+            Assert.AreEqual("The phone description", modifiedQuote.Phones.First().PhoneDescription);
         }
 
         [TestMethod]
@@ -639,6 +645,14 @@ namespace TradeYourPhone.Test
         public void SearchQuotesTestByReferenceId()
         {
             List<Quote> quotes = quoteService.SearchQuotes("asd", null, null, 0);
+            Assert.AreEqual(1, quotes.Count);
+            Assert.AreEqual("Jack", quotes[0].Customer.FirstName);
+        }
+
+        [TestMethod]
+        public void SearchQuotesTestByPartialReferenceId()
+        {
+            List<Quote> quotes = quoteService.SearchQuotes("as", null, null, 0);
             Assert.AreEqual(1, quotes.Count);
             Assert.AreEqual("Jack", quotes[0].Customer.FirstName);
         }

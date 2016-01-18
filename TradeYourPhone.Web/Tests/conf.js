@@ -1,7 +1,7 @@
 ﻿
 exports.config = {
     seleniumAddress: "http://localhost:4444/wd/hub",
-    baseUrl: "http://localhost:53130",
+    baseUrl: "http://typtest.azurewebsites.net",
     // ----- What tests to run -----
     specs: [
         "e2e/Quotes/*.js",

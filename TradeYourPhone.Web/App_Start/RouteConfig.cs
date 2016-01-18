@@ -10,9 +10,9 @@ namespace TradeYourPhone.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "SiteB",
-                url: "Main",
-                defaults: new { controller = "Home", action = "Main", id = UrlParameter.Optional }
+                name: "AdminSite",
+                url: "Admin/{*page}",
+                defaults: new { controller = "Admin", action = "Index", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

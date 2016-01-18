@@ -27,7 +27,6 @@
     <meta name="description" ng-attr-content={{description}} />
     <meta name="fragment" content="!">
     @Styles.Render("~/bundles/css")
-    @Styles.Render("~/bundles/adminCss")
     @Scripts.Render("~/bundles/modernizr")
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
     <link href="~/Content/font-awesome.min.css" type="text/css" rel="stylesheet" />
@@ -63,7 +62,7 @@
                 <div class="container-fluid">
                     <span class="col-md-10 col-md-offset-1">
                         <span class="col-md-6 pull-left"><a href="/FreeShipping"><i class="fa fa-truck"></i>Free Shipping</a>   <a href="/PriceGuarantee"><i class="fa fa-usd"></i>Best Price</a></span>
-                        <span ng-show="!authentication.isAuth" class="col-md-6" ng-cloak>
+                        <span class="col-md-6" ng-cloak>
                             <a class="pull-right" target="_blank" href="https://plus.google.com/b/100980338413352678809/100980338413352678809/about/p/pub">
                                 <i class="fa fa-google-plus"></i>
                             </a>
@@ -75,14 +74,6 @@
                             </a>
                             <a class="pull-right" href="mailto:support@tradeyourphone.com.au" target="_blank">
                                 <i class="fa fa-envelope"></i>
-                            </a>
-                        </span>
-                        <span ng-show="authentication.isAuth" ng-cloak>
-                            <a class="pull-right" href="#" ng-click="logOut()">
-                                <i>Logout</i>
-                            </a>
-                            <a class="pull-right" href="#">
-                                <i>Welcome {{authentication.userName | capitalize}}</i>
                             </a>
                         </span>
                     </span>
@@ -111,29 +102,12 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="typ-navigation">
-                    <ul ng-if="!authentication.isAuth" class="nav navbar-nav">
+                    <ul class="nav navbar-nav">
                         <li ng-class="{active:isActive('/')}"><a href="/" data-toggle="collapse" data-target=".navbar-collapse.in">Home</a></li>
                         <li ng-class="{active:isActive('/WhatWeDo')}"><a href="/WhatWeDo" data-toggle="collapse" data-target=".navbar-collapse.in">What We Do</a></li>
                         <li ng-class="{active:isActive('/Support')}"><a href="/Support" data-toggle="collapse" data-target=".navbar-collapse.in">Support</a></li>
                         <li ng-class="{active:isActive('/Contact')}"><a href="/Contact" data-toggle="collapse" data-target=".navbar-collapse.in">Contact</a></li>
                         <li ng-class="{active:isActive('/Blog')}"><a href="/Blog" data-toggle="collapse" data-target=".navbar-collapse.in">Blog</a></li>
-                    </ul>
-                    <ul ng-if="authentication.isAuth" class="nav navbar-nav" ng-cloak>
-                        <li><a href="/Admin/Dashboard">Dashboard</a></li>
-                        <li><a href="/Admin/Quotes">Quotes</a></li>
-                        <li><a href="/Admin/Phones">Phones</a></li>
-                        <li class="dropdown" ng-cloak>
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                Admin
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/Admin/PhoneModels">Phone Models</a></li>
-                                <li><a href="/Admin/PhoneMakes">Phone Makes</a></li>
-                                <li><a href="/Admin/CacheManager">Cache Manager</a></li>
-                                <li><a href="/Admin/Configuration">Config Data</a></li>
-                            </ul>
-                        </li>
                     </ul>
                 </div>
 

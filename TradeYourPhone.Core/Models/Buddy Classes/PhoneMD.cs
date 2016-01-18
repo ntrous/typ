@@ -22,7 +22,10 @@ namespace TradeYourPhone.Core.Models
             PhoneConditionId = phoneDTO.PhoneConditionId;
             IMEI = phoneDTO.IMEI;
             PurchaseAmount = Convert.ToDecimal(phoneDTO.PurchaseAmount);
-            if(!string.IsNullOrEmpty(phoneDTO.SaleAmount))
+            PhoneChecklist = phoneDTO.PhoneChecklist;
+            PhoneNotes = phoneDTO.PhoneNotes;
+            PhoneDescription = phoneDTO.PhoneDescription;
+            if (!string.IsNullOrEmpty(phoneDTO.SaleAmount))
             {
                 SaleAmount = Convert.ToDecimal(phoneDTO.SaleAmount);
             }

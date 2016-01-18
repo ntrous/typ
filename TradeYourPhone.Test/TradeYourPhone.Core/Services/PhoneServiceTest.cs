@@ -368,11 +368,17 @@ namespace TradeYourPhone.Test
             Phone phone = phoneService.GetPhoneById(8);
             phone.PhoneMakeId = 1;
             phone.PhoneModelId = 4;
+            phone.PhoneDescription = "A phone description!";
+            phone.PhoneNotes = "Phone notes!";
+            phone.PhoneChecklist = "Phone checklist!";
 
-            Assert.IsNotNull(phoneService.ModifyPhone(phone, User.SystemUser.Value));
-            Phone modifiedPhone = phoneService.GetPhoneById(8);
+            var modifiedPhone = phoneService.ModifyPhone(phone, User.SystemUser.Value);
+            Assert.IsNotNull(modifiedPhone);
             Assert.AreEqual(1, modifiedPhone.PhoneMakeId);
             Assert.AreEqual(4, modifiedPhone.PhoneModelId);
+            Assert.AreEqual("A phone description!", modifiedPhone.PhoneDescription);
+            Assert.AreEqual("Phone notes!", modifiedPhone.PhoneNotes);
+            Assert.AreEqual("Phone checklist!", modifiedPhone.PhoneChecklist);
         }
 
         [TestMethod]

@@ -22,6 +22,9 @@ namespace TradeYourPhone.Core.DTO
         public string IMEI { get; set; }
         public string SaleAmount { get; set; }
         public string PurchaseAmount { get; set; }
+        public string PhoneChecklist { get; set; }
+        public string PhoneNotes { get; set; }
+        public string PhoneDescription { get; set; }
         public List<PhoneStatusHistoryDTO> PhoneStatusHistories { get; set; }
 
         public void MapToDTO(Phone phone)
@@ -39,6 +42,9 @@ namespace TradeYourPhone.Core.DTO
             IMEI = phone.IMEI;
             SaleAmount = phone.SaleAmount.HasValue ? phone.SaleAmount.Value.ToString("F") : string.Empty;
             PurchaseAmount = phone.PurchaseAmount.Value.ToString("F");
+            PhoneChecklist = phone.PhoneChecklist;
+            PhoneNotes = phone.PhoneNotes;
+            PhoneDescription = phone.PhoneDescription;
 
             PhoneStatusHistories = new List<PhoneStatusHistoryDTO>();
             foreach (var statusHistory in phone.PhoneStatusHistories.OrderBy(psh => psh.StatusDate))

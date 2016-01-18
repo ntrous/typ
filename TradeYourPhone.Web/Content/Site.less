@@ -1,6 +1,101 @@
 ﻿//////////////////////         TRADE YOUR PHONE CSS       //////////////////////
 
 
+// boxed
+
+.boxed {
+     padding: 10px;
+     margin: 0;
+
+      @media screen and (max-width: 1000px) {
+            h3 {
+            margin-top: 10px;
+            margin-bottom: 10px;
+           }  
+       }
+}
+
+.typStickerMini {
+    height: 130%;
+    width: 130%;
+}
+
+.typ-box {
+        
+    .fa {
+        color: rgba(74, 177, 108, 0.91);
+    }
+
+    h1 {
+        margin: 4px;
+        padding: 5px;
+        text-align: center;
+    }
+    p, h2 {
+        text-align: center;
+    }
+
+    .fa {
+        font-size: 18px;
+        margin-right: 6px;
+    }
+
+    a {
+        color: #333;
+    }
+
+    a:hover {
+        color: rgba(74, 177, 108, 0.91);
+    }
+    background: rgba(74, 177, 108, 0.91);
+        color: #fff;
+        padding: 2px;
+         margin: 0!important;
+
+    @media screen and (max-width: 1199px) {
+        
+       h1 {
+           font-size: 18px;
+           
+          
+        }
+    }
+
+}
+
+.process-box {
+     padding: 0!important; 
+    .info-box {
+          > div {
+              padding: 0; 
+          }
+        h3 {
+            font-size: 18px;
+            margin-top: 5px!important;
+        }
+
+        > .arrow {
+       
+        h3 {
+            font-size: 35px!important;
+            padding: 20px!important;
+        } 
+    }
+    }
+
+    
+
+     @media screen and (max-width: 1000px) {  
+             margin: 5px 0;
+        .middle {
+                padding: 0 10px!important;
+        }
+        h3 {
+            font-size: 15px!important;
+        }
+    }
+}
+
 //////////////////////          GENERAL                //////////////////////
 
 html,
@@ -353,9 +448,10 @@ h4.brand-title {
     color: rgba(74, 177, 108, 0.91);
     border-bottom: none;
     font-size: 28px !important;
+    font-family: 'Roboto Slab', serif !important;
 
     @media screen and (max-width: 480px) {
-        font-size: 26px !important;
+        font-size: 22px !important;
     }
 }
 
@@ -429,8 +525,8 @@ h4.brand-title {
         color: rgba(74, 177, 108, 0.91);
     }
 
-    @media screen and (max-width: 480px) {
-        font-size: 14px !important;
+    @media screen and (max-width: 670px) {
+        font-size: 16px !important;
     }
 }
 
@@ -685,6 +781,11 @@ h4.brand-title {
     font-size: 20px;
 }
 
+.green {  
+        color: rgba(74, 177, 108, 1);
+}
+
+
 
 //////////////////////              FOOTER                //////////////////////
 
@@ -812,8 +913,8 @@ input[type="checkbox"].input-validation-error {
 }
 
 .blog-reel-content {
-    color: #fff;
-    background: rgba(14, 13, 13, 0.59);
+    color: #333;
+    background: #fff;
     padding: 100px 60px; 
 
     h2 {
@@ -821,10 +922,10 @@ input[type="checkbox"].input-validation-error {
         font-size: 35px!important;
     }
 
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 1001px) {
         padding: 20px 20px!important; 
         color: #333;
-        background: rgba(239, 226, 226, 0.71);
+        background: rgba(251,251,251,0.81);
         font-weight: 500;
         a {
             color: #333!important;
@@ -835,7 +936,7 @@ input[type="checkbox"].input-validation-error {
 
 .blog-reel-content:hover {
     color: #333;
-    background: rgba(239, 226, 226, 0.61);
+    background: rgba(251,251,251,0.76);
     font-weight: 500;
     cursor: pointer;
     a {
@@ -1065,6 +1166,11 @@ input[type="checkbox"].input-validation-error {
 
 .share-buttons {
     padding-top: 20px;
+}
+
+.share-buttons > div {
+    display: inline;
+    padding: 5px;
 }
 
 
@@ -1339,4 +1445,9 @@ a {
 }
 body {
    padding-top: 30px;
+
+   @media screen and (max-width: 766px) { 
+       padding-top: 0;
+   }
+
 }

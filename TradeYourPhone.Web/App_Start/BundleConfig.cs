@@ -82,7 +82,7 @@ namespace TradeYourPhone.Web
             bundles.Add(angularUIBootstrapBundle);
 
             var angularModulesBundle = new ScriptBundle("~/bundles/angularModules");
-            angularModulesBundle.Include("~/Scripts/Libraries/Angulartics/angulartics.min.js", "~/Scripts/Libraries/Angulartics/angulartics-ga.min.js", "~/Scripts/Libraries/Angular/angular-mocks.js", "~/Scripts/angular-local-storage.min.js", "~/Scripts/angular-base64-upload.js");
+            angularModulesBundle.Include("~/Scripts/Libraries/Angulartics/angulartics.min.js", "~/Scripts/Libraries/Angulartics/angulartics-ga.min.js", "~/Scripts/Libraries/Angular/angular-mocks.js", "~/Scripts/angular-local-storage.min.js", "~/Scripts/angular-base64-upload.js", "~/Scripts/angulike.js");
             angularModulesBundle.Transforms.Add(jsTransformer);
             angularModulesBundle.Orderer = nullOrderer;
             bundles.Add(angularModulesBundle);
@@ -99,6 +99,12 @@ namespace TradeYourPhone.Web
             angularApp.Transforms.Add(jsTransformer);
             angularApp.Orderer = nullOrderer;
             bundles.Add(angularApp);
+
+            var angularAdminApp = new ScriptBundle("~/bundles/angularAdminApp");
+            angularAdminApp.IncludeDirectory("~/AdminApp", "*.js", true);
+            angularAdminApp.Transforms.Add(jsTransformer);
+            angularAdminApp.Orderer = nullOrderer;
+            bundles.Add(angularAdminApp);
         }
     }
 }
