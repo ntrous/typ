@@ -19,6 +19,10 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>https://tradeyourphone.com.au/WhyTrustUs</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>https://tradeyourphone.com.au/Support</loc>
     <changefreq>daily</changefreq>
   </url>
@@ -76,6 +80,10 @@
   </url>
   <url>
     <loc>https://tradeyourphone.com.au/blog/commbank-mobile-app-review</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://tradeyourphone.com.au/blog/rumour-has-it-samsung-s7-pre-release-teasers</loc>
     <changefreq>daily</changefreq>
   </url>
 </urlset>
