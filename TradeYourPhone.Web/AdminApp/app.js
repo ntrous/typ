@@ -36,6 +36,7 @@ tradeYourPhoneAdminApp.config(['$routeProvider', '$locationProvider',
             when('/Admin/Login', {
                 templateUrl: '../AdminApp/Account/Login.html',
                 controller: 'loginController',
+                title: 'Login - Trade Your Phone',
                 caseInsensitiveMatch: true
             }).
             when('/Admin/Quotes/:reset?', {
@@ -212,6 +213,19 @@ tradeYourPhoneAdminApp.config(['$routeProvider', '$locationProvider',
         $locationProvider.html5Mode(true);
     }
 ]);
+
+tradeYourPhoneAdminApp.run(['$rootScope', '$routeParams', function ($rootScope, $routeParams) {
+    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+        if (current.hasOwnProperty('$$route')) {
+            $rootScope.title = current.$$route.title;
+            $rootScope.description = current.$$route.description;
+        }
+        else {
+            $rootScope.title = 'Trade Your Phone - Sell your old phone for cash';
+            $rootScope.description = 'Sell your mobile phone for cash today. Guaranteed best price and free shipping.';
+        }
+    });
+}]);
 
 tradeYourPhoneAdminApp.run(['authService', function (authService) {
     authService.fillAuthData();

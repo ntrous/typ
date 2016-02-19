@@ -1,4 +1,4 @@
-﻿tradeYourPhoneControllers.controller('QuoteCtrl0', function ($scope, QuoteService, PhoneModelService, $location, $cookies, $q, $anchorScroll, $analytics, $timeout, phoneModels, phoneConditions, quote) {
+﻿tradeYourPhoneControllers.controller('QuoteCtrl', function ($scope, QuoteService, PhoneModelService, $location, $cookies, $q, $anchorScroll, $analytics, $timeout, $window, phoneModels, phoneConditions, quote) {
 
     $scope.isActive = function (viewLocation) {
         return viewLocation == $location.path();
@@ -90,7 +90,6 @@
             $scope.quote.PostageMethod = currentPostageMethod;
             $scope.resetInputs();
             $scope.btnSpinner = false;
-            $scope.goToTab('Quote', 0);
         });
 
     }
@@ -101,10 +100,8 @@
             QuoteService.GetQuoteDetails($scope.quoteKey).then(function (response) {
                 if (response.Status === "OK") {
                     $scope.quote = response.QuoteDetails;
-                    $scope.tabs[0].active = true;
                     if (response.QuoteDetails.Customer) {
                         $scope.customer = response.QuoteDetails.Customer;
-                        $scope.tabs[1].disabled = false;
                     }
                     deferredPromise.resolve();
                 }
@@ -123,7 +120,10 @@
     }
 
     $scope.ResetQuote = function () {
-        $scope.goToTab('main', 0)
+        $timeout(function () {
+            $location.hash("main");
+            $anchorScroll();
+        });
         $scope.customer = { paymentType: '' };
         $scope.detailsFormSubmitted = false;
         $scope.quote = [];
@@ -131,6 +131,7 @@
         $scope.GetPaymentTypes();
         $scope.GetStates();
         $scope.status = '';
+        $scope.submittedQuoteDetails = null;
     }
 
 
@@ -146,7 +147,7 @@
 
             if ($scope.quote.Phones.length === 0) {
                 $timeout(function () {
-                    $location.hash('main');
+                    $location.hash("main");
                     $anchorScroll();
                 });
             }
@@ -177,54 +178,15 @@
         });
     }
 
-    $scope.FinaliseQuote = function (customerValue, quote) {
-        $scope.spinner = true;
-        $scope.goToTab('Quote', 2);
-        var viewModel = {
-            customer: {
-                FullName: customerValue.fullname,
-                Email: customerValue.email,
-                PhoneNumber: customerValue.mobile,
-                Address: {
-                    AddressLine1: customerValue.postageStreet,
-                    AddressLine2: customerValue.postageSuburb,
-                    PostCode: customerValue.postagePostcode,
-                    CountryId: '1', // Australia
-                    StateId: customerValue.postageState.ID
-                },
-                PaymentDetail: {
-                    BSB: customerValue.bsb,
-                    AccountNumber: customerValue.accountNum,
-                    PaypalEmail: customerValue.paypalEmail,
-                    PaymentTypeId: customerValue.paymentType.ID
-                }
-            },
-            PostageMethodId: quote.PostageMethod.Id,
-            AgreedToTerms: true
-        };
-
-        QuoteService.FinaliseQuote($scope.quoteKey, viewModel).then(function (response) {
-            if (response.Status = "OK") {
-                $scope.result = $scope.quoteKey
-                delete $cookies['tradeYourPhoneCookie'];
-                $scope.quoteKey = undefined;
-                $scope.status = response.QuoteDetails.QuoteStatus;
-                $scope.customer = { paymentType: '' };
-                $scope.spinner = false;
-                $scope.QuoteSubmitClicked();
-
-                // disable tabs so the user cannot edit previous tabs and quote
-                $scope.tabs[1].disabled = true;
-                $scope.tabs[0].disabled = true;
-            }
-        });
-    }
-
-    $scope.SaveQuote = function (form, customerValue, quote) {
+    $scope.FinaliseQuote = function (form, customerValue, quote) {   
         $scope.detailsFormSubmitted = true;
         if (form.$valid) {
+            $timeout(function () {
+                $location.hash("QuoteSubmitted");
+                $anchorScroll();
+            });
             $scope.spinner = true;
-            $scope.goToTab('Quote', 2);
+           
             var viewModel = {
                 customer: {
                     FullName: customerValue.fullname,
@@ -245,16 +207,41 @@
                     }
                 },
                 PostageMethodId: quote.PostageMethod.Id,
-                AgreedToTerms: quote.AgreedToTerms
+                AgreedToTerms: true
             };
 
-            QuoteService.SaveQuote($scope.quoteKey, viewModel).then(function (response) {
+            QuoteService.FinaliseQuote($scope.quoteKey, viewModel).then(function(response) {
                 if (response.Status = "OK") {
-
+                    $timeout(function () {
+                        $location.hash("QuoteSubmitted");
+                        $anchorScroll();
+                    });
+                    $scope.result = $scope.quoteKey;
+                    $scope.status = response.QuoteDetails.QuoteStatus;
+                    delete $cookies['tradeYourPhoneCookie'];
+                    $scope.quoteKey = undefined;               
+                    $scope.customer = { paymentType: '' };
+                    $scope.spinner = false;
+                    $scope.quote = [];
+                    $scope.QuoteSubmitClicked();
                 }
-                $scope.spinner = false;
             });
         }
+    }
+
+    $scope.GoToErrors = function() {
+        $timeout(function () {
+            $location.hash("Details");
+            $anchorScroll();
+        });
+    }
+
+    $scope.GoToAddPhone = function () {
+        $timeout(function () {
+            $location.hash("PhoneSearch");
+            $anchorScroll.yOffset = ($window.innerHeight / 3);
+            $anchorScroll();
+        });
     }
 
     $scope.setCondition = function (item) {
@@ -267,20 +254,6 @@
             $scope.GetPhoneOffer(item.Id, $scope.condition.id);
         }
 
-    }
-
-    $scope.goToTab = function (location, tab) {
-        if (!$scope.tabs[tab].active) {
-            $scope.tabs[tab].active = true;
-        }
-        if ($scope.tabs[tab].disabled) {
-            $scope.tabs[tab].disabled = false;
-        }
-
-        $timeout(function () {
-            $location.hash(location);
-            $anchorScroll();
-        });
     }
 
 
@@ -358,26 +331,19 @@
         $scope.condition = { id: '' };
         $scope.customer = { paymentType: '' };
 
-        $scope.tabs = [
-       { title: 'Review Your Quote', link: 'QuoteTab.html', disabled: false, active: true },
-      { title: 'Enter Your Details', link: 'DetailsTab.html', disabled: true, active: false },
-      { title: 'Review Your Summary', link: 'SummaryTab.html', disabled: true, active: false }
-        ];
-
         $q.all([
             $scope.GetPaymentTypes(),
             $scope.GetStates()
         ]).then(function () {
-            $scope.GetPostageMethods();
             $scope.quote = quote;
             if (!$scope.quote) {
                 $scope.quote = { PostageMethod: null };
             }
+
+            $scope.GetPostageMethods();
             
-            $scope.tabs[0].active = true;
             if ($scope.quote && $scope.quote.Customer) {
                 $scope.customer = quote.Customer;
-                $scope.tabs[1].disabled = false;
             }
         });
     };

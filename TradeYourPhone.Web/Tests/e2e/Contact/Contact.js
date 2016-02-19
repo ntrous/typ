@@ -51,14 +51,14 @@ describe('Contact Page', function () {
         it('Contact Details text should be correct', function () {
             expect(contactPage.facebook.getText()).toEqual('Trade Your Phone');
             expect(contactPage.email.getText()).toEqual('support@tradeyourphone.com.au');
-            expect(contactPage.phone.getText()).toEqual('0484 591 716');
+            expect(contactPage.phone.getText()).toEqual('+61 3 9028 7967');
             expect(contactPage.address.getText()).toContain('25 Wills Street');
         });
 
         it('Contact Details links should be correct', function () {
             expect(contactPage.facebook.getAttribute('href')).toEqual('http://www.facebook.com/tradeyourphoneau');
             expect(contactPage.email.getAttribute('href')).toEqual('mailto:support@tradeyourphone.com.au');
-            expect(contactPage.phone.getAttribute('href')).toEqual('tel:0484591716');
+            expect(contactPage.phone.getAttribute('href')).toEqual('tel:+61390287967');
         });
 
         it('Submit button should be disabled', function () {

@@ -1,9 +1,10 @@
 ﻿
-<div ng-class="{'spinner':spinner,'initSpinner':initSpinner}">
-    <span ng-show="spinner||initSpinner"><i class="fa fa-cog fa-spin"></i><p ng-show="initSpinner">Preparing Your Quote...</p></span>
-    <div class="quoteSection row">
-        <div class="row">
+<div>
+    <span ng-show="spinner||initSpinner"><i class="loading fa fa-cog fa-spin"></i></span>
+    <div class="quoteSection row" ng-class="{'loading-mask':spinner}">
 
+       <div class="row">
+           
             <div class="col-md-12 typ-box boxed ">
                 <h1>Sell Your Old Phones Today!</h1>
             </div>
@@ -41,33 +42,58 @@
         </div>
 
 
-        <div class="col-md-12 col-mobile" ng-show="quote.Phones.length>0" id="Quote">
+        <div class="col-md-12 col-mobile" ng-if="quote.Phones.length>0" id="Quote">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1" role="main">
+                        <h2 class="quoteHeading">
+                            Trade your phone for cash now <span class="hidden-xs">— complete your quote below</span>
+                        </h2>
+                        <div ng-include="'../AngularApp/Quote/QuoteTab.html'"></div>
+                        <div ng-include="'../AngularApp/Quote/DetailsTab.html'"></div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <hr />
+                </div>
+        </div>
+
+        <div class="col-md-12 col-mobile" ng-if="WaitingForDelivery()||RequiresSatchel()" id="QuoteSubmitted">
             <h2 class="quoteHeading">
-                Trade your phone for cash now <span class="hidden-xs">— complete your quote below</span>
+                Thank you for your Quote
             </h2>
-            <tabset class="tabset quote-tabs tabs-desk" justified="true">
-                <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
-                    <div ng-include="'../AngularApp/Quote/'+tab.link"></div>
-                </tab>
-            </tabset>
+            <div ng-include="'../AngularApp/Quote/SubmittedSummary.html'"></div>
         </div>
 
 
 
-        <div class="col-md-12 info-box col-mobile">
-            <div class="col-md-4 center">
-                <h3><i class="fa fa-cc-paypal center"></i></h3><h3>Payment Your Way</h3>
-                <p>We offer payment via PayPal and bank transfer.</p>
-            </div>
 
-            <div class="col-md-4 center">
-                <h3><i class="fa fa-envelope-o center"></i></h3><h3>Free Postage</h3>
-                <p>We provide a free tracked satchel or a free reply-paid postage address to send to.</p>
-            </div>
+        <div class="row">
+            <div class="col-md-12 info-box col-mobile">
+                <div class="col-md-4 center">
+                    <h3>
+                        <i class="fa fa-cc-paypal center"></i>
+                    </h3>
+                    <h3>Payment Your Way</h3>
+                    <p>We offer payment via PayPal and bank transfer.</p>
+                </div>
 
-            <div class="col-md-4 center">
-                <h3><i class="fa fa-clock-o center"></i></h3><h3>Prompt Payment</h3>
-                <p>We pay you within 24 hours of receiving your phone — GUARANTEED!</p>
+                <div class="col-md-4 center">
+                    <h3>
+                        <i class="fa fa-envelope-o center"></i>
+                    </h3>
+                    <h3>Free Postage</h3>
+                    <p>We provide a satchel or a free reply-paid postage address to send to.</p>
+                </div>
+
+                <div class="col-md-4 center">
+                    <h3>
+                        <i class="fa fa-clock-o center"></i>
+                    </h3>
+                    <h3>Prompt Payment</h3>
+                    <p>We pay you within 24 hours of receiving your phone — GUARANTEED!</p>
+                </div>
             </div>
         </div>
         <div class="col-md-12 info-box hidden-xs col-mobile">
@@ -96,15 +122,15 @@
 
                     <a href="https://www.facebook.com/tradeyourphoneau" target="_blank" class="col-md-2 col-xs-2 facebook"><i class="fa fa-facebook"></i></a>
                     <a href="https://twitter.com/tradeyourphone" target="_blank" class="col-md-2 col-xs-2 twitter"><i class="fa fa-twitter"></i></a>
-                   
+
                     <a href="http://www.yelp.com.au/biz/trade-your-phone-melbourne" target="_blank" class="col-md-2 col-xs-2 yelp"><i class="fa fa-yelp"></i></a>
-                    <a href="tel:0484591716" class="col-md-2 col-xs-2 phone"><i class="fa fa-phone"></i></a>
+                    <a href="tel:+61390287967" class="col-md-2 col-xs-2 phone"><i class="fa fa-phone"></i></a>
                     <a href="mailto:support@tradeyourphone.com.au" target="_blank" class="col-md-2 col-xs-2 envelope"><i class="fa fa-envelope"></i></a>
                 </div>
             </div>
             <div class="col-md-6"><h2 class="love"><a href="/CustomerReviews"><i class="fa fa-comment-o"></i>    Tell Us What You Think By Leaving Us a Review! </a></h2></div>
 
-            
+
         </div>
     </div>
 </div>

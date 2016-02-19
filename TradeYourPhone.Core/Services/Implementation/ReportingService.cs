@@ -39,8 +39,8 @@ namespace TradeYourPhone.Core.Services.Implementation
         /// <returns>Total number of finalised quotes</returns>
         public int GetTotalFinalisedQuotes(DateTime from, DateTime to)
         {
-            int total = unitOfWork.QuoteRepository.Get(q => (q.QuoteStatusId == (int)QuoteStatusEnum.RequiresSatchel || q.QuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery)
-                                                        && (q.QuoteFinalisedDate >= from && q.QuoteFinalisedDate <= to)).Count();
+            int total = unitOfWork.QuoteRepository.Get().Where(q => q.QuoteStatusHistories.Any(qsh => (qsh.QuoteStatusId == (int)QuoteStatusEnum.RequiresSatchel || qsh.QuoteStatusId == (int)QuoteStatusEnum.WaitingForDelivery) 
+                && (qsh.StatusDate >= from && qsh.StatusDate <= to))).Count();
             return total;
         }
 

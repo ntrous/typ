@@ -4,15 +4,15 @@
 // boxed
 
 .boxed {
-     padding: 10px;
-     margin: 0;
+    padding: 10px;
+    margin: 0;
 
-      @media screen and (max-width: 1000px) {
-            h3 {
+    @media screen and (max-width: 1000px) {
+        h3 {
             margin-top: 10px;
             margin-bottom: 10px;
-           }  
-       }
+        }
+    }
 }
 
 .typStickerMini {
@@ -21,7 +21,7 @@
 }
 
 .typ-box {
-        
+
     .fa {
         color: rgba(74, 177, 108, 0.91);
     }
@@ -31,6 +31,7 @@
         padding: 5px;
         text-align: center;
     }
+
     p, h2 {
         text-align: center;
     }
@@ -47,51 +48,53 @@
     a:hover {
         color: rgba(74, 177, 108, 0.91);
     }
+
     background: rgba(74, 177, 108, 0.91);
-        color: #fff;
-        padding: 2px;
-         margin: 0!important;
+    color: #fff;
+    padding: 2px;
+    margin: 0 !important;
 
     @media screen and (max-width: 1199px) {
-        
-       h1 {
-           font-size: 18px;
-           
-          
+
+        h1 {
+            font-size: 18px;
         }
     }
-
 }
 
 .process-box {
-     padding: 0!important; 
+    padding: 0 !important;
+
     .info-box {
-          > div {
-              padding: 0; 
-          }
+        > div {
+            padding: 0;
+        }
+
         h3 {
             font-size: 18px;
-            margin-top: 5px!important;
+            margin-top: 5px !important;
         }
 
         > .arrow {
-       
-        h3 {
-            font-size: 35px!important;
-            padding: 20px!important;
-        } 
-    }
-    }
 
-    
-
-     @media screen and (max-width: 1000px) {  
-             margin: 5px 0;
-        .middle {
-                padding: 0 10px!important;
+            h3 {
+                font-size: 35px !important;
+                padding: 20px !important;
+            }
         }
+    }
+
+
+
+    @media screen and (max-width: 1000px) {
+        margin: 5px 0;
+
+        .middle {
+            padding: 0 10px !important;
+        }
+
         h3 {
-            font-size: 15px!important;
+            font-size: 15px !important;
         }
     }
 }
@@ -110,6 +113,10 @@ body {
 
 .title img {
     height: 80px;
+}
+
+.underline {
+    text-decoration: underline;
 }
 
 #main {
@@ -429,7 +436,24 @@ h4.brand-title {
 
     .phoneSelectionOverlay {
         background: rgba(62, 56, 56, 0.68);
-        padding: 40px;
+        padding: 40px 40px 40px 40px;
+        border: 2px solid #fff;
+
+        .shoppingCart {
+            h3 {
+                margin-top: 10px;
+                margin-bottom: 10px;
+
+                @media screen and (max-width: 480px) {
+                    padding-right: 10px;
+                }
+            }
+        }
+    }
+
+    .hasPhones {
+        padding-top: 0 !important;
+        margin-top: 0px;
     }
 
     .mainheading {
@@ -487,7 +511,7 @@ h4.brand-title {
     font-weight: bold !important;
     margin: 15px 0;
     width: 100%;
-    font-size: 17px!important;
+    font-size: 17px !important;
 }
 
 .sell-btn {
@@ -495,14 +519,14 @@ h4.brand-title {
     color: #ffffff !important;
     font-weight: bold !important;
     width: 100%;
-    font-size: 17px!important;
+    font-size: 17px !important;
 }
 
 .back-btn {
     font-weight: bold !important;
     margin: 15px 0;
     width: 100%;
-    font-size: 17px!important;
+    font-size: 17px !important;
 }
 
 .next-btn:hover {
@@ -628,6 +652,175 @@ h4.brand-title {
     }
 }
 
+.loading-mask {
+    opacity: 0.2;
+}
+
+// quote Nav
+
+.quote-nav {
+    margin-top: 20px;
+    position: absolute;
+
+    ul {
+        list-style: none;
+        position: page;
+    }
+
+    li {
+        padding: 8px 3px;
+    }
+}
+
+.selectPhone {
+    margin: 20px;
+    padding: 20px;
+}
+
+.phoneHeading {
+    padding: 25px 0 5px 15px;
+
+    h3 {
+        font-size: 22px !important;
+
+        > span.glyphicon {
+            color: rgba(74, 177, 108, 0.91) !important;
+            font-size: 22px;
+        }
+    }
+}
+
+.postageSection {
+    button {
+        padding: 7px;
+        font-weight: 600;
+    }
+
+    .active {
+        background-color: rgba(74, 177, 108, 0.91) !important;
+        color: #fff !important;
+    }
+
+    h4 {
+        font-size: 16px !important;
+        padding-top: 10px;
+        text-align: center;
+    }
+}
+
+.phoneSection {
+    //margin: 20px;
+    input {
+        //padding: 20px;
+        height: 45px;
+    }
+
+    @media screen and (max-width: 480px) {
+
+        input {
+            height: 35px;
+            //padding: 3px;
+            font-size: 11px;
+        }
+
+        margin: 0px;
+    }
+
+    button {
+        padding: 7px;
+        font-weight: 600;
+    }
+
+    .active {
+        background-color: rgba(74, 177, 108, 0.91) !important;
+        color: #fff !important;
+    }
+
+    h2 {
+        color: rgb(94, 239, 142);
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    h3 > span.glyphicon {
+        color: rgba(74, 177, 108, 0.91) !important;
+        font-size: 22px;
+    }
+
+    .input-group-addon {
+        background-color: rgba(74, 177, 108, 0.91);
+        color: #fff;
+    }
+
+    li > i {
+        color: rgba(74, 177, 108, 0.91) !important;
+    }
+
+    .dropdown-menu {
+        overflow: scroll;
+        max-height: 400px;
+    }
+
+    .dropdown-menu > li > a {
+        padding: 12px 40px !important;
+        width: 100%;
+
+        @media screen and (max-width: 480px) {
+            padding: 12px 20px !important;
+        }
+    }
+
+    > .btn-group {
+        padding: 15px 15px 0 15px;
+    }
+}
+
+.help-block {
+    a {
+        color: #a94442;
+    }
+}
+
+.postageOptionsText {
+    display: inline-block;
+    padding: 5px 0 0 0;
+    color: #333333;
+    text-align: center;
+    //background-color: rgba(47,79,79, 0.2);
+    //  margin-top: 15px;
+}
+
+.summarySection {
+    p {
+        padding-left: 25px;
+        color: #555;
+    }
+
+    div {
+        padding: 5px 20px 5px 0;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+}
+
+
+.fixErrors {
+    cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+
+    body {
+        padding-top: 30px;
+    }
+}
+
 // DETAILS SECTION
 
 .details-text {
@@ -668,13 +861,13 @@ h4.brand-title {
 }
 
 .tc {
-     font-size: 13px;
-     text-align: center;
-     color: #999;
-     a {
-        color: #81A5C5;
-     }
+    font-size: 13px;
+    text-align: center;
+    color: #999;
 
+    a {
+        color: #81A5C5;
+    }
 }
 
 
@@ -781,8 +974,8 @@ h4.brand-title {
     font-size: 20px;
 }
 
-.green {  
-        color: rgba(74, 177, 108, 1);
+.green {
+    color: rgba(74, 177, 108, 1);
 }
 
 
@@ -867,6 +1060,7 @@ input[type="checkbox"].input-validation-error {
 
     .col-phone-mobile {
         padding: 15px !important;
+        padding-top: 0px !important;
     }
 }
 
@@ -897,10 +1091,10 @@ input[type="checkbox"].input-validation-error {
 
 .blog-heading {
     font-size: 35px;
-    margin-bottom: 20px!important;
+    margin-bottom: 20px !important;
 
     @media screen and (max-width: 480px) {
-        padding: 10px 0!important;
+        padding: 10px 0 !important;
     }
 }
 
@@ -915,20 +1109,21 @@ input[type="checkbox"].input-validation-error {
 .blog-reel-content {
     color: #333;
     background: #fff;
-    padding: 100px 60px; 
+    padding: 100px 60px;
 
     h2 {
-        padding-bottom: 0!important;
-        font-size: 35px!important;
+        padding-bottom: 0 !important;
+        font-size: 35px !important;
     }
 
     @media screen and (max-width: 1001px) {
-        padding: 20px 20px!important; 
+        padding: 20px 20px !important;
         color: #333;
         background: rgba(251,251,251,0.81);
         font-weight: 500;
+
         a {
-            color: #333!important;
+            color: #333 !important;
             font-weight: 700;
         }
     }
@@ -939,11 +1134,12 @@ input[type="checkbox"].input-validation-error {
     background: rgba(251,251,251,0.76);
     font-weight: 500;
     cursor: pointer;
+
     a {
-        color: #333!important;
+        color: #333 !important;
         font-weight: 700;
-        }
     }
+}
 
 .blog-author {
     padding: 0;
@@ -969,18 +1165,18 @@ input[type="checkbox"].input-validation-error {
 
         a {
             color: #fff;
-            font-family: 'Noto Serif', serif !important;  
+            font-family: 'Noto Serif', serif !important;
         }
     }
 
     @media screen and (max-width: 480px) {
-         h2 > a {
+        h2 > a {
             font-size: 28px;
             line-height: 10px;
         }
-          
+
         .col-mobile .blog-post-excerpt p {
-            font-size: 14px!important;
+            font-size: 14px !important;
         }
     }
 }
@@ -992,17 +1188,17 @@ input[type="checkbox"].input-validation-error {
 }
 
 .blog-post-date {
-    font-size: 23px!important;
+    font-size: 23px !important;
 }
 
 .blog-post-title {
-   background: rgba(14, 13, 13, 0.43);
-   padding: 100px 60px; 
-   color: #fff;
+    background: rgba(14, 13, 13, 0.43);
+    padding: 100px 60px;
+    color: #fff;
 
     h1 {
-        padding-bottom: 0!important;
-        font-size: 35px!important;
+        padding-bottom: 0 !important;
+        font-size: 35px !important;
     }
 
     hr {
@@ -1016,7 +1212,7 @@ input[type="checkbox"].input-validation-error {
     @media screen and (max-width: 770px) {
         color: rgba(74, 177, 108, 0.91);
         background-color: white;
-        padding: 0!important;
+        padding: 0 !important;
 
         h1 {
             font-size: 18px;
@@ -1026,13 +1222,13 @@ input[type="checkbox"].input-validation-error {
         hr {
             color: rgba(74, 177, 108, 0.91);
             display: block;
-            margin: 0!important
+            margin: 0 !important;
         }
-
     }
 
     @media screen and (max-width: 480px) {
-         padding: 0!important;
+        padding: 0 !important;
+
         h1 {
             font-size: 17px;
             padding: 0px;
@@ -1045,10 +1241,10 @@ input[type="checkbox"].input-validation-error {
 }
 
 .blog-post-feature-image {
-  background-position: center;
-  background-size: cover;
+    background-position: center;
+    background-size: cover;
     width: 100%;
-  background-repeat: no-repeat;
+    background-repeat: no-repeat;
 }
 
 .blog-post-content {
@@ -1072,7 +1268,7 @@ input[type="checkbox"].input-validation-error {
 
 @media screen and (max-width: 770px) {
     .blog-post-content p {
-        font-size: 15px!important;
+        font-size: 15px !important;
     }
 }
 
@@ -1151,18 +1347,18 @@ input[type="checkbox"].input-validation-error {
     margin-right: auto;
 }
 
- @media screen and (min-width: 1380px) {
-        .blog-sell-btn {
-            width: 100%;
-        }
+@media screen and (min-width: 1380px) {
+    .blog-sell-btn {
+        width: 100%;
     }
+}
 
- .blog-sell-btn {
-      background-color: rgba(20, 125, 222, 0.83) !important;
+.blog-sell-btn {
+    background-color: rgba(20, 125, 222, 0.83) !important;
     color: #ffffff !important;
     font-weight: bold !important;
-    font-size: 17px!important;
- }
+    font-size: 17px !important;
+}
 
 .share-buttons {
     padding-top: 20px;
@@ -1443,11 +1639,54 @@ a {
         opacity: 0.8;
     }
 }
+
+
+
+.reviewsText {
+    font-style: italic;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.8 !important;
+
+    i {
+        color: rgba(74, 177, 108, 0.91);
+        font-size: 16px;
+    }
+}
+
+.reviewAuthor {
+    margin-top: 20px !important;
+    font-size: 13px;
+}
+
+.reviewsHeading {
+    color: rgba(74, 177, 108, 0.91);
+    padding: 0 20px 0 0;
+    margin: 0!important;
+    // font-weight: 600;
+    font-size: 24px;
+}
+
+.review-blurb {
+    margin: 20px 0;
+}
+
+.addPhone {
+    cursor: pointer;
+}
+
+.trust-text p, .trust-text li {
+    line-height: 29px!important;
+}
+
+
+
+
+
 body {
-   padding-top: 30px;
+    padding-top: 30px;
 
-   @media screen and (max-width: 766px) { 
-       padding-top: 0;
-   }
-
+    @media screen and (max-width: 766px) {
+        padding-top: 0;
+    }
 }

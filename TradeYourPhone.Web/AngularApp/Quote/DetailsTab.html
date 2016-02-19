@@ -1,15 +1,19 @@
-﻿<form name="details" novalidate>
-    <div class="visible-xs">
-        <h3 class="centre">Enter Your Details</h3>
-        <hr />
+﻿
+<form name="details" novalidate>
+    <div class="col-md-12 col-mobile phoneHeading">
+        <h3>
+            <span class="glyphicon glyphicon-user"></span> Enter Your Details
+        </h3>
     </div>
-        <div class="row tab-padding">
-            <p class="details-text">
-                <b>Congratulations! </b> <br class="visible-xs" /><br class="visible-xs" />
-                You are almost ready to trade your phone. <br /><br class="visible-xs"/>
-                To sell your phone we need a few details from you, like who you are, your address for ID purposes and your payment info so we can pay you for your phone.
-            </p>
-            <div class="col-md-4 col-mobile details">
+    <div class="row" id="Details">
+        <div class="col-md-12 col-mobile">
+            <div ng-class="{'has-error':detailsFormSubmitted && details.postcode.$invalid}">
+                <p class="help-block details-text" ng-show="detailsFormSubmitted && details.$invalid">
+                    <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Please fix validation errors below
+                </p>
+            </div>
+            <p class="details-text">To sell your phone we need a few details from you, like who you are, your address for ID purposes and your payment info so we can pay you for your phone.</p>
+            <div class="col-md-4 details">
                 <h3>Personal Details</h3>
 
                 <div class="form-group"
@@ -22,12 +26,12 @@
                            ng-blur="fireFieldEvent('fullName')"
                            name="fullName"
                            class="form-control"
-                           placeholder="FirstName LastName"
+                           placeholder="First & Last Name"
                            required />
 
                     <p class="help-block"
                        ng-show="detailsFormSubmitted && details.fullName.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i>  Your full name is required
+                        <i class="glyphicon glyphicon-remove-circle"></i> Your full name is required
                     </p>
                 </div>
                 <div class="form-group"
@@ -44,10 +48,10 @@
                            required />
 
                     <p class="help-block" ng-show="detailsFormSubmitted && details.email.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i>  Email is required
+                        <i class="glyphicon glyphicon-remove-circle"></i> Email is required
                     </p>
                     <p class="help-block" ng-show="detailsFormSubmitted && details.email.$error.email && !details.email.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i>  Please enter a valid email
+                        <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid email
                     </p>
                 </div>
 
@@ -68,7 +72,7 @@
                            required />
 
                     <p class="help-block" ng-show="detailsFormSubmitted && details.mobile.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i>  Mobile is required
+                        <i class="glyphicon glyphicon-remove-circle"></i> Mobile is required
                     </p>
 
                     <p class="help-block" ng-show="detailsFormSubmitted && details.mobile.$invalid && !details.mobile.$error.required">
@@ -77,7 +81,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 col-mobile details">
+            <div class="col-md-4 details">
                 <h3>Personal Address Details</h3>
 
                 <div class="form-group"
@@ -94,7 +98,7 @@
                            required />
 
                     <p class="help-block" ng-show="detailsFormSubmitted && details.street.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i>  Street is required
+                        <i class="glyphicon glyphicon-remove-circle"></i> Street is required
                     </p>
                 </div>
 
@@ -111,7 +115,7 @@
                            placeholder="Melbourne"
                            required />
                     <p class="help-block" ng-show="detailsFormSubmitted && details.suburb.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i>  Suburb is required
+                        <i class="glyphicon glyphicon-remove-circle"></i> Suburb is required
                     </p>
                 </div>
                 <div class="row">
@@ -128,7 +132,7 @@
                                 required></select>
 
                         <p class="help-block" ng-show="detailsFormSubmitted && details.state.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle"></i>  State is required
+                            <i class="glyphicon glyphicon-remove-circle"></i> State is required
                         </p>
                     </div>
 
@@ -149,21 +153,21 @@
                                required />
 
                         <p class="help-block" ng-show="detailsFormSubmitted && details.postcode.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle"></i>  Postcode is required
+                            <i class="glyphicon glyphicon-remove-circle"></i> Postcode is required
                         </p>
                         <p class="help-block" ng-show="detailsFormSubmitted && details.postcode.$invalid && !details.postcode.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle"></i>  Please enter a valid postcode
+                            <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid postcode
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4 col-mobile details">
+            <div class="col-md-4 details">
                 <h3>Payment Details</h3>
 
                 <div class="form-group"
                      ng-class="{'has-error':detailsFormSubmitted && details.paymentType.$invalid}">
-                    
+
                     <label for="paymentType">Payment Type</label>
                     <select ng-model="customer.paymentType"
                             ng-blur="fireFieldEvent('paymentType')"
@@ -174,7 +178,7 @@
                             required></select>
 
                     <p class="help-block" ng-show="detailsFormSubmitted && details.paymentType.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i>  Payment type is required
+                        <i class="glyphicon glyphicon-remove-circle"></i> Payment type is required
                     </p>
 
                 </div>
@@ -196,10 +200,10 @@
                                required />
 
                         <p class="help-block" ng-show="detailsFormSubmitted && details.bsb.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle"></i>  BSB is required
+                            <i class="glyphicon glyphicon-remove-circle"></i> BSB is required
                         </p>
                         <p class="help-block" ng-show="detailsFormSubmitted && details.bsb.$invalid && !details.bsb.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle"></i>  Please enter a valid BSB
+                            <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid BSB
                         </p>
                     </div>
 
@@ -219,85 +223,150 @@
                                required />
 
                         <p class="help-block" ng-show="detailsFormSubmitted && details.acctNum.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i>  Account number is required
+                            <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Account number is required
                         </p>
                         <p class="help-block" ng-show="detailsFormSubmitted && details.acctNum.$invalid && !details.acctNum.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i>  Please enter a valid Account Number
+                            <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Please enter a valid Account Number
                         </p>
                     </div>
                 </div>
 
-                    <div class="form-group"
-                         ng-if="DisplayPaypal()"
-                         ng-class="{'has-error':detailsFormSubmitted && details.paypal.$invalid}">
+                <div class="form-group"
+                     ng-if="DisplayPaypal()"
+                     ng-class="{'has-error':detailsFormSubmitted && details.paypal.$invalid}">
 
-                        <label for="paypalEmail">Paypal Email</label>
-                        <input type="email"
-                               id="paypalEmail"
-                               ng-readonly="customer.paypalSameAsPersonal == true"
-                               ng-model="customer.paypalEmail"
-                               ng-blur="fireFieldEvent('paypalEmail')"
-                               name="paypal"
-                               class="form-control"
-                               placeholder="example@gmail.com"
-                               required />
+                    <label for="paypalEmail">Paypal Email</label>
+                    <input type="email"
+                           id="paypalEmail"
+                           ng-readonly="customer.paypalSameAsPersonal == true"
+                           ng-model="customer.paypalEmail"
+                           ng-blur="fireFieldEvent('paypalEmail')"
+                           name="paypal"
+                           class="form-control"
+                           placeholder="example@gmail.com"
+                           required />
 
-                        <input type="checkbox"
-                               id="sameAsEmail"
-                               name="sameAsPersonal"
-                               ng-model="customer.paypalSameAsPersonal"
-                               ng-click="updatePaypalEmail($event)"
-                               value="true">Same as personal email
+                    <input type="checkbox"
+                           id="sameAsEmail"
+                           name="sameAsPersonal"
+                           ng-model="customer.paypalSameAsPersonal"
+                           ng-click="updatePaypalEmail($event)"
+                           value="true">Same as personal email
 
-                        <p class="help-block" ng-show="detailsFormSubmitted && details.paypal.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i>  Paypal Email is required
-                        </p>
-                        <p class="help-block" ng-show="detailsFormSubmitted && details.paypal.$error.email">
-                            <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i>  Please enter a valid email
-                        </p>
-                    </div>
-
-                    <h3>Postage Options</h3>
-                    <div class="form-group">
-                        <div class="btn-group btn-radio">
-                            <button class="btn btn-default postage-btn"
-                                    type="button"
-                                    ng-repeat="postageMethod in postageMethods"
-                                    ng-model="quote.PostageMethod"
-                                    btn-radio="postageMethod"
-                                    ng-required="!quote.PostageMethodId">
-                                {{postageMethod.PostageMethodName}}
-                            </button>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <p class="postageOptionsText" ng-if="quote.PostageMethod.Description">{{quote.PostageMethod.Description}}</p>
-                    </div>
-                </div>
-            <div class="row">
-                <div class="col-md-3 col-md-offset-6 col-md-push-3" ng-class="{'has-error':detailsFormSubmitted && details.$invalid}">
-                    <button class="btn btn-default next-btn"
-                            type="submit" ng-click="SaveQuote(details,customer, quote)"
-                            analytics-on="click"
-                            analytics-category="QuoteProcess"
-                            analytics-event="GoToSummaryBtnClick">
-                        Go To Summary  <span class="glyphicon glyphicon-chevron-right btn-glyphicon"></span>
-                    </button>
-                    <p class="help-block centre" ng-show="detailsFormSubmitted && details.$invalid">
-                        <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i>  Please fix validation errors
+                    <p class="help-block" ng-show="detailsFormSubmitted && details.paypal.$error.required">
+                        <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Paypal Email is required
                     </p>
-                </div>
-                <div class="col-md-3 col-md-pull-9">
-                    <button class="btn btn-default back-btn"
-                            type="button" ng-click="goToTab('Quote', 0)"
-                            analytics-on="click"
-                            analytics-category="QuoteProcess"
-                            analytics-event="GoBackToReviewBtnClick">
-                        <span class="glyphicon glyphicon-chevron-left btn-glyphicon"></span>   Go Back
-                    </button>
+                    <p class="help-block" ng-show="detailsFormSubmitted && details.paypal.$error.email">
+                        <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Please enter a valid email
+                    </p>
                 </div>
             </div>
         </div>
+        <div class="col-md-12">
+            <hr />
+        </div>
+    </div>
+
+    <div class="col-md-12 col-mobile phoneHeading" id="postageType">
+        <h3>
+            <span class="glyphicon glyphicon-envelope"></span> Choose Your Postage Type
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+
+            <div class="form-group postageSection">
+                <div class="btn-group btn-radio">
+                    <button class="btn btn-default postage-btn"
+                            type="button"
+                            ng-repeat="postageMethod in postageMethods"
+                            ng-model="quote.PostageMethod"
+                            btn-radio="postageMethod"
+                            ng-required="!quote.PostageMethodId">
+                        {{postageMethod.PostageMethodName}}
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group postageSection">
+                <h4 ng-if="quote.PostageMethod.Description">The '{{quote.PostageMethod.PostageMethodName}}' Option</h4>
+                <p class="postageOptionsText" ng-if="quote.PostageMethod.Description">{{quote.PostageMethod.Description}}</p>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <hr />
+        </div>
+    </div>
+
+    <div id="quoteSummary">
+        <div class="col-md-12 col-mobile phoneHeading">
+            <h3>
+                <span class="glyphicon glyphicon-check"></span> Your Quote Summary
+            </h3>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>Once you have reviewed your quote click the Submit button at the bottom to finalise your quote</p>
+            </div>
+            <div class="col-md-12">
+                <h3 ng-click="GoToAddPhone()" class="addPhone"><span class="glyphicon glyphicon-plus"></span>    Add Another Phone </h3>
+            </div>
+
+            <div class="col-md-12 summarySection">
+                <div ng-if="DisplayBankTransfer()">
+                    <h3>
+                        <span class="glyphicon glyphicon-usd"></span>  You will be paid a total amount of <span class="green">{{quote.TotalAmount | currency}}</span> into your <span class="green">bank account</span>
+                    </h3>
+                    <p>
+                        BSB: {{customer.bsb || 'Please enter your BSB'}} <br />
+                        Account Number: {{customer.accountNum || 'Please enter your Account Number'}}
+                    </p>
+                </div>
+
+                <div ng-if="DisplayPaypal()">
+                    <h3>
+                        <span class="glyphicon glyphicon-usd"></span>  You will be paid a total amount of <span class="green">{{quote.TotalAmount | currency}}</span> into your <span class="green">Paypal Account</span>
+                    </h3>
+                    <p>
+                        Account: {{customer.paypalEmail || 'Please enter your Paypal Account Email'}}
+                    </p>
+                </div>
+
+                <div ng-if="DoesQuoteContainApple()">
+                    <h3>
+                        <span class="fa fa-exclamation-triangle"></span>   All Apple devices must have 'Find my iPhone' removed before sending. Please see the <a rel="nofollow" href="https://support.apple.com/kb/PH2702?locale=en_US" target="_blank">Apple website</a> for instructions.
+                    </h3>
+                </div>
+
+                <div id="postageSummary">
+                    <h3>
+                        <span class="glyphicon glyphicon-envelope"></span>  You have chosen the <span class="green">{{quote.PostageMethod.PostageMethodName}}</span> postage method
+                    </h3>
+                    <p>We will send you complete postage instructions after you have submitted your quote.</p>
+                </div>
+
+                <div class="col-md-5 col-md-offset-7 col-lg-4 col-lg-offset-8" ng-class="{'has-error':detailsFormSubmitted && details.$invalid}">
+                    <button class="btn btn-default next-btn"
+                            ng-click="FinaliseQuote(details, customer, quote)"
+                            type="submit"
+                            analytics-on="click"
+                            analytics-category="QuoteProcess"
+                            analytics-event="SubmitBtnClick">
+                        Submit <i class="fa fa-paper-plane-o"></i>
+                    </button>
+                    <p class="help-block centre fixErrors" ng-show="detailsFormSubmitted && details.$invalid" ng-click="GoToErrors()">
+                        <i class="fa fa-hand-o-up"></i> Click here to fix validation errors above to Submit
+                    </p>
+
+                    <div class="col-md-12 col-mobile">
+                        <p class="tc">
+                            <i class="fa fa-hand-o-right"></i> By clicking Submit you agree to the <a target="_blank" href="/TermsAndConditions">Terms and Conditions</a>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </form>
 

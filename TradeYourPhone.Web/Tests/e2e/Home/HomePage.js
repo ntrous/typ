@@ -4,13 +4,13 @@
     this.navContainer = element(by.id('typ-navigation'));
     this.navItems = element.all(by.css('#typ-navigation > ul > li'));
     this.activeNavItem = element.all(by.css('#typ-navigation > ul > li.active'));
-    this.quoteSection = element(by.css('div.quoteSection'));
+    this.quoteAndPhoneSection = element(by.css('div.quoteSection'));
     this.phoneImageBackground = element(by.css('div.phoneImageBackground'));
     this.phoneSection = this.phoneImageBackground.element(by.css('.phoneSection'));
-    this.quoteTabsSection = element(by.id('Quote'));
+    this.quoteSection = element(by.id('Quote'));
 
-    this.aboutDivs = element.all(by.css('.info-box > div'));
-    this.aboutDivsTitles = element.all(by.css('.info-box > div >h3:nth-of-type(2)'));
+    this.aboutDivs = element.all(by.css('.row > .info-box > div'));
+    this.aboutDivsTitles = element.all(by.css('.row > .info-box > div >h3:nth-of-type(2)'));
 
     this.stickerImg = element(by.css('.sticker'));
 

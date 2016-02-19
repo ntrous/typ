@@ -16,7 +16,7 @@ describe('PhoneTab', function () {
     it('Should have the correct a title', function () {
         // Less than one phone so Select Phone title should be used and shown
         expect(quotePage.noPhoneHeading.isDisplayed()).toEqual(true);
-        expect(quotePage.noPhoneHeading.getText()).toEqual('Select Your Phone');
+        expect(quotePage.noPhoneHeading.getText()).toEqual('What Phone Do You Want To Sell?');
     });
 
     it('Should display the phone input box', function () {
@@ -59,7 +59,7 @@ describe('PhoneTab', function () {
         it('Should show all conditions', function () {
             expect(quotePage.phoneConditionArea.isDisplayed()).toEqual(true);
             expect(quotePage.phoneConditionHeading.isDisplayed()).toEqual(true);
-            expect(quotePage.phoneConditionHeading.getText()).toEqual('Choose the Condition');
+            expect(quotePage.phoneConditionHeading.getText()).toEqual('What Condition is it in?');
             expect(quotePage.phoneConditions.count()).toEqual(3);
             expect(quotePage.btnNew.isDisplayed()).toEqual(true);
             expect(quotePage.btnGood.isDisplayed()).toEqual(true);
@@ -98,7 +98,7 @@ describe('PhoneTab', function () {
         it('Should display the sell phone area', function () {
             expect(quotePage.sellPhoneArea.isDisplayed()).toEqual(true);
             expect(quotePage.sellPhoneHeading.isDisplayed()).toEqual(true);
-            expect(quotePage.sellPhoneHeading.getText()).toEqual('Sell Your Phone For');
+            expect(quotePage.sellPhoneHeading.getText()).toEqual("We'll Buy Your Phone For");
             expect(quotePage.phonePrice.isDisplayed()).toEqual(true);
             expect(quotePage.phonePrice.getText()).not.toEqual('');
             expect(quotePage.btnSellPhone.isDisplayed()).toEqual(true);
@@ -139,14 +139,14 @@ describe('PhoneTab', function () {
         });
 
         it('Should display Quote Tab Section and reset top panel', function () {
-            expect(quotePage.quoteTabSection.isDisplayed()).toEqual(true);
-            expect(quotePage.quoteTabSectionHeading.isDisplayed()).toEqual(true);
-            expect(quotePage.quoteTabSectionHeading.getText()).toContain('Trade your phone for cash now');
+            expect(quotePage.quoteSection.isDisplayed()).toEqual(true);
+            expect(quotePage.quoteSectionHeading.isDisplayed()).toEqual(true);
+            expect(quotePage.quoteSectionHeading.getText()).toContain('Trade your phone for cash now');
            
            // There is one phone so 'You have 1 phone in your cart, want to add another phone?' title should be used and shown
             expect(quotePage.phonesHeading.isDisplayed()).toEqual(true);
             expect(quotePage.noPhoneHeading.isDisplayed()).toEqual(false);
-            expect(quotePage.phonesHeading.getText()).toEqual('You have 1 phone in your cart, want to add another phone?');
+            expect(quotePage.phonesHeading.getText()).toEqual('Add another phone');
             expect(quotePage.phoneInput.getAttribute('value')).toEqual('');
             // Condition and sell area should not be displayed
             expect(quotePage.sellPhoneArea.isPresent()).toEqual(false);

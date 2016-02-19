@@ -32,24 +32,17 @@
 
 
     // Quote Section
-    this.quoteTabSection = element(by.id('Quote'));
-    this.quoteTabSectionHeading = element(by.css('#Quote>h1'));
-    this.quoteTabs = element.all(by.repeater('tab in tabs'));
-    // Tabs
-    this.reviewTabHeading = element(by.css('#Quote .tabset ul li:nth-of-type(1)'));
-    this.reviewTabContent = element(by.css('#Quote .tab-content .tab-pane:nth-of-type(1)'));
-    this.detailsTabHeading = element(by.css('#Quote .tabset ul li:nth-of-type(2)'));
-    this.detailsTabContent = element(by.css('#Quote .tab-content .tab-pane:nth-of-type(2)'));
-    this.summaryTabHeading = element(by.css('#Quote .tabset ul li:nth-of-type(3)'));
-    this.summaryTabContent = element(by.css('#Quote .tab-content .tab-pane:nth-of-type(3)'));
-
-
-    // Review Your Quote Section
-    this.reviewTable = this.reviewTabContent.element(by.css('table'));
-    this.reviewTableRows = element.all(by.css('#Quote .tab-content .tab-pane:nth-of-type(1) table tbody tr'));
+    this.quoteSection = element(by.id('Quote'));
+    this.quoteSectionHeading = element(by.css('#Quote h2.quoteHeading'));
+   
+    // Phones To Sell
+    this.phonesToSellSection = element(by.id('phonesToSell'));
+    this.phonesToSellHeading = this.phonesToSellSection.element(by.css('h3'));
+    this.reviewTable = this.phonesToSellSection.element(by.css('table'));
+    this.reviewTableRows = element.all(by.css('#phonesToSell table tbody tr'));
     this.phoneInTable = this.reviewTable.element(by.css('tbody tr:nth-of-type(1) > td:nth-of-type(4)'));
     this.conditionInTable = this.reviewTable.element(by.css('tbody tr:nth-of-type(1) > td:nth-of-type(5)'));
-    this.deleteBtn = this.reviewTabContent.element(by.css('button[ng-click="deletePhoneFromQuote(q.Id, $index)"]'));
+    this.deleteBtn = this.phonesToSellSection.element(by.css('button[ng-click="deletePhoneFromQuote(q.Id, $index)"]'));
 
 
     // Details Section
@@ -74,67 +67,54 @@
     this.freeSatchelBtn = element(by.xpath('//button[contains(., "Free Satchel")]'));
     this.postYourselfBtn = element(by.xpath('//button[contains(., "Post Yourself")]'));
     this.postageText = element(by.css('p.postageOptionsText'));
-    // Details Buttons
-    this.goToSummary = element(by.css('button[ng-click="SaveQuote(details,customer, quote)"]'));
-    this.backToReview = element(by.css('button.back-btn[ng-click="goToTab(\'Quote\', 0)"]'));
+    
     // Errors
     this.errorBlock = element.all(by.css('p.help-block'));
 
 
-    // Summary Tab 
-    this.summarySection = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"]'));
-    this.summaryTitle = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"] > h3'));
-    // Personal Details
-    this.personalDetails = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"]>div:nth-of-type(2)'));
-    this.personalDetailsTitle = this.personalDetails.element(by.css('h3'));
-    this.summaryName = this.personalDetails.element(by.css('p:nth-of-type(1)'));
-    this.summaryEmail = this.personalDetails.element(by.css('p:nth-of-type(2)'));
-    this.summaryPhone = this.personalDetails.element(by.css('p:nth-of-type(3)'));
-    // Address Details
-    this.addressDetails = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"]>div:nth-of-type(3)'));
-    this.addressDetailsTitle = this.addressDetails.element(by.css('h3'));
-    this.addressLine1 = this.addressDetails.element(by.css('p:nth-of-type(1)'));
-    this.addressLine2 = this.addressDetails.element(by.css('p:nth-of-type(2)'));
-    this.addressLine3 = this.addressDetails.element(by.css('p:nth-of-type(3)'));
-    // Payment Details
-    this.paymentDetails = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"]>div:nth-of-type(4)'));
-    this.paymentDetailsTitle = this.paymentDetails.element(by.css('h3'));
-    this.paidAmount = this.paymentDetails.element(by.css('p:nth-of-type(1)'));
-    this.chosenType = this.paymentDetails.element(by.css('p:nth-of-type(2)'));
-    this.paymentDetailsEntered = this.paymentDetails.element(by.css('p:nth-of-type(3)'));
-    // Postage Details
-    this.postageDetails = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"]>div:nth-of-type(6)'));
-    this.postageDetailsTitle = this.postageDetails.element(by.css('h3'));
-    this.postageInfo = element(by.css('div[ng-hide="WaitingForDelivery()||RequiresSatchel()"]>div:nth-of-type(6)>p:nth-of-type(1)'));
-    this.postagePost = this.postageDetails.element(by.css('div[ng-if="DisplayPostage()"]'));
-    this.postageSatchel = this.postageDetails.element(by.css('div[ng-if="DisplaySatchel()"]'));
-    // Summary Table
-    this.phoneSummaryTable = this.summarySection.element(by.css('table'));
-    this.phoneSummaryTableRows = this.phoneSummaryTable.all(by.css('tbody > tr'));
-    // T&C, clear iCloud Warning
-    this.cleariCloudCheck = this.summarySection.element(by.css('div[ng-show="DoesQuoteContainApple()"]'));
+    // Summary Section 
+    this.summarySection = element(by.id('quoteSummary'));
+    this.summaryTitle = this.summarySection.element(by.css('.phoneHeading > h3'));
+
+    this.addAnotherPhone = this.summarySection.element(by.css('h3[ng-click="GoToAddPhone()"]'));
+
+    this.bankSummary = this.summarySection.element(by.css('div[ng-if="DisplayBankTransfer()"]'));
+    this.bankSummaryHeading = this.bankSummary.element(by.css('h3'));
+    this.bankSummaryText = this.bankSummary.element(by.css('p'));
+
+    this.paypalSummary = this.summarySection.element(by.css('div[ng-if="DisplayPaypal()"]'));
+    this.paypalSummaryHeading = this.paypalSummary.element(by.css('h3'));
+    this.paypalSummaryText = this.paypalSummary.element(by.css('p'));
+
+    this.appleWarning = this.summarySection.element(by.css('div[ng-if="DoesQuoteContainApple()"]'));
+    this.appleWarningText = this.appleWarning.element(by.css('h3'));
+
+    this.postageSummary = element(by.id('postageSummary'));
+    this.postageSummaryHeading = this.postageSummary.element(by.css('h3'));
+    this.postageSummaryText = this.postageSummary.element(by.css('p'));
+
     this.agreeTCLabel = this.summarySection.element(by.css('p.tc'));
-    // Summary Buttons
-    this.summarySubmit = element(by.css('button[ng-click="FinaliseQuote(customer, quote)"]'));
-    this.backToDetailsBtn = element(by.css('button.back-btn[ng-click="goToTab(\'Quote\', 1)"]'));
+    
+    //Submit button
+    this.submitBtn = this.quoteSection.element(by.css('button[ng-click="FinaliseQuote(details, customer, quote)"]'));
 
 
     // Submitted Summary Section
+    this.quoteSubmittedSection = element(by.id('QuoteSubmitted'));
+    this.submittedHeading = this.quoteSubmittedSection.element(by.css('h2.quoteHeading'));
     // Quote Number Text
-    this.submittedSummarySection = element(by.css('div[ng-show="WaitingForDelivery()||RequiresSatchel()"]'));
-    this.submittedQuoteNumberTitle = element(by.css('div[ng-show="WaitingForDelivery()||RequiresSatchel()"]>h3:nth-of-type(1)'));
+    this.quoteNumHeading = this.quoteSubmittedSection.element(by.css('#SubmittedSection h3.centre'));
     // What Happens Next
-    this.submittedWhatHappensNextTitle = element(by.css('div[ng-show="WaitingForDelivery()||RequiresSatchel()"]>h3:nth-of-type(2)'));
-    this.submittedWhatHappensNextText = element(by.css('div[ng-show="WaitingForDelivery()||RequiresSatchel()"]>p:nth-of-type(1)'));
+    this.whatHappensNextTitle = this.quoteSubmittedSection.element(by.css('#SubmittedSection > div:nth-of-type(2) > h3'));
+    this.whatHappensNextText = this.quoteSubmittedSection.element(by.css('#SubmittedSection > p:nth-of-type(1)'));
     // Postage Details
-    this.submittedPostageTitle = element(by.css('div[ng-show="WaitingForDelivery()||RequiresSatchel()"]>h3:nth-of-type(3)'));
+    this.postageInfoHeading = this.quoteSubmittedSection.element(by.css('#SubmittedSection > div:nth-of-type(3) > h3'));
     this.submittedWaitingDelivery = element(by.css('div[ng-show="WaitingForDelivery()"]'));
     this.submittedRequiresSatchel = element(by.css('div[ng-show="RequiresSatchel()"]'));
     // Reset Quote Button
     this.startAnotherQuote = element(by.css('button[ng-click="ResetQuote()"]'));
 
 
-  
 
     // FUNCTION NAME: searchForPhone
     // PARAMETERS: phoneName: string - phone name you want to search
@@ -189,19 +169,6 @@
                     return element(by.id('Quote')).isDisplayed();
                 }, 3000);
             });
-        });
-    }
-
-    // FUNCTION NAME: goToNextTab
-    // PARAMETERS: tabId: int - current tab number
-    // DESCRIPTION: clicks the 'Next' button and waits till the tab is shown before returning
-    this.goToNextTab = function (tabId) {
-        var nextTab = tabId + 1;
-        return element(by.css('#Quote .tab-content .tab-pane:nth-of-type('+ tabId +') button[ng-click="goToTab(\'Quote\', ' + tabId + ')"]')).click()
-        .then(function () {
-            browser.wait(function () {
-                return element(by.css('#Quote .tab-content .tab-pane:nth-of-type('+ nextTab +')')).isDisplayed();
-            }, 3000);
         });
     }
 
@@ -264,33 +231,17 @@
         }).then(function () {
             return element(by.xpath('//button[contains(., "' + postageType + '")]')).click().then(function () {
                 if (errors) {
-                    return element(by.css('button[ng-click="SaveQuote(details,customer, quote)"]')).click();
+                    return element(by.css('button[ng-click="FinaliseQuote(details, customer, quote)"]')).click();
                 } else {
-                    return element(by.css('button[ng-click="SaveQuote(details,customer, quote)"]')).click()
+                    return element(by.css('button[ng-click="FinaliseQuote(details, customer, quote)"]')).click()
                    .then(function () {
                        browser.wait(function () {
-                           return element(by.css('#Quote .tab-content .tab-pane:nth-of-type(3)')).isDisplayed();
+                           return element(by.css('#QuoteSubmitted')).isDisplayed();
                        }, 6000);
                    });
                 }
             });
         });
-    }
-
-    // FUNCTION NAME: getSummaryTableCellText
-    // PARAMETERS:  type: string - expects either a 'head' or 'body' - if you want the cell from the thead or the tbody
-    //              row: int - what row you want to select the cell from
-    //              column: int - what column you want to select from
-    // DESCRIPTION: returns the cell text requested from the Summary Table in the Summary Tab
-    this.getSummaryTableCellText = function (type, row, column) {
-        if (type == 'head') {
-            return this.summarySection.element(by.css('table > thead > tr > th:nth-of-type(' + column + ')')).getText();
-        } else if (type == 'body') {
-            return this.summarySection.element(by.css('table > tbody > tr:nth-of-type(' + row + ') td:nth-of-type(' + column + ')')).getText();
-        }
-        else {
-            return;
-        }
     }
 
 };

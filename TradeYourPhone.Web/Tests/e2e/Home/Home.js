@@ -19,17 +19,17 @@ describe("Home Page", function () {
         it('Navigation Should Display', function () {
             expect(homePage.navContainer.isDisplayed()).toEqual(true);
             expect(homePage.navItems.count()).toEqual(5);
-            expect(homePage.navItems.getText()).toEqual(["Home", "What We Do", "Support", "Contact", "Blog"]);
+            expect(homePage.navItems.getText()).toEqual(["Home", "What We Do", "Why Trust Us", "Support", "Contact", "Blog"]);
         });
 
         it('Phone Selection Area Should Be Displayed', function () {
-            expect(homePage.quoteSection.isDisplayed()).toEqual(true);
+            expect(homePage.quoteAndPhoneSection.isDisplayed()).toEqual(true);
             expect(homePage.phoneImageBackground.isDisplayed()).toEqual(true);
             expect(homePage.phoneSection.isDisplayed()).toEqual(true);
         });
 
         it('Quote Tabs Area Should Not Be Displayed', function () {
-            expect(homePage.quoteTabsSection.isDisplayed()).toEqual(false);
+            expect(homePage.quoteSection.isPresent()).toEqual(false);
         });
 
         it('TYP Info Divs Should Be Displayed', function () {
@@ -59,7 +59,7 @@ describe("Home Page", function () {
             expect(homePage.yelpIcon.getAttribute('href')).toEqual('http://www.yelp.com.au/biz/trade-your-phone-melbourne');
 
             expect(homePage.phoneIcon.isDisplayed()).toEqual(true);
-            expect(homePage.phoneIcon.getAttribute('href')).toEqual('tel:0484591716');
+            expect(homePage.phoneIcon.getAttribute('href')).toEqual('tel:+61390287967');
 
             expect(homePage.mailIcon.isDisplayed()).toEqual(true);
             expect(homePage.mailIcon.getAttribute('href')).toEqual('mailto:support@tradeyourphone.com.au');

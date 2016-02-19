@@ -19,21 +19,10 @@ var tradeYourPhoneCommon = angular.module('typ.common', []);
 
 tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {
-        var variation = 0;
-        if (typeof cxApi != "undefined") {
-            variation = cxApi.chooseVariation();
-        }
-
         $routeProvider
         .when('/', {
-            templateUrl: function () {
-                if (variation === 0) {
-                    return '../AngularApp/Quote/Home.html';
-                } else {
-                    return '../AngularApp/Quote2/Home.html';
-                }
-            },
-            controller: 'QuoteCtrl' + variation,
+            templateUrl: '../AngularApp/Quote/Home.html',
+            controller: 'QuoteCtrl',
             reloadOnSearch: false,
             caseInsensitiveMatch: true,
             title: 'Trade Your Phone - Sell Your Old Phone For Cash',
@@ -60,6 +49,13 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
               title: 'What We Do - Trade Your Phone',
               description: 'We are passionate about re-allocating and recycling second-hand mobile phones. And we want to help YOU turn your old phone into cash.'
           }).
+            when('/WhyTrustUs', {
+                templateUrl: '../AngularApp/WhyTrustUs/WhyTrustUs.html',
+                controller: 'WhyTrustUsCtrl',
+                caseInsensitiveMatch: true,
+                title: 'Why Trust Us - Trade Your Phone',
+                description: 'Why should you trust us? Well here are just some of the many great reasons.'
+            }).
           when('/FAQ', {
               templateUrl: '../AngularApp/Support/FAQ.html',
               controller: 'SupportCtrl',

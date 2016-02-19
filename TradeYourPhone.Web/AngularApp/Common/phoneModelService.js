@@ -27,7 +27,7 @@
         return $http.get('/service/PhoneModels/GetPhoneModelsByMakeName?makeName=' + makeName, { cache: true })
             .then(
                 function (response) {
-                    return response.data;
+                    return response.data.PhoneModels;
                 },
                 function (httpError) {
                     // translate the error

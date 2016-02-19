@@ -9,17 +9,18 @@ exports.config = {
         "e2e/Contact/*.js",
         "e2e/Support/*.js",
         "e2e/About/*.js",
-        "e2e/Blog/*.js"
+		"e2e/SellYourIphone/*.js"
+        //"e2e/Blog/*.js"
 
     ],
 
     multiCapabilities: [
-        {
-            "browserName": "chrome"
-        }
-        //, {
-        //    'browserName': 'firefox'
+        //{
+        //    "browserName": "chrome"
         //}
+         {
+            'browserName': 'firefox'
+        }
     ],
 
     // ----- The test framework -----
