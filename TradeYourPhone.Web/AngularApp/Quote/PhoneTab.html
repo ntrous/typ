@@ -29,6 +29,7 @@
                            placeholder="Type your phone name here... eg. iPhone 6"
                            typeahead-template-url="PhoneDropdown.html"
                            ng-change="resetInputs()"
+                           ng-click="fireGAEvent('PhoneSection', 'searchBarClick')"
                            typeahead-focus-on-select="false" />
                 </div>
             </div>

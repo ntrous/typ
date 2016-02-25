@@ -314,6 +314,10 @@
         $analytics.eventTrack('detailsForm: ' + fieldName, { category: 'QuoteProcess' });
     }
 
+    $scope.fireGAEvent = function (category, fieldName) {
+        $analytics.eventTrack(fieldName, { category: category });
+    }
+
     $scope.QuoteSubmitClicked = function () {
         window.google_trackConversion({
             google_conversion_id: 943138204,
