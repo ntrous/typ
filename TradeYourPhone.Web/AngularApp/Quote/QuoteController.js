@@ -178,7 +178,7 @@
         });
     }
 
-    $scope.FinaliseQuote = function (form, customerValue, quote) {   
+    $scope.FinaliseQuote = function (form, customerValue, quote) {
         $scope.detailsFormSubmitted = true;
         if (form.$valid) {
             $timeout(function () {
@@ -186,7 +186,7 @@
                 $anchorScroll();
             });
             $scope.spinner = true;
-           
+
             var viewModel = {
                 customer: {
                     FullName: customerValue.fullname,
@@ -210,7 +210,7 @@
                 AgreedToTerms: true
             };
 
-            QuoteService.FinaliseQuote($scope.quoteKey, viewModel).then(function(response) {
+            QuoteService.FinaliseQuote($scope.quoteKey, viewModel).then(function (response) {
                 if (response.Status = "OK") {
                     $timeout(function () {
                         $location.hash("QuoteSubmitted");
@@ -219,7 +219,7 @@
                     $scope.result = $scope.quoteKey;
                     $scope.status = response.QuoteDetails.QuoteStatus;
                     delete $cookies['tradeYourPhoneCookie'];
-                    $scope.quoteKey = undefined;               
+                    $scope.quoteKey = undefined;
                     $scope.customer = { paymentType: '' };
                     $scope.spinner = false;
                     $scope.quote = [];
@@ -229,7 +229,7 @@
         }
     }
 
-    $scope.GoToErrors = function() {
+    $scope.GoToErrors = function () {
         $timeout(function () {
             $location.hash("Details");
             $anchorScroll();
@@ -321,8 +321,10 @@
             google_conversion_value: 50.00,
             google_conversion_currency: "AUD",
             google_remarketing_only: false
-    });
-}
+        });
+
+        fbq('track', 'Lead');
+    }
 
     $scope.init = function () {
         $scope.phoneModels = phoneModels;
@@ -341,24 +343,24 @@
             }
 
             $scope.GetPostageMethods();
-            
+
             if ($scope.quote && $scope.quote.Customer) {
                 $scope.customer = quote.Customer;
             }
         });
     };
-$scope.postageMethod = {};
-$scope.init();
-$scope.quoteKey = $cookies.tradeYourPhoneCookie;
-$scope.detailsFormSubmitted = false;
-$scope.onlyNumbersPattern = /^[0-9]*$/;
-$scope.numberwithSpacesPattern = /^[\d ]+$/;
+    $scope.postageMethod = {};
+    $scope.init();
+    $scope.quoteKey = $cookies.tradeYourPhoneCookie;
+    $scope.detailsFormSubmitted = false;
+    $scope.onlyNumbersPattern = /^[0-9]*$/;
+    $scope.numberwithSpacesPattern = /^[\d ]+$/;
 
-$scope.search = {
-    model: PhoneModelService.GetCurrentPhoneModel()
-};
+    $scope.search = {
+        model: PhoneModelService.GetCurrentPhoneModel()
+    };
 
-if ($scope.search.model != null) {
-    $scope.setCondition($scope.search.model);
-}
+    if ($scope.search.model != null) {
+        $scope.setCondition($scope.search.model);
+    }
 });
