@@ -25,7 +25,7 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
             controller: 'QuoteCtrl',
             reloadOnSearch: false,
             caseInsensitiveMatch: true,
-            title: 'Trade Your Phone - Sell Your Old Phone For Cash',
+            title: 'Sell Your Old Phone For Cash | Trade Your Phone',
             description: 'Sell your mobile phone for cash today. Get the guaranteed best price and free shipping. Fill out a quote now!',
             resolve: {
                 phoneModels: function (PhoneModelService) {
