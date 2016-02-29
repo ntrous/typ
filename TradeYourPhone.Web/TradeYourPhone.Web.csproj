@@ -1368,37 +1368,8 @@
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\ManageUser.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\PhoneConditions\Create.cshtml" />
-    <Content Include="Views\PhoneConditions\Delete.cshtml" />
-    <Content Include="Views\PhoneConditions\Details.cshtml" />
-    <Content Include="Views\PhoneConditions\Edit.cshtml" />
-    <Content Include="Views\PhoneConditions\Index.cshtml" />
-    <Content Include="Views\PhoneConditionPrices\Create.cshtml" />
-    <Content Include="Views\PhoneConditionPrices\Delete.cshtml" />
-    <Content Include="Views\PhoneConditionPrices\Details.cshtml" />
-    <Content Include="Views\PhoneConditionPrices\Edit.cshtml" />
-    <Content Include="Views\PhoneConditionPrices\Index.cshtml" />
-    <Content Include="Views\PaymentTypes\Create.cshtml" />
-    <Content Include="Views\PaymentTypes\Delete.cshtml" />
-    <Content Include="Views\PaymentTypes\Details.cshtml" />
-    <Content Include="Views\PaymentTypes\Edit.cshtml" />
-    <Content Include="Views\PaymentTypes\Index.cshtml" />
-    <Content Include="Views\QuoteStatus\Create.cshtml" />
-    <Content Include="Views\QuoteStatus\Delete.cshtml" />
-    <Content Include="Views\QuoteStatus\Details.cshtml" />
-    <Content Include="Views\QuoteStatus\Edit.cshtml" />
-    <Content Include="Views\QuoteStatus\Index.cshtml" />
     <Content Include="Scripts\Libraries\Angular\version.json" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

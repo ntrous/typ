@@ -36,7 +36,7 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
             controller: 'QuoteCtrl' + variation,
             reloadOnSearch: false,
             caseInsensitiveMatch: true,
-            title: 'Trade Your Phone - Sell Your Old Phone For Cash',
+            title: 'Sell Your Old Phone For Cash | Trade Your Phone',
             description: 'Sell your mobile phone for cash today. Get the guaranteed best price and free shipping. Fill out a quote now!',
             resolve: {
                 phoneModels: function (PhoneModelService) {
@@ -57,72 +57,72 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
               templateUrl: '../AngularApp/WhatWeDo/WhatWeDo.html',
               controller: 'WhatWeDoCtrl',
               caseInsensitiveMatch: true,
-              title: 'What We Do - Trade Your Phone',
+              title: 'What We Do | Trade Your Phone',
               description: 'We are passionate about re-allocating and recycling second-hand mobile phones. And we want to help YOU turn your old phone into cash.'
           }).
             when('/WhyTrustUs', {
                 templateUrl: '../AngularApp/WhyTrustUs/WhyTrustUs.html',
                 controller: 'WhyTrustUsCtrl',
                 caseInsensitiveMatch: true,
-                title: 'Why Trust Us - Trade Your Phone',
+                title: 'Why Trust Us | Trade Your Phone',
                 description: 'Why should you trust us? Well here are just some of the many great reasons.'
             }).
           when('/FAQ', {
               templateUrl: '../AngularApp/Support/FAQ.html',
               controller: 'SupportCtrl',
               caseInsensitiveMatch: true,
-              title: 'FAQ - Trade Your Phone',
+              title: 'FAQ | Trade Your Phone',
               description: 'All the questions we frequently get asked, answered here!'
           }).
             when('/Support', {
                 templateUrl: '../AngularApp/Support/Support.html',
                 controller: 'SupportCtrl',
                 caseInsensitiveMatch: true,
-                title: 'Support - Trade Your Phone',
+                title: 'Support | Trade Your Phone',
                 description: 'Trade Your Phone offers 9am - 7pm support on Monday - Friday, however it can be easier to look through the questions below instead of contacting us.'
             }).
           when('/Contact', {
               templateUrl: '../AngularApp/Contact/Contact.html',
               controller: 'ContactCtrl',
               caseInsensitiveMatch: true,
-              title: 'Contact - Trade Your Phone',
+              title: 'Contact | Trade Your Phone',
               description: 'Contact us here via one of our many support channels'
           }).
           when('/Privacy', {
               templateUrl: '../AngularApp/Privacy/Privacy.html',
               caseInsensitiveMatch: true,
-              title: 'Privacy - Trade Your Phone',
+              title: 'Privacy | Trade Your Phone',
               description: 'Trade Your Phones Privacy Statement'
           }).
           when('/TermsAndConditions', {
               templateUrl: '../AngularApp/TermsAndConditions/TermsAndConditions.html',
               caseInsensitiveMatch: true,
-              title: 'Terms And Conditions - Trade Your Phone',
+              title: 'Terms And Conditions | Trade Your Phone',
               description: 'Trade Your Phones Terms And Conditions'
           }).
             when('/CustomerReviews', {
                 templateUrl: '../AngularApp/Reviews/CustomerReviews.html',
                 caseInsensitiveMatch: true,
-                title: 'Customer Reviews - Trade Your Phone',
+                title: 'Customer Reviews | Trade Your Phone',
                 description: 'See our customer reviews and how to give us a review'
             }).
             when('/FreeShipping', {
                 templateUrl: '../AngularApp/ShippingOptions/ShippingOptions.html',
                 caseInsensitiveMatch: true,
-                title: 'Free Shipping on all our options - Trade Your Phone',
+                title: 'Free Shipping | Trade Your Phone',
                 description: 'We offer free shipping on all our postage options. No charge to you!'
             }).
             when('/PriceGuarantee', {
                 templateUrl: '../AngularApp/PriceGuarantee/PriceGuarantee.html',
                 caseInsensitiveMatch: true,
-                title: 'Price Guarantee | We will beat any competitors price! - Trade Your Phone',
+                title: 'Price Guarantee | We will beat any competitors price! | Trade Your Phone',
                 description: 'We will beat any australian competitors price by 5% guaranteed!'
             }).
             when('/Sell-Your-Iphone', {
                 templateUrl: '../AngularApp/SellYourIphone/SellYourIphone.html',
                 controller: 'SellYourIphoneCtrl',
                 caseInsensitiveMatch: true,
-                title: 'Sell Your iPhone | We buy all iPhones! - Trade Your Phone',
+                title: 'Sell Your iPhone | We buy all iPhones! | Trade Your Phone',
                 description: 'We buy all Apple iPhones for the best price guaranteed! Free shipping and no hidden costs. Sell your phone now!',
                 resolve: {
                     phoneModels: function (PhoneModelService) {
@@ -134,7 +134,7 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
               templateUrl: '../AngularApp/Blog/Blog.html',
               controller: 'BlogCtrl',
               caseInsensitiveMatch: true,
-              title: 'Blog - Trade Your Phone',
+              title: 'Blog | Trade Your Phone',
               description: 'Trade Your Phones Blog',
               resolve: {
                   blogPosts: function (BlogService) {
@@ -146,7 +146,7 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
               templateUrl: '../AngularApp/Blog/BlogPost.html',
               controller: 'BlogPostCtrl',
               caseInsensitiveMatch: true,
-              title: 'Blog - Trade Your Phone',
+              title: 'Blog | Trade Your Phone',
               description: 'Trade Your Phones Blog',
               resolve: {
                   blogPost: function (BlogService, $route) {
@@ -172,7 +172,7 @@ tradeYourPhoneApp.run(['$rootScope', '$routeParams', 'BlogService', function ($r
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
         if (current.hasOwnProperty('$$route')) {
             if (current.params.slug) {
-                $rootScope.title = current.locals.blogPost.title + ' - Trade Your Phone';
+                $rootScope.title = current.locals.blogPost.title + ' | Trade Your Phone';
                 $rootScope.description = current.locals.blogPost.excerpt;
             }
             else {
@@ -182,7 +182,7 @@ tradeYourPhoneApp.run(['$rootScope', '$routeParams', 'BlogService', function ($r
 
         }
         else {
-            $rootScope.title = 'Trade Your Phone - Sell your old phone for cash';
+            $rootScope.title = 'Trade Your Phone | Sell your old phone for cash';
             $rootScope.description = 'Sell your mobile phone for cash today. Guaranteed best price and free shipping.';
         }
     });
