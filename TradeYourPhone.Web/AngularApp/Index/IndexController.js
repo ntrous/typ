@@ -1,10 +1,14 @@
 ﻿tradeYourPhoneControllers.controller('IndexCtrl', function ($route, $scope, PhoneModelService, $location, $cookies, $q) {
-    var variation = 0;
+    $scope.variation = 0;
     if (typeof cxApi != "undefined") {
-        variation = cxApi.getChosenVariation();
+        $scope.variation = cxApi.getChosenVariation();
     }
 
-    $scope.cssFile = "Site" + variation;
+    if ($scope.variation < 0) {
+        $scope.variation = 0;
+    }
+
+    $scope.cssFile = "Site" + $scope.variation;
 
     $scope.GoToQuote = function () {
         $location.path('/');
