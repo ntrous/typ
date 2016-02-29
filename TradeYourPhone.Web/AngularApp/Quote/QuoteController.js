@@ -1,4 +1,4 @@
-﻿tradeYourPhoneControllers.controller('QuoteCtrl', function ($scope, QuoteService, PhoneModelService, $location, $cookies, $q, $anchorScroll, $analytics, $timeout, $window, phoneModels, phoneConditions, quote) {
+﻿tradeYourPhoneControllers.controller('QuoteCtrl0', function ($scope, QuoteService, PhoneModelService, $location, $cookies, $q, $anchorScroll, $analytics, $timeout, $window, phoneModels, phoneConditions, quote) {
 
     $scope.isActive = function (viewLocation) {
         return viewLocation == $location.path();

@@ -1,0 +1,46 @@
+﻿<div class="col-md-12 col-mobile summarySection" id="SubmittedSection">
+    <div>
+        <h3 class="centre">Thank you for submitting your quote, your reference number is <span class="green">{{result}}</span></h3>
+    </div>
+    <br/>
+    <div class="phoneHeading">
+        <h3><span class="glyphicon glyphicon-chevron-right"></span>  What happens next?</h3>
+    </div>
+    <p>
+        You will be receiving an email shortly with instructions on how to send your phone to us.
+        <br />
+        If you have any other questions, check out our <a href="/Support" target="_blank">support</a> page or <a href="/Contact" target="_blank">contact us</a> and we can help you through the process.
+    </p>
+    <br/>
+    <div class="phoneHeading">
+        <h3>
+            <span class="glyphicon glyphicon-envelope"></span>  Postage Information
+        </h3>
+    </div>
+    <div ng-show="WaitingForDelivery()">
+        <div ng-include="'../AngularApp/Quote/Postage.html'"></div>
+    </div>
+    <div ng-show="RequiresSatchel()">
+        <div ng-include="'../AngularApp/Quote/Satchel.html'"></div>
+    </div>
+    <p>
+        Once we receive your phone(s) we will assess them to ensure they meet the condition specified and within 24 hours of receipt, you will be paid!
+        <br />
+        In the event the phone doesn't meet the criteria for the condition you selected, we will contact you via email or phone to offer you a revised deal.
+        <br />
+        (Providing chargers or the original box is optional)
+    </p>
+
+    <br />
+
+    <div class="col-md-3 col-md-offset-9 summary-btn">
+        <button class="btn btn-default next-btn"
+                ng-click="ResetQuote()"
+                type="submit"
+                analytics-on="click"
+                analytics-category="QuoteProcess"
+                analytics-event="StartAnotherQuoteBtnClick">
+            Start Another Quote
+        </button>
+    </div>
+</div>

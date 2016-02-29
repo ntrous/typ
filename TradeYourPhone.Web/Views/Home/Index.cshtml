@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html ng-app="typ">
 <head>
-    <!--<script src="//www.google-analytics.com/cx/api.js?experiment=ptLcZGxxSKW7Hpzr9UMe7w"></script>-->
+    <script src="//www.google-analytics.com/cx/api.js?experiment=ptLcZGxxSKW7Hpzr9UMe7w"></script>
     <!-- Google Analytics Code -->
     <script>
         if (window.location.hostname === 'tradeyourphone.com.au') {
@@ -52,6 +52,7 @@
     <base href="/">
 </head>
 <body ng-controller="IndexCtrl">
+    <link ng-href="~/Content/{{cssFile}}.less" type="text/css" rel="stylesheet" />
     <script>
         window.fbAsyncInit = function () {
             FB.init({

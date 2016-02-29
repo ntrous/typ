@@ -350,6 +350,15 @@
     <Content Include="AngularApp\Blog\BlogService.js" />
     <Content Include="AngularApp\Common\Common.js" />
     <Content Include="AngularApp\PriceGuarantee\PriceGuarantee.html" />
+    <Content Include="AngularApp\Quote2\DetailsTab.html" />
+    <Content Include="AngularApp\Quote2\Home.html" />
+    <Content Include="AngularApp\Quote2\PhoneTab.html" />
+    <Content Include="AngularApp\Quote2\Postage.html" />
+    <Content Include="AngularApp\Quote2\QuoteController.js" />
+    <Content Include="AngularApp\Quote2\QuoteService.js" />
+    <Content Include="AngularApp\Quote2\QuoteTab.html" />
+    <Content Include="AngularApp\Quote2\Satchel.html" />
+    <Content Include="AngularApp\Quote2\SubmittedSummary.html" />
     <Content Include="AngularApp\Quote\Postage.html" />
     <Content Include="AngularApp\Quote\QuoteTab.html" />
     <Content Include="AngularApp\Quote\Satchel.html" />
@@ -1301,6 +1310,8 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Site0.less" />
+    <Content Include="Content\Site1.less" />
     <None Include="Properties\PublishProfiles\tradeyourphone - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\tradeyourphone - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\typtest - FTP.pubxml" />

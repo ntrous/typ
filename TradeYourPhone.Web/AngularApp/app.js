@@ -19,10 +19,21 @@ var tradeYourPhoneCommon = angular.module('typ.common', []);
 
 tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {
+        var variation = 0;
+        if (typeof cxApi != "undefined") {
+            variation = cxApi.chooseVariation();
+        }
+
         $routeProvider
         .when('/', {
-            templateUrl: '../AngularApp/Quote/Home.html',
-            controller: 'QuoteCtrl',
+            templateUrl: function () {
+                if (variation === 0) {
+                    return '../AngularApp/Quote/Home.html';
+                } else {
+                    return '../AngularApp/Quote2/Home.html';
+                }
+            },
+            controller: 'QuoteCtrl' + variation,
             reloadOnSearch: false,
             caseInsensitiveMatch: true,
             title: 'Trade Your Phone - Sell Your Old Phone For Cash',

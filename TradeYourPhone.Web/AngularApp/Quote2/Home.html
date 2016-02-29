@@ -1,0 +1,136 @@
+﻿
+<div>
+    <span ng-show="spinner||initSpinner"><i class="loading fa fa-cog fa-spin"></i></span>
+    <div class="quoteSection row" ng-class="{'loading-mask':spinner}">
+
+       <div class="row">
+           
+            <div class="col-md-12 typ-box boxed ">
+                <h1>Sell Your Phone For Cash Now!</h1>
+            </div>
+
+            <div class="boxed process-box col-md-12">
+                <div class="col-md-12 info-box col-mobile">
+                    <div class="col-md-4 col-xs-4 col-lg-2 col-lg-offset-2 center">
+                        <h3><i class="fa fa-desktop large"></i></h3><h3>1. Submit Your Quote</h3>
+                        <p class="col-lg-10 col-lg-offset-1 hidden-xs">Select your phone below and fill out a Quote.</p>
+                    </div>
+
+                    <div class="col-lg-1 visible-lg arrow center">
+                        <h3><i class="fa fa-long-arrow-right large"></i></h3>
+                    </div>
+
+                    <div class="col-md-4 col-xs-4 col-lg-2 center middle">
+                        <h3><i class="fa fa-envelope large"></i></h3><h3>2. Send Us Your Phone</h3>
+                        <p class="col-md-10 col-md-offset-1 hidden-xs">We provide a free tracked satchel or a free reply-paid postage address to send to.</p>
+                    </div>
+
+                    <div class="col-lg-1 visible-lg arrow center">
+                        <h3><i class="fa fa-long-arrow-right large"></i></h3>
+                    </div>
+
+                    <div class="col-md-4 col-xs-4 col-lg-2 center">
+                        <h3><i class="fa fa-credit-card large"></i></h3><h3>3. Get Paid</h3>
+                        <p class="col-md-10 col-md-offset-1 hidden-xs">We pay you within 24 hours of receiving your phone — GUARANTEED!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="phoneImageBackground col-md-12 col-mobile">
+            <div ng-include="'../AngularApp/Quote/PhoneTab.html'"></div>
+        </div>
+
+
+        <div class="col-md-12 col-mobile" ng-if="quote.Phones.length>0" id="Quote">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1" role="main">
+                        <h2 class="quoteHeading">
+                            Trade your phone for cash now <span class="hidden-xs">— complete your quote below</span>
+                        </h2>
+                        <div ng-include="'../AngularApp/Quote/QuoteTab.html'"></div>
+                        <div ng-include="'../AngularApp/Quote/DetailsTab.html'"></div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <hr />
+                </div>
+        </div>
+
+        <div class="col-md-12 col-mobile" ng-if="WaitingForDelivery()||RequiresSatchel()" id="QuoteSubmitted">
+            <h2 class="quoteHeading">
+                Thank you for your Quote
+            </h2>
+            <div ng-include="'../AngularApp/Quote/SubmittedSummary.html'"></div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 info-box col-mobile">
+                <div class="col-md-4 center">
+                    <h3>
+                        <i class="fa fa-cc-paypal center"></i>
+                    </h3>
+                    <h3>Payment Your Way</h3>
+                    <p>We offer payment via PayPal and bank transfer.</p>
+                </div>
+
+                <div class="col-md-4 center">
+                    <h3>
+                        <i class="fa fa-envelope-o center"></i>
+                    </h3>
+                    <h3>Free Postage</h3>
+                    <p>We provide a satchel or a free reply-paid postage address to send to.</p>
+                </div>
+
+                <div class="col-md-4 center">
+                    <h3>
+                        <i class="fa fa-clock-o center"></i>
+                    </h3>
+                    <h3>Prompt Payment</h3>
+                    <p>We pay you within 24 hours of receiving your phone — GUARANTEED!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 info-box hidden-xs col-mobile">
+            <div class="col-md-4 center">
+                <h3><i class="fa fa-phone-square center"></i></h3><h3>Support</h3>
+                <p>9am - 7pm Support Mon - Sat. Contact us and we’ll answer your query within the hour.</p>
+            </div>
+            <div class="col-md-4 center">
+                <h3><i class="fa fa-users center"></i></h3><h3>Who Are We</h3>
+                <p>Trade Your Phone are a team of mobile phone enthusiasts specialising in recycling and reallocating mobile phones.</p>
+            </div>
+            <div class="col-md-4 center">
+                <h3><i class="fa fa-cogs center"></i></h3><h3>How It's Done</h3>
+                <p>Simply fill out the easy three-step quote above. Once we receive your phone and verify its condition you’ll have the money in your account within 24 hours!</p>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-mobile sticker">
+            <div>
+            </div>
+        </div>
+        <div class="row home-icons">
+            <div class="col-md-6">
+                <div class="row review-padding">
+                    <a href="https://plus.google.com/+TradeYourPhoneBrunswick/about" target="_blank" class="col-md-2 col-xs-2 google"><i class="fa fa-google-plus"></i></a>
+
+                    <a href="https://www.facebook.com/tradeyourphoneau" target="_blank" class="col-md-2 col-xs-2 facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="https://twitter.com/tradeyourphone" target="_blank" class="col-md-2 col-xs-2 twitter"><i class="fa fa-twitter"></i></a>
+
+                    <a href="http://www.yelp.com.au/biz/trade-your-phone-melbourne" target="_blank" class="col-md-2 col-xs-2 yelp"><i class="fa fa-yelp"></i></a>
+                    <a href="tel:+61390287967" class="col-md-2 col-xs-2 phone"><i class="fa fa-phone"></i></a>
+                    <a href="mailto:support@tradeyourphone.com.au" target="_blank" class="col-md-2 col-xs-2 envelope"><i class="fa fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="col-md-6"><h2 class="love"><a href="/CustomerReviews"><i class="fa fa-comment-o"></i>    Tell Us What You Think By Leaving Us a Review! </a></h2></div>
+
+
+        </div>
+    </div>
+</div>
