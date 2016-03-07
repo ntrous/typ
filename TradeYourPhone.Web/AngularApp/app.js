@@ -24,6 +24,8 @@ tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
             variation = cxApi.chooseVariation();
         }
 
+        variation = 1;
+
         $routeProvider
         .when('/', {
             templateUrl: function () {

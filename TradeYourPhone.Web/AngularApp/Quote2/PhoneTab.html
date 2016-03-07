@@ -5,104 +5,118 @@
     </a>
 </script>
 <div id="PhoneSearch" class="phoneSection selectPhone">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-phone-mobile phoneSelectionOverlay" ng-class="{'hasPhones': quote.Phones.length>0}">
             <div class="row">
-                <div ng-if="quote.Phones.length>0" class="pull-right col-mobile shoppingCart">
-                    <h3 class="mainheading"><span class="glyphicon glyphicon-shopping-cart"></span> {{quote.Phones.length}}</h3>
-                </div>
-            </div>
-            <div class="col-md-12 col-mobile">
-                <h3 ng-hide="quote.Phones.length>0&&!WaitingForDelivery()&&!RequiresSatchel()" class="mainheading">What Phone Do You Want To Sell?</h3>
-                <h3 ng-if="quote.Phones.length>0&&!WaitingForDelivery()&&!RequiresSatchel()" class="mainheading" ng-class="{'hasPhones': quote.Phones.length>0}">
-                    <span class="glyphicon glyphicon-plus"></span>   Add another phone
-                </h3>
-                <div class="input-group">
-                    <span class="input-group-addon glyphicon glyphicon-phone"></span>
-                    <input type="text"
-                           id="search"
-                           class="form-control typeahead"
-                           ng-model="search.model"
-                           typeahead-editable="false"
-                           typeahead-on-select="setCondition($item)"
-                           typeahead="phoneModel as phoneModel.Name for phoneModel in phoneModels | filter:{Name:$viewValue} | limitTo:20"
-                           placeholder="Type your phone name here... eg. iPhone 6"
-                           typeahead-template-url="PhoneDropdown.html"
-                           ng-change="resetInputs()"
-                           ng-click="fireGAEvent('PhoneSection', 'searchBarClick')"
-                           typeahead-focus-on-select="false" />
-                </div>
-            </div>
-
-
-            <div class="col-md-12 col-mobile" ng-if="search.model!=null">
-                <div class="form-group">
-                    <h3 class="mainheading">What Condition is it in?</h3>
-                    <div class="form-group">
-                        <div class="btn-group btn-radio">
-                            <button class="btn btn-default condition-btn"
-                                    type="button"
-                                    ng-repeat="phoneCondition in phoneConditions"
-                                    ng-model="condition.id"
-                                    btn-radio="phoneCondition.id"
-                                    ng-change="GetPhoneOffer(search.model.Id, condition.id)">
-                                {{phoneCondition.name}}
-                            </button>
+                <div class="col-md-12 col-phone-mobile" ng-class="{'hasPhones': quote.Phones.length>0}">
+                    <div class="col-md-1 number-div">
+                        <h3 class="number">1.</h3>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-11">
+                            <div class="pull-right col-mobile shoppingCart" ng-click="goToReview()">
+                                <h3 class="mainheading"><span class="glyphicon glyphicon-shopping-cart"></span> {{quote.Phones.length}}</h3>
+                                <h4 ng-show="quote.Phones.length>0">See Your Cart</h4>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="phoneDiv" justified=" true">
-                    <div ng-show="condition.id == 1">
-                        Phone is as new, if all of the following:
-                        <ul>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> Phone in perfect working order</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> No cracks, scratches or issues with screen</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> No signs of wear and tear</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> All buttons/ports in working condition</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> No software faults</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> Must come with box and cables</li>
-                        </ul>
-                    </div>
+                        <div class="col-md-12 col-mobile phone-inputs">
+                            <h3 ng-hide="quote.Phones.length>0&&!WaitingForDelivery()&&!RequiresSatchel()" class="mainheading">What Phone Do You Want To Sell?</h3>
+                            <h3 ng-if="quote.Phones.length>0&&!WaitingForDelivery()&&!RequiresSatchel()" class="mainheading" ng-class="{'hasPhones': quote.Phones.length>0}">
+                                <span class="glyphicon glyphicon-plus"></span>   Add another phone
+                            </h3>
+                            <div class="input-group">
+                                <span class="input-group-addon glyphicon glyphicon-phone"></span>
+                                <input type="text"
+                                       id="search"
+                                       class="form-control typeahead"
+                                       ng-model="search.model"
+                                       typeahead-editable="false"
+                                       typeahead-on-select="setCondition($item)"
+                                       typeahead="phoneModel as phoneModel.Name for phoneModel in phoneModels | filter:{Name:$viewValue} | limitTo:20"
+                                       placeholder="Type your phone name here... eg. iPhone 6"
+                                       typeahead-template-url="PhoneDropdown.html"
+                                       ng-change="resetInputs()"
+                                       ng-click="fireGAEvent('PhoneSection', 'searchBarClick')"
+                                       typeahead-focus-on-select="false" />
+                            </div>
+                        </div>
 
-                    <div ng-show="condition.id == 2">
-                        Phone is in good condition, if all of the following:
-                        <ul>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> Phone in perfect working order</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> No cracks or issues with screen</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> General wear and tear</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> All buttons/ports in working condition</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> No software faults</li>
-                        </ul>
-                    </div>
-                    <div ng-show="condition.id == 3">
-                        Phone is faulty, if any of the following:
-                        <ul>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> Cracks in screen</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> Excessive wear and tear</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> One or more buttons/ports not working</li>
-                            <li class="removeIcon"><i class="glyphicon glyphicon-ok pull-left"></i> Software is faulty</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-md-12 PhoneOffer centre" ng-if="phoneOffer!=null">
-                <hr />
-                <h3 class="mainheading">We'll Buy Your Phone For</h3>
-                <h2>{{phoneOffer | currency}}</h2>
-                <button class="btn btn-default sell-btn"
-                        type="button"
-                        ng-click="addPhoneToQuote(search.model.Id, condition.id)"
-                        ng-disabled="phoneOffer==null"
-                        analytics-on="click"
-                        analytics-category="QuoteProcess"
-                        analytics-event="SellNowMobileBtnClick">
-                    <span ng-hide="btnSpinner"><i class="glyphicon glyphicon-shopping-cart btn-glyphicon"></i>  Sell This Phone </span>
-                    <span ng-show="btnSpinner"><i class="fa fa-cog fa-spin"></i></span>
-                </button>
+                        <div class="col-md-12 col-mobile" ng-if="search.model!=null">
+                            <div class="form-group">
+                                <h3 class="mainheading">What Condition is it in?</h3>
+                                <div class="form-group">
+                                    <div class="btn-group btn-radio">
+                                        <button class="btn btn-default condition-btn"
+                                                type="button"
+                                                ng-repeat="phoneCondition in phoneConditions"
+                                                ng-model="condition.id"
+                                                btn-radio="phoneCondition.id"
+                                                ng-change="GetPhoneOffer(search.model.Id, condition.id)">
+                                            {{phoneCondition.name}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="phoneDiv" justified="true">
+                                <div ng-show="condition.id==1">
+                                    <h3>Phone is as new, if all of the following:</h3>
+                                    <ul>
+                                        <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> Phone in perfect working order</li>
+                                        <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> No cracks, scratches or issues with screen</li>
+                                        <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> No signs of wear and tear</li>
+                                        <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> All buttons/ports in working condition</li>
+                                        <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> No software faults</li>
+                                        <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> Must come with box and cables</li>
+                                    </ul>
+                                </div>
 
-            </div>
-        </div>
-    </div>
-
+                                <div ng-show="condition.id==2">
+                                    <h3>
+                                        Phone is in good condition, if all of the following:
+                                    </h3>
+                                        <ul>
+                                            <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> Phone in perfect working order</li>
+                                            <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> No cracks or issues with screen</li>
+                                            <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> General wear and tear</li>
+                                            <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> All buttons/ports in working condition</li>
+                                            <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> No software faults</li>
+                                        </ul>
 </div>
+                                <div ng-show="condition.id==3">
+                                    <h3>
+                                        Phone is faulty, if any of the following:
+                                    </h3>
+                                        <ul>
+                                            <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> Cracks in screen</li>
+                                            <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> Excessive wear and tear</li>
+                                            <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> One or more buttons/ports not working</li>
+                                            <li class="removeIcon col-md-6"><i class="glyphicon glyphicon-ok pull-left"></i> Software is faulty</li>
+                                        </ul>
+</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 PhoneOffer centre" ng-if="phoneOffer!=null">
+                            <hr />
+                            <h3 class="mainheading">We'll Buy Your Phone For</h3>
+                            <h2>{{phoneOffer | currency}}</h2>
+                            <div class="col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                                <button class="btn btn-default sell-btn"
+                                        type="button"
+                                        ng-click="addPhoneToQuote(search.model.Id, condition.id)"
+                                        ng-disabled="phoneOffer==null"
+                                        analytics-on="click"
+                                        analytics-category="QuoteProcess"
+                                        analytics-event="SellNowMobileBtnClick">
+                                    <span ng-hide="btnSpinner"><i class="glyphicon glyphicon-shopping-cart btn-glyphicon"></i>  Sell This Phone </span>
+                                    <span ng-show="btnSpinner"><i class="fa fa-cog fa-spin"></i></span>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>

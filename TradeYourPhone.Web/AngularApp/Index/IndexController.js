@@ -8,6 +8,8 @@
         $scope.variation = 0;
     }
 
+    $scope.variation = 1;
+
     $scope.cssFile = "Site" + $scope.variation;
 
     $scope.GoToQuote = function () {

@@ -244,6 +244,16 @@
         });
     }
 
+    $scope.goToReview = function () {
+        if ($scope.quote.Phones && $scope.quote.Phones.length > 0) {
+            $timeout(function () {
+                    $location.hash("phonesToSell");
+                    $anchorScroll();
+                });
+        }
+       
+    }
+
     $scope.setCondition = function (item) {
         $scope.condition.id = 2;
         if (!$scope.phoneModels) {

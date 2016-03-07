@@ -1,367 +1,425 @@
 ﻿
 <form name="details" novalidate>
-    <div class="col-md-12 col-mobile phoneHeading">
-        <h3>
-            <span class="glyphicon glyphicon-user"></span> Enter Your Details
-        </h3>
-    </div>
-    <div class="row" id="Details">
-        <div class="col-md-12 col-mobile">
-            <div ng-class="{'has-error':detailsFormSubmitted && details.postcode.$invalid}">
-                <p class="help-block details-text" ng-show="detailsFormSubmitted && details.$invalid">
-                    <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Please fix validation errors below
-                </p>
-            </div>
-            <p class="details-text">To sell your phone we need a few details from you, like who you are, your address for ID purposes and your payment info so we can pay you for your phone.</p>
-            <div class="col-md-4 details">
-                <h3>Personal Details</h3>
-
-                <div class="form-group"
-                     ng-class="{'has-error':detailsFormSubmitted && details.fullName.$invalid}">
-
-                    <label for="fullName">Full Name</label>
-                    <input type="text"
-                           id="fullName"
-                           ng-model="customer.fullname"
-                           ng-blur="fireFieldEvent('fullName')"
-                           name="fullName"
-                           class="form-control"
-                           placeholder="First & Last Name"
-                           required />
-
-                    <p class="help-block"
-                       ng-show="detailsFormSubmitted && details.fullName.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i> Your full name is required
-                    </p>
-                </div>
-                <div class="form-group"
-                     ng-class="{'has-error':detailsFormSubmitted && details.email.$invalid}">
-
-                    <label for="email">Email</label>
-                    <input type="email"
-                           id="email"
-                           ng-model="customer.email"
-                           ng-blur="fireFieldEvent('email')"
-                           name="email"
-                           class="form-control"
-                           placeholder="example@gmail.com"
-                           required />
-
-                    <p class="help-block" ng-show="detailsFormSubmitted && details.email.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i> Email is required
-                    </p>
-                    <p class="help-block" ng-show="detailsFormSubmitted && details.email.$error.email && !details.email.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid email
-                    </p>
-                </div>
-
-                <div class="form-group"
-                     ng-class="{'has-error': detailsFormSubmitted && details.mobile.$invalid}">
-
-                    <label for="mobile">Mobile Phone Number</label>
-                    <input type="text"
-                           id="mobile"
-                           ng-model="customer.mobile"
-                           ng-blur="fireFieldEvent('mobileNumber')"
-                           name="mobile"
-                           class="form-control"
-                           placeholder="04XX XXX XXX"
-                           ng-maxlength="12"
-                           ng-minlength="10"
-                           ng-pattern="numberwithSpacesPattern"
-                           required />
-
-                    <p class="help-block" ng-show="detailsFormSubmitted && details.mobile.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i> Mobile is required
-                    </p>
-
-                    <p class="help-block" ng-show="detailsFormSubmitted && details.mobile.$invalid && !details.mobile.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid mobile number
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-4 details">
-                <h3>Personal Address Details</h3>
-
-                <div class="form-group"
-                     ng-class="{'has-error':detailsFormSubmitted && details.street.$invalid}">
-
-                    <label for="street">Street Address</label>
-                    <input type="text"
-                           id="street"
-                           ng-model="customer.postageStreet"
-                           ng-blur="fireFieldEvent('postageStreet')"
-                           class="form-control"
-                           name="street"
-                           placeholder="1 Example Lane"
-                           required />
-
-                    <p class="help-block" ng-show="detailsFormSubmitted && details.street.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i> Street is required
-                    </p>
-                </div>
-
-                <div class="form-group"
-                     ng-class="{'has-error':detailsFormSubmitted && details.suburb.$invalid}">
-
-                    <label for="suburb">Suburb/City</label>
-                    <input type="text"
-                           id="suburb"
-                           ng-model="customer.postageSuburb"
-                           ng-blur="fireFieldEvent('postageSuburb')"
-                           class="form-control"
-                           name="suburb"
-                           placeholder="Melbourne"
-                           required />
-                    <p class="help-block" ng-show="detailsFormSubmitted && details.suburb.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i> Suburb is required
-                    </p>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-6"
-                         ng-class="{'has-error':detailsFormSubmitted && details.state.$invalid}">
-
-                        <label for="state">State</label>
-                        <select ng-model="customer.postageState"
-                                ng-blur="fireFieldEvent('postageState')"
-                                id="state"
-                                name="state"
-                                ng-options="state.StateNameShort for state in states track by state.ID"
-                                class="form-control"
-                                required></select>
-
-                        <p class="help-block" ng-show="detailsFormSubmitted && details.state.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle"></i> State is required
-                        </p>
-                    </div>
-
-                    <div class="form-group col-md-6"
-                         ng-class="{'has-error':detailsFormSubmitted && details.postcode.$invalid}">
-
-                        <label for="postcode">Postcode</label>
-                        <input type="text"
-                               id="postcode"
-                               ng-model="customer.postagePostcode"
-                               ng-blur="fireFieldEvent('postagePostcode')"
-                               name="postcode"
-                               class="form-control"
-                               placeholder="3000"
-                               ng-maxlength="4"
-                               ng-minlength="4"
-                               ng-pattern="onlyNumbersPattern"
-                               required />
-
-                        <p class="help-block" ng-show="detailsFormSubmitted && details.postcode.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle"></i> Postcode is required
-                        </p>
-                        <p class="help-block" ng-show="detailsFormSubmitted && details.postcode.$invalid && !details.postcode.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid postcode
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 details">
-                <h3>Payment Details</h3>
-
-                <div class="form-group"
-                     ng-class="{'has-error':detailsFormSubmitted && details.paymentType.$invalid}">
-
-                    <label for="paymentType">Payment Type</label>
-                    <select ng-model="customer.paymentType"
-                            ng-blur="fireFieldEvent('paymentType')"
-                            id="paymentType"
-                            name="paymentType"
-                            ng-options="paymentType.PaymentTypeName for paymentType in paymentTypes track by paymentType.ID"
-                            class="form-control"
-                            required></select>
-
-                    <p class="help-block" ng-show="detailsFormSubmitted && details.paymentType.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle"></i> Payment type is required
-                    </p>
-
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4"
-                         ng-if="DisplayBankTransfer()"
-                         ng-class="{'has-error':detailsFormSubmitted && details.bsb.$invalid}">
-
-                        <label for="bsb">BSB</label>
-                        <input type="text"
-                               id="bsb"
-                               ng-model="customer.bsb"
-                               ng-blur="fireFieldEvent('bsb')"
-                               name="bsb"
-                               class="form-control"
-                               ng-maxlength="6"
-                               ng-minlength="6"
-                               ng-pattern="numberwithSpacesPattern"
-                               required />
-
-                        <p class="help-block" ng-show="detailsFormSubmitted && details.bsb.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle"></i> BSB is required
-                        </p>
-                        <p class="help-block" ng-show="detailsFormSubmitted && details.bsb.$invalid && !details.bsb.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid BSB
-                        </p>
-                    </div>
-
-                    <div class="form-group col-md-8"
-                         ng-if="DisplayBankTransfer()"
-                         ng-class="{'has-error':detailsFormSubmitted && details.acctNum.$invalid}">
-
-                        <label for="acctNum">Account Number</label>
-                        <input type="text"
-                               id="acctNum"
-                               ng-model="customer.accountNum"
-                               ng-blur="fireFieldEvent('accountNumber')"
-                               name="acctNum"
-                               class="form-control"
-                               ng-maxlength="14"
-                               ng-pattern="onlyNumbersPattern"
-                               required />
-
-                        <p class="help-block" ng-show="detailsFormSubmitted && details.acctNum.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Account number is required
-                        </p>
-                        <p class="help-block" ng-show="detailsFormSubmitted && details.acctNum.$invalid && !details.acctNum.$error.required">
-                            <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Please enter a valid Account Number
-                        </p>
-                    </div>
-                </div>
-
-                <div class="form-group"
-                     ng-if="DisplayPaypal()"
-                     ng-class="{'has-error':detailsFormSubmitted && details.paypal.$invalid}">
-
-                    <label for="paypalEmail">Paypal Email</label>
-                    <input type="email"
-                           id="paypalEmail"
-                           ng-readonly="customer.paypalSameAsPersonal == true"
-                           ng-model="customer.paypalEmail"
-                           ng-blur="fireFieldEvent('paypalEmail')"
-                           name="paypal"
-                           class="form-control"
-                           placeholder="example@gmail.com"
-                           required />
-
-                    <input type="checkbox"
-                           id="sameAsEmail"
-                           name="sameAsPersonal"
-                           ng-model="customer.paypalSameAsPersonal"
-                           ng-click="updatePaypalEmail($event)"
-                           value="true">Same as personal email
-
-                    <p class="help-block" ng-show="detailsFormSubmitted && details.paypal.$error.required">
-                        <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Paypal Email is required
-                    </p>
-                    <p class="help-block" ng-show="detailsFormSubmitted && details.paypal.$error.email">
-                        <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Please enter a valid email
-                    </p>
-                </div>
-            </div>
-        </div>
+    <div class="row Two">
         <div class="col-md-12">
-            <hr />
-        </div>
-    </div>
-
-    <div class="col-md-12 col-mobile phoneHeading" id="postageType">
-        <h3>
-            <span class="glyphicon glyphicon-envelope"></span> Choose Your Postage Type
-        </h3>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-
-            <div class="form-group postageSection">
-                <div class="btn-group btn-radio">
-                    <button class="btn btn-default postage-btn"
-                            type="button"
-                            ng-repeat="postageMethod in postageMethods"
-                            ng-model="quote.PostageMethod"
-                            btn-radio="postageMethod"
-                            ng-required="!quote.PostageMethodId">
-                        {{postageMethod.PostageMethodName}}
-                    </button>
-                </div>
+            <div class="col-md-1">
+                <h3 class="number">2.</h3>
             </div>
-
-            <div class="form-group postageSection">
-                <h4 ng-if="quote.PostageMethod.Description">The '{{quote.PostageMethod.PostageMethodName}}' Option</h4>
-                <p class="postageOptionsText" ng-if="quote.PostageMethod.Description">{{quote.PostageMethod.Description}}</p>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <hr />
-        </div>
-    </div>
-
-    <div id="quoteSummary">
-        <div class="col-md-12 col-mobile phoneHeading">
-            <h3>
-                <span class="glyphicon glyphicon-check"></span> Your Quote Summary
-            </h3>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <p>Once you have reviewed your quote click the Submit button at the bottom to finalise your quote</p>
-            </div>
-            <div class="col-md-12">
-                <h3 ng-click="GoToAddPhone()" class="addPhone"><span class="glyphicon glyphicon-plus"></span>    Add Another Phone </h3>
-            </div>
-
-            <div class="col-md-12 summarySection">
-                <div ng-if="DisplayBankTransfer()">
+            <div class="col-md-11">
+                <div class="col-md-12 col-mobile phoneHeading">
                     <h3>
-                        <span class="glyphicon glyphicon-usd"></span>  You will be paid a total amount of <span class="green">{{quote.TotalAmount | currency}}</span> into your <span class="green">bank account</span>
-                    </h3>
-                    <p>
-                        BSB: {{customer.bsb || 'Please enter your BSB'}} <br />
-                        Account Number: {{customer.accountNum || 'Please enter your Account Number'}}
-                    </p>
-                </div>
-
-                <div ng-if="DisplayPaypal()">
-                    <h3>
-                        <span class="glyphicon glyphicon-usd"></span>  You will be paid a total amount of <span class="green">{{quote.TotalAmount | currency}}</span> into your <span class="green">Paypal Account</span>
-                    </h3>
-                    <p>
-                        Account: {{customer.paypalEmail || 'Please enter your Paypal Account Email'}}
-                    </p>
-                </div>
-
-                <div ng-if="DoesQuoteContainApple()">
-                    <h3>
-                        <span class="fa fa-exclamation-triangle"></span>   All Apple devices must have 'Find my iPhone' removed before sending. Please see the <a rel="nofollow" href="https://support.apple.com/kb/PH2702?locale=en_US" target="_blank">Apple website</a> for instructions.
+                        <span class="glyphicon glyphicon-user"></span> Enter Your Details
                     </h3>
                 </div>
-
-                <div id="postageSummary">
-                    <h3>
-                        <span class="glyphicon glyphicon-envelope"></span>  You have chosen the <span class="green">{{quote.PostageMethod.PostageMethodName}}</span> postage method
-                    </h3>
-                    <p>We will send you complete postage instructions after you have submitted your quote.</p>
-                </div>
-
-                <div class="col-md-5 col-md-offset-7 col-lg-4 col-lg-offset-8" ng-class="{'has-error':detailsFormSubmitted && details.$invalid}">
-                    <button class="btn btn-default next-btn"
-                            ng-click="FinaliseQuote(details, customer, quote)"
-                            type="submit"
-                            analytics-on="click"
-                            analytics-category="QuoteProcess"
-                            analytics-event="SubmitBtnClick">
-                        Submit <i class="fa fa-paper-plane-o"></i>
-                    </button>
-                    <p class="help-block centre fixErrors" ng-show="detailsFormSubmitted && details.$invalid" ng-click="GoToErrors()">
-                        <i class="fa fa-hand-o-up"></i> Click here to fix validation errors above to Submit
-                    </p>
-
+                <div class="row" id="Details">
                     <div class="col-md-12 col-mobile">
-                        <p class="tc">
-                            <i class="fa fa-hand-o-right"></i> By clicking Submit you agree to the <a target="_blank" href="/TermsAndConditions">Terms and Conditions</a>
-                        </p>
+                        <div ng-class="{'has-error':detailsFormSubmitted && details.postcode.$invalid}">
+                            <p class="help-block details-text" ng-show="detailsFormSubmitted && details.$invalid">
+                                <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Please fix validation errors below
+                            </p>
+                        </div>
+                        <p class="details-text">To sell your phone we need a few details from you, like who you are, your address for ID purposes and your payment info so we can pay you for your phone.</p>
+                        <div class="col-md-4 details">
+                            <h3>Who You Are</h3>
+
+                            <div class="form-group"
+                                 ng-class="{'has-error':detailsFormSubmitted && details.fullName.$invalid}">
+
+                                <label for="fullName">Full Name</label>
+                                <input type="text"
+                                       id="fullName"
+                                       ng-model="customer.fullname"
+                                       ng-blur="fireFieldEvent('fullName')"
+                                       name="fullName"
+                                       class="form-control"
+                                       placeholder="First & Last Name"
+                                       required />
+
+                                <p class="help-block"
+                                   ng-show="detailsFormSubmitted && details.fullName.$error.required">
+                                    <i class="glyphicon glyphicon-remove-circle"></i> Your full name is required
+                                </p>
+                            </div>
+                            <div class="form-group"
+                                 ng-class="{'has-error':detailsFormSubmitted && details.email.$invalid}">
+
+                                <label for="email">Email</label>
+                                <input type="email"
+                                       id="email"
+                                       ng-model="customer.email"
+                                       ng-blur="fireFieldEvent('email')"
+                                       name="email"
+                                       class="form-control"
+                                       placeholder="example@gmail.com"
+                                       required />
+
+                                <p class="help-block" ng-show="detailsFormSubmitted && details.email.$error.required">
+                                    <i class="glyphicon glyphicon-remove-circle"></i> Email is required
+                                </p>
+                                <p class="help-block" ng-show="detailsFormSubmitted && details.email.$error.email && !details.email.$error.required">
+                                    <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid email
+                                </p>
+                            </div>
+
+                            <div class="form-group"
+                                 ng-class="{'has-error': detailsFormSubmitted && details.mobile.$invalid}">
+
+                                <label for="mobile">Mobile Phone Number</label>
+                                <input type="text"
+                                       id="mobile"
+                                       ng-model="customer.mobile"
+                                       ng-blur="fireFieldEvent('mobileNumber')"
+                                       name="mobile"
+                                       class="form-control"
+                                       placeholder="04XX XXX XXX"
+                                       ng-maxlength="12"
+                                       ng-minlength="10"
+                                       ng-pattern="numberwithSpacesPattern"
+                                       required />
+
+                                <p class="help-block" ng-show="detailsFormSubmitted && details.mobile.$error.required">
+                                    <i class="glyphicon glyphicon-remove-circle"></i> Mobile is required
+                                </p>
+
+                                <p class="help-block" ng-show="detailsFormSubmitted && details.mobile.$invalid && !details.mobile.$error.required">
+                                    <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid mobile number
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 details">
+                            <h3>Your Address</h3>
+
+                            <div class="form-group"
+                                 ng-class="{'has-error':detailsFormSubmitted && details.street.$invalid}">
+
+                                <label for="street">Street Address</label>
+                                <input type="text"
+                                       id="street"
+                                       ng-model="customer.postageStreet"
+                                       ng-blur="fireFieldEvent('postageStreet')"
+                                       class="form-control"
+                                       name="street"
+                                       placeholder="1 Example Lane"
+                                       required />
+
+                                <p class="help-block" ng-show="detailsFormSubmitted && details.street.$error.required">
+                                    <i class="glyphicon glyphicon-remove-circle"></i> Street is required
+                                </p>
+                            </div>
+
+                            <div class="form-group"
+                                 ng-class="{'has-error':detailsFormSubmitted && details.suburb.$invalid}">
+
+                                <label for="suburb">Suburb/City</label>
+                                <input type="text"
+                                       id="suburb"
+                                       ng-model="customer.postageSuburb"
+                                       ng-blur="fireFieldEvent('postageSuburb')"
+                                       class="form-control"
+                                       name="suburb"
+                                       placeholder="Melbourne"
+                                       required />
+                                <p class="help-block" ng-show="detailsFormSubmitted && details.suburb.$error.required">
+                                    <i class="glyphicon glyphicon-remove-circle"></i> Suburb is required
+                                </p>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6"
+                                     ng-class="{'has-error':detailsFormSubmitted && details.state.$invalid}">
+
+                                    <label for="state">State</label>
+                                    <select ng-model="customer.postageState"
+                                            ng-blur="fireFieldEvent('postageState')"
+                                            id="state"
+                                            name="state"
+                                            ng-options="state.StateNameShort for state in states track by state.ID"
+                                            class="form-control"
+                                            required></select>
+
+                                    <p class="help-block" ng-show="detailsFormSubmitted && details.state.$error.required">
+                                        <i class="glyphicon glyphicon-remove-circle"></i> State is required
+                                    </p>
+                                </div>
+
+                                <div class="form-group col-md-6"
+                                     ng-class="{'has-error':detailsFormSubmitted && details.postcode.$invalid}">
+
+                                    <label for="postcode">Postcode</label>
+                                    <input type="text"
+                                           id="postcode"
+                                           ng-model="customer.postagePostcode"
+                                           ng-blur="fireFieldEvent('postagePostcode')"
+                                           name="postcode"
+                                           class="form-control"
+                                           placeholder="3000"
+                                           ng-maxlength="4"
+                                           ng-minlength="4"
+                                           ng-pattern="onlyNumbersPattern"
+                                           required />
+
+                                    <p class="help-block" ng-show="detailsFormSubmitted && details.postcode.$error.required">
+                                        <i class="glyphicon glyphicon-remove-circle"></i> Postcode is required
+                                    </p>
+                                    <p class="help-block" ng-show="detailsFormSubmitted && details.postcode.$invalid && !details.postcode.$error.required">
+                                        <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid postcode
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="row Three">
+        <div class="col-md-12">
+
+            <div class="col-md-1">
+                <h3 class="number">3.</h3>
+            </div>
+            <div class="col-md-11">
+                <div class="col-md-12 col-mobile phoneHeading">
+                    <h3>
+                        <span class="glyphicon glyphicon-usd"></span> Let Us Pay You
+                    </h3>
+                </div>
+                <div class="row" id="paymentDetails">
+                    <div class="col-md-12 col-mobile">
+                        <div ng-class="{'has-error':detailsFormSubmitted && details.postcode.$invalid}">
+                            <p class="help-block details-text" ng-show="detailsFormSubmitted && details.$invalid">
+                                <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Please fix validation errors below
+                            </p>
+                        </div>
+                        <div class="col-md-4 details">
+
+                            <div class="form-group"
+                                 ng-class="{'has-error':detailsFormSubmitted && details.paymentType.$invalid}">
+
+                                <label for="paymentType">Payment Type</label>
+                                <select ng-model="customer.paymentType"
+                                        ng-blur="fireFieldEvent('paymentType')"
+                                        id="paymentType"
+                                        name="paymentType"
+                                        ng-options="paymentType.PaymentTypeName for paymentType in paymentTypes track by paymentType.ID"
+                                        class="form-control"
+                                        required></select>
+
+                                <p class="help-block" ng-show="detailsFormSubmitted && details.paymentType.$error.required">
+                                    <i class="glyphicon glyphicon-remove-circle"></i> Payment type is required
+                                </p>
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4"
+                                     ng-if="DisplayBankTransfer()"
+                                     ng-class="{'has-error':detailsFormSubmitted && details.bsb.$invalid}">
+
+                                    <label for="bsb">BSB</label>
+                                    <input type="text"
+                                           id="bsb"
+                                           ng-model="customer.bsb"
+                                           ng-blur="fireFieldEvent('bsb')"
+                                           name="bsb"
+                                           class="form-control"
+                                           ng-maxlength="6"
+                                           ng-minlength="6"
+                                           ng-pattern="numberwithSpacesPattern"
+                                           required />
+
+                                    <p class="help-block" ng-show="detailsFormSubmitted && details.bsb.$error.required">
+                                        <i class="glyphicon glyphicon-remove-circle"></i> BSB is required
+                                    </p>
+                                    <p class="help-block" ng-show="detailsFormSubmitted && details.bsb.$invalid && !details.bsb.$error.required">
+                                        <i class="glyphicon glyphicon-remove-circle"></i> Please enter a valid BSB
+                                    </p>
+                                </div>
+
+                                <div class="form-group col-md-8"
+                                     ng-if="DisplayBankTransfer()"
+                                     ng-class="{'has-error':detailsFormSubmitted && details.acctNum.$invalid}">
+
+                                    <label for="acctNum">Account Number</label>
+                                    <input type="text"
+                                           id="acctNum"
+                                           ng-model="customer.accountNum"
+                                           ng-blur="fireFieldEvent('accountNumber')"
+                                           name="acctNum"
+                                           class="form-control"
+                                           ng-maxlength="14"
+                                           ng-pattern="onlyNumbersPattern"
+                                           required />
+
+                                    <p class="help-block" ng-show="detailsFormSubmitted && details.acctNum.$error.required">
+                                        <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Account number is required
+                                    </p>
+                                    <p class="help-block" ng-show="detailsFormSubmitted && details.acctNum.$invalid && !details.acctNum.$error.required">
+                                        <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Please enter a valid Account Number
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group"
+                                 ng-if="DisplayPaypal()"
+                                 ng-class="{'has-error':detailsFormSubmitted && details.paypal.$invalid}">
+
+                                <label for="paypalEmail">Paypal Email</label>
+                                <input type="email"
+                                       id="paypalEmail"
+                                       ng-readonly="customer.paypalSameAsPersonal == true"
+                                       ng-model="customer.paypalEmail"
+                                       ng-blur="fireFieldEvent('paypalEmail')"
+                                       name="paypal"
+                                       class="form-control"
+                                       placeholder="example@gmail.com"
+                                       required />
+
+                                <input type="checkbox"
+                                       id="sameAsEmail"
+                                       name="sameAsPersonal"
+                                       ng-model="customer.paypalSameAsPersonal"
+                                       ng-click="updatePaypalEmail($event)"
+                                       value="true">Same as personal email
+
+                                <p class="help-block" ng-show="detailsFormSubmitted && details.paypal.$error.required">
+                                    <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Paypal Email is required
+                                </p>
+                                <p class="help-block" ng-show="detailsFormSubmitted && details.paypal.$error.email">
+                                    <i class="glyphicon glyphicon-remove-circle btn-glyphicon"></i> Please enter a valid email
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+    <div class="row Two">
+        <div class="col-md-12">
+            <div class="col-md-1">
+                <h3 class="number">4.</h3>
+            </div>
+
+            <div class="col-md-11">
+                <div class="col-md-12 col-mobile phoneHeading" id="postageType">
+                    <h3>
+                        <span class="glyphicon glyphicon-envelope"></span> Choose Your Postage Type
+                    </h3>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-4">
+
+                        <div class="form-group postageSection">
+                            <div class="btn-group btn-radio">
+                                <button class="btn btn-default postage-btn"
+                                        type="button"
+                                        ng-repeat="postageMethod in postageMethods"
+                                        ng-model="quote.PostageMethod"
+                                        btn-radio="postageMethod"
+                                        ng-required="!quote.PostageMethodId">
+                                    {{postageMethod.PostageMethodName}}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group postageSection">
+                            <h4 ng-if="quote.PostageMethod.Description">The '{{quote.PostageMethod.PostageMethodName}}' Option</h4>
+                            <p class="postageOptionsText" ng-if="quote.PostageMethod.Description">{{quote.PostageMethod.Description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row Three">
+        <div class="col-md-12">
+            <div class="col-md-1">
+                <h3 class="number">5.</h3>
+            </div>
+
+            <div id="quoteSummary" class="col-md-11">
+
+                <div class="col-md-12 col-mobile phoneHeading">
+                    <h3>
+                        <span class="glyphicon glyphicon-check"></span> Your Quote Summary
+                    </h3>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Once you have reviewed your quote click the Submit button at the bottom to finalise your quote</p>
+                    </div>
+                    <div ng-include="'../AngularApp/Quote2/QuoteTab.html'"></div>
+                    <div class="col-md-12">
+                        <h3 ng-click="GoToAddPhone()" class="addPhone"><span class="glyphicon glyphicon-plus"></span>    Add Another Phone </h3>
+                    </div>
+
+                    <div class="col-md-12 summarySection">
+                        <div ng-if="DisplayBankTransfer()">
+                            <h3>
+                                <span class="glyphicon glyphicon-usd"></span>  You will be paid a total amount of <span class="green">{{quote.TotalAmount | currency}}</span> into your <span class="green">bank account</span>
+                            </h3>
+                            <p>
+                                BSB: {{customer.bsb || 'Please enter your BSB'}} <br />
+                                Account Number: {{customer.accountNum || 'Please enter your Account Number'}}
+                            </p>
+                        </div>
+
+                        <div ng-if="DisplayPaypal()">
+                            <h3>
+                                <span class="glyphicon glyphicon-usd"></span>  You will be paid a total amount of <span class="green">{{quote.TotalAmount | currency}}</span> into your <span class="green">Paypal Account</span>
+                            </h3>
+                            <p>
+                                Account: {{customer.paypalEmail || 'Please enter your Paypal Account Email'}}
+                            </p>
+                        </div>
+
+                        <div ng-if="DoesQuoteContainApple()">
+                            <h3>
+                                <span class="fa fa-exclamation-triangle"></span>   All Apple devices must have 'Find my iPhone' removed before sending. Please see the <a rel="nofollow" href="https://support.apple.com/kb/PH2702?locale=en_US" target="_blank">Apple website</a> for instructions.
+                            </h3>
+                        </div>
+
+                        <div id="postageSummary">
+                            <h3>
+                                <span class="glyphicon glyphicon-envelope"></span>  You have chosen the <span class="green">{{quote.PostageMethod.PostageMethodName}}</span> postage method
+                            </h3>
+                            <p>We will send you complete postage instructions after you have submitted your quote.</p>
+                        </div>
+
+                        <div class="col-md-5 col-lg-4" ng-class="{'has-error':detailsFormSubmitted && details.$invalid}">
+                            <button class="btn btn-default next-btn"
+                                    ng-click="FinaliseQuote(details, customer, quote)"
+                                    type="submit"
+                                    analytics-on="click"
+                                    analytics-category="QuoteProcess"
+                                    analytics-event="SubmitBtnClick">
+                                Submit <i class="fa fa-paper-plane-o"></i>
+                            </button>
+                            <p class="help-block centre fixErrors" ng-show="detailsFormSubmitted && details.$invalid" ng-click="GoToErrors()">
+                                <i class="fa fa-hand-o-up"></i> Click here to fix validation errors above to Submit
+                            </p>
+
+                            <div class="col-md-12 col-mobile">
+                                <p class="tc">
+                                    <i class="fa fa-hand-o-right"></i> By clicking Submit you agree to the <a target="_blank" href="/TermsAndConditions">Terms and Conditions</a>
+                                </p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 

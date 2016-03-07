@@ -74,7 +74,7 @@
         <div class="top">
             <div class="top-banner row navbar-fixed-top hidden-xs">
                 <div class="container-fluid">
-                    <span class="col-md-10 col-md-offset-1">
+                    <span ng-class="{'col-md-10 col-md-offset-1':variation==0, 'col-md-12':variation==1}">
                         <span class="col-md-6 pull-left"><a href="/FreeShipping"><i class="fa fa-truck"></i>Free Shipping</a>   <a href="/PriceGuarantee"><i class="fa fa-usd"></i>Best Price</a></span>
                         <span class="col-md-6" ng-cloak>
                             <a class="pull-right" target="_blank" href="https://plus.google.com/b/100980338413352678809/100980338413352678809/about/p/pub">
@@ -129,6 +129,7 @@
             </div>
 
         </nav>
+
         <div class="container-fluid">
             <div>
                 <div class="col-md-12 content col-mobile" ng-if='!isRouteLoading' ng-view autoscroll="true">
