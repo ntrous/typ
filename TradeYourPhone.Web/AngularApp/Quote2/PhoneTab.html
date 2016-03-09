@@ -7,19 +7,19 @@
 <div id="PhoneSearch" class="phoneSection selectPhone">
             <div class="row">
                 <div class="col-md-12 col-phone-mobile" ng-class="{'hasPhones': quote.Phones.length>0}">
-                    <div class="col-md-1 number-div">
+                    <div class="col-lg-1 col-md-2 number-div visible-md visible-lg">
                         <h3 class="number">1.</h3>
                     </div>
                     <div class="col-md-10">
                         <div class="col-md-11">
                             <div class="pull-right col-mobile shoppingCart" ng-click="goToReview()">
-                                <h3 class="mainheading"><span class="glyphicon glyphicon-shopping-cart"></span> {{quote.Phones.length}}</h3>
-                                <h4 ng-show="quote.Phones.length>0">See Your Cart</h4>
+                                <h3><span class="glyphicon glyphicon-shopping-cart"></span> {{quote.Phones.length}}</h3>
+                                <h4 class="cart-txt" ng-show="quote.Phones.length>0">See Your Cart</h4>
                             </div>
                         </div>
                         <div class="col-md-12 col-mobile phone-inputs">
-                            <h3 ng-hide="quote.Phones.length>0&&!WaitingForDelivery()&&!RequiresSatchel()" class="mainheading">What Phone Do You Want To Sell?</h3>
-                            <h3 ng-if="quote.Phones.length>0&&!WaitingForDelivery()&&!RequiresSatchel()" class="mainheading" ng-class="{'hasPhones': quote.Phones.length>0}">
+                            <h3 ng-hide="quote.Phones.length>0&&!WaitingForDelivery()&&!RequiresSatchel()" class="phoneHeading">What Phone Do You Want To Sell?</h3>
+                            <h3 ng-if="quote.Phones.length>0&&!WaitingForDelivery()&&!RequiresSatchel()" class="phoneHeading" ng-class="{'hasPhones': quote.Phones.length>0}">
                                 <span class="glyphicon glyphicon-plus"></span>   Add another phone
                             </h3>
                             <div class="input-group">
@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="phoneDiv" justified="true">
+                            <div class="phoneDiv col-lg-6 col-md-10" justified="true">
                                 <div ng-show="condition.id==1">
                                     <h3>Phone is as new, if all of the following:</h3>
                                     <ul>
