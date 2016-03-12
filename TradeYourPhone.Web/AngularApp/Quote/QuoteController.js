@@ -82,16 +82,35 @@
         return deferredPromises.promise;
     }
 
-    $scope.addPhoneToQuote = function (modelId, conditionId) {
+    $scope.addPhoneToQuote = function (model, conditionId) {
         $scope.btnSpinner = true;
-        $scope.addPhone(modelId, conditionId).then(function (response) {
+        var phone = $scope.mapPhoneModelToPhone(model, conditionId);
+        $scope.quote.Phones.push(phone);
+        $scope.resetInputs();
+        
+        $scope.addPhone(model.Id, conditionId).then(function (response) {
             var currentPostageMethod = $scope.quote.PostageMethod;
             $scope.quote = response;
             $scope.quote.PostageMethod = currentPostageMethod;
-            $scope.resetInputs();
             $scope.btnSpinner = false;
         });
+    }
 
+    $scope.mapPhoneModelToPhone = function (model, conditionId) {
+        var make = model.Name.substr(0, model.Name.indexOf(' '));
+        var phoneModelName = model.Name.substr(model.Name.indexOf(' ') + 1);
+        var condition = _.find(model.ConditionPrices, { 'PhoneConditionId': conditionId });
+
+        var phoneModel = {
+            Id: model.Id,
+            PhoneMakeName: make,
+            PhoneModelName: phoneModelName,
+            PhoneCondition: condition.Name,
+            OfferPrice: condition.OfferAmount,
+            PrimaryImageString: model.Image
+        }
+
+        return phoneModel;
     }
 
     $scope.GetQuoteDetails = function (key) {
@@ -126,7 +145,7 @@
         });
         $scope.customer = { paymentType: '' };
         $scope.detailsFormSubmitted = false;
-        $scope.quote = [];
+        $scope.quote = { PostageMethod: null, Phones: [] };
         $scope.quote.PostageMethod = $scope.postageMethods[1];
         $scope.GetPaymentTypes();
         $scope.GetStates();
@@ -222,7 +241,7 @@
                     $scope.quoteKey = undefined;
                     $scope.customer = { paymentType: '' };
                     $scope.spinner = false;
-                    $scope.quote = [];
+                    $scope.quote = { PostageMethod: null, Phones: [] };
                     $scope.QuoteSubmitClicked();
                 }
             });
@@ -343,7 +362,7 @@
         ]).then(function () {
             $scope.quote = quote;
             if (!$scope.quote) {
-                $scope.quote = { PostageMethod: null };
+                $scope.quote = { PostageMethod: null, Phones: [] };
             }
 
             $scope.GetPostageMethods();

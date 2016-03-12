@@ -8,7 +8,7 @@
         $scope.variation = 0;
     }
 
-    $scope.variation = 1;
+    $scope.variation = 0;
 
     $scope.cssFile = "Site" + $scope.variation;
 
