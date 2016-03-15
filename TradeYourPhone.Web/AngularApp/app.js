@@ -19,41 +19,9 @@ var tradeYourPhoneCommon = angular.module('typ.common', []);
 
 tradeYourPhoneApp.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {
-        var variation = 0;
-        if (typeof cxApi != "undefined") {
-            variation = cxApi.chooseVariation();
-        }
-
-        variation = 1;
-
         $routeProvider
         .when('/', {
-            templateUrl: function () {
-                if (variation === 0) {
-                    return '../AngularApp/Quote/Home.html';
-                } else {
-                    return '../AngularApp/Quote2/Home.html';
-                }
-            },
-            controller: 'QuoteCtrl' + variation,
-            reloadOnSearch: false,
-            caseInsensitiveMatch: true,
-            title: 'Sell Your Old Phone For Cash | Trade Your Phone',
-            description: 'Sell your mobile phone for cash today. Get the guaranteed best price and free shipping. Fill out a quote now!',
-            resolve: {
-                phoneModels: function (PhoneModelService) {
-                    return PhoneModelService.GetPhoneModels();
-                },
-                phoneConditions: function (QuoteService) {
-                    return QuoteService.GetPhoneConditions();
-                },
-                quote: function (QuoteService, $route, $cookies) {
-                    var key = $cookies.tradeYourPhoneCookie;
-                    if (key) {
-                        return QuoteService.GetQuoteDetails($cookies.tradeYourPhoneCookie);
-                    }
-                },
-            }
+            redirectTo: '/Contact'
         }).
           when('/WhatWeDo', {
               templateUrl: '../AngularApp/WhatWeDo/WhatWeDo.html',

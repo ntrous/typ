@@ -88,6 +88,7 @@
             var currentPostageMethod = $scope.quote.PostageMethod;
             $scope.quote = response;
             $scope.quote.PostageMethod = currentPostageMethod;
+            $scope.latestPhoneAdded();
             $scope.resetInputs();
             $scope.btnSpinner = false;
         });
@@ -143,6 +144,7 @@
                 var currentPostageMethod = $scope.quote.PostageMethod;
                 $scope.quote = response.QuoteDetails;
                 $scope.quote.PostageMethod = currentPostageMethod;
+                $scope.latestPhoneAdded();
             }
 
             if ($scope.quote.Phones.length === 0) {
@@ -254,6 +256,14 @@
        
     }
 
+    $scope.latestPhoneAdded = function () {
+        $scope.lastPhoneName = '';
+        if ($scope.quote.Phones && $scope.quote.Phones.length > 0) {
+            $scope.lastPhoneName = _.last($scope.quote.Phones).PhoneMakeName + ' ' + _.last($scope.quote.Phones).PhoneModelName;
+        }
+        
+    }
+
     $scope.setCondition = function (item) {
         $scope.condition.id = 2;
         if (!$scope.phoneModels) {
@@ -357,6 +367,7 @@
             }
 
             $scope.GetPostageMethods();
+            $scope.latestPhoneAdded();
 
             if ($scope.quote && $scope.quote.Customer) {
                 $scope.customer = quote.Customer;

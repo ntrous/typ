@@ -20,7 +20,7 @@
                         <div class="col-md-12 col-mobile phone-inputs">
                             <h3 ng-hide="quote.Phones.length>0&&!WaitingForDelivery()&&!RequiresSatchel()" class="phoneHeading">What Phone Do You Want To Sell?</h3>
                             <h3 ng-if="quote.Phones.length>0&&!WaitingForDelivery()&&!RequiresSatchel()" class="phoneHeading" ng-class="{'hasPhones': quote.Phones.length>0}">
-                                <span class="glyphicon glyphicon-plus"></span>   Add another phone
+                                <span class="glyphicon glyphicon-plus"></span>   {{lastPhoneName}} has been added, add another phone?
                             </h3>
                             <div class="input-group">
                                 <span class="input-group-addon glyphicon glyphicon-phone"></span>
