@@ -47,11 +47,13 @@ namespace TradeYourPhone.Web.ViewModels
 
     public class ConditionViewModel
     {
+        public string Name { get; set; }
         public int PhoneConditionId { get; set; }
         public decimal OfferAmount { get; set; }
 
         public void MapCondition(PhoneConditionPrice conditionPrice)
         {
+            Name = conditionPrice.PhoneCondition.Condition;
             PhoneConditionId = conditionPrice.PhoneConditionId;
             OfferAmount = conditionPrice.OfferAmount;
         }

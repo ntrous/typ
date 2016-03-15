@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="phoneDiv" justified=" true">
+                <div class="phoneDiv" justified="true">
                     <div ng-show="condition.id == 1">
                         Phone is as new, if all of the following:
                         <ul>
@@ -92,13 +92,12 @@
                 <h2>{{phoneOffer | currency}}</h2>
                 <button class="btn btn-default sell-btn"
                         type="button"
-                        ng-click="addPhoneToQuote(search.model.Id, condition.id)"
+                        ng-click="addPhoneToQuote(search.model, condition.id)"
                         ng-disabled="phoneOffer==null"
                         analytics-on="click"
                         analytics-category="QuoteProcess"
                         analytics-event="SellNowMobileBtnClick">
-                    <span ng-hide="btnSpinner"><i class="glyphicon glyphicon-shopping-cart btn-glyphicon"></i>  Sell This Phone </span>
-                    <span ng-show="btnSpinner"><i class="fa fa-cog fa-spin"></i></span>
+                    <span><i class="glyphicon glyphicon-shopping-cart btn-glyphicon"></i>  Sell This Phone </span>
                 </button>
 
             </div>
